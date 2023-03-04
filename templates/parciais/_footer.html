@@ -1,0 +1,35 @@
+{% load static %}
+
+<footer class="container-fluid bg-primary">
+    <div class="footer_section layout_padding">
+        <div class="container">
+            <div class="footer_logo"><a href="index.html"><img src="{% static 'images/logo.png'%}"></a></div>
+            <br>
+            <div class="container">
+                <p class="copyright_text">© 2023 Todos Os Direitos Reservados. Desenvolvido Por : <a
+                        href="https://estevaoferreiradev.com">EF - Desenvolvedor Web</a></p>
+            </div>
+
+        </div>
+    </div>
+    <!-- footer section end -->
+
+</footer>
+<!-- Javascript files-->
+<script src="{% static 'js/jquery.min.js'%}"></script>
+<script src="{% static 'js/popper.min.js'%}"></script>
+<script src="{% static 'js/bootstrap.bundle.min.js'%}"></script>
+<script src="{% static 'js/jquery-3.0.0.min.js'%}"></script>
+<script src="{% static 'js/plugin.js'%}"></script>
+<!-- sidebar -->
+<script src="{% static 'js/jquery.mCustomScrollbar.concat.min.js'%}"></script>
+<script src="{% static 'js/custom.js'%}"></script>
+<script>
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+    }
+</script>

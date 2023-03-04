@@ -1,0 +1,114 @@
+{% load omfilters %}
+{% load static %}
+
+<!-- banner bg main start -->
+<div class="banner_bg_main">
+    <!-- header top section start -->
+    <div class="container">
+        <div class="header_section_top">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="custom_menu">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- header top section start -->
+    <!-- logo section start -->
+    <div class="logo_section">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="logo"><a href="{% url 'produto:lista' %}"><img src="{% static 'images/logo.png'%}"></a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- logo section end -->
+    <!-- header section start -->
+    <div class="header_section">
+        <div class="container">
+            <div class="containt_main">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Todas as categorias
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="#">Moda Feminina</a>
+                        <a class="dropdown-item" href="#">Acessórios</a>
+                        <a class="dropdown-item" href="#">Moda Infantil</a>
+                    </div>
+                </div>
+                <div class="main">
+                    <!-- Another variation with a button -->
+                    <form class="input-group" method="GET" action="{% url 'produto:busca' %}">
+                        <input name="termo" value="{{ request.GET.termo }}" class="form-control" placeholder="Pesquisar">
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary" type="submit"
+                                style="background-color: #f26522; border-color:#f26522 ">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="header_box">
+                    <div class="login_menu">
+                        {% if request.user.is_authenticated %}
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Conta
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="{% url 'pedido:lista' %}">Meus pedidos</a>
+                                    <a class="dropdown-item" href="{% url 'perfil:criar' %}">Atualizar meus dados</a>
+                                    <a class="dropdown-item" href="{% url 'perfil:logout' %}">Sair</a>
+                                    {% if request.user.is_superuser %}
+                                        <a class="dropdown-item" href="{% url 'produto:cliente_admin' %}">Admin</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% else %}
+                            <li><a href="{% url 'perfil:criar' %}">
+                                    <i class="fa fa-user" aria-hidden="true"></i>
+                                    <span class="padding_10">Login</span></a>
+                            </li>
+                            <li><a href="{% url 'perfil:criar' %}">
+                                    <i class="fa fa-user" aria-hidden="true"></i>
+                                    <span class="padding_10">Criar conta</span></a>
+                            </li>
+                        {% endif %}
+                        
+                        {% if request.session.carrinho %}
+                            <ul>
+                                <li><a href="{% url 'produto:carrinho' %}">
+                                        <i aria-hidden="true"></i>
+                                        <span class="padding_10">Carrinho</span>
+                                        <span class="nav-cart-count mr-1">
+                                            <strong>{{ request.session.carrinho|cart_total_qtd }}x</strong>
+                                        </span>
+                                        <span class="nav-cart-icon mr-2">
+                                            <i class="fa fa-shopping-cart"></i>
+                                        </span>
+                                    </a></a>
+                                </li>
+                            </ul>
+                        {% endif %}
+
+                        
+                        
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- header section end -->
+    <!-- banner section start -->
+    <div class="banner_section layout_padding">
+        <div class="container">
+
+        </div>
+    </div>
+</div>

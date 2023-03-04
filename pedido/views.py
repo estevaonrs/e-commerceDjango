@@ -1,10 +1,11 @@
 # from django.http import HttpResponse
+from django.dispatch import receiver
 from django.db import transaction
 from django.contrib import messages
 from django.shortcuts import redirect, render, reverse
 from django.views import View
 from django.views.generic import DetailView, ListView
-
+from django.db.models.signals import pre_delete
 from produto.models import Variacao
 from utils import utils
 
@@ -122,9 +123,6 @@ class SalvarPedido(View):
 
         del self.request.session['carrinho']
 
-        if pedido.status == 'R':
-            atualizar_estoque_variacoes(pedido.itens.all())
-
         return redirect(
             reverse(
                 'pedido:pagar',
@@ -139,6 +137,13 @@ class SalvarPedido(View):
         for item in carrinho:
             variacao = item.variacao
             variacao.estoque -= item.quantidade
+            variacao.save()
+
+    @receiver(pre_delete, sender=Pedido)
+    def atualizar_estoque_variacoes(sender, instance, **kwargs):
+        for item in instance.itempedido_set.all():
+            variacao = Variacao.objects.get(id=item.variacao_id)
+            variacao.estoque += item.quantidade
             variacao.save()
 
 

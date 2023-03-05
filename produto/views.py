@@ -13,6 +13,28 @@ from produto.forms import ProdutoForm
 from . import models
 from perfil.models import Perfil
 from .models import Produto
+from .models import Categoria
+
+
+class ListaProdutosPorCategoria(ListView):
+    model = models.Produto
+    template_name = 'produto/lista_por_categoria.html'
+    context_object_name = 'produtos'
+    paginate_by = 10
+    ordering = ['-id']
+
+    def get_queryset(self):
+        categoria_slug = self.kwargs['categoria_slug']
+        categoria = get_object_or_404(models.Categoria, slug=categoria_slug)
+        return models.Produto.objects.filter(categoria=categoria)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        categoria_slug = self.kwargs['categoria_slug']
+        categoria = get_object_or_404(models.Categoria, slug=categoria_slug)
+        context['categoria'] = categoria
+        context['categorias'] = models.Categoria.objects.all()
+        return context
 
 
 class ListaProdutos(ListView):
@@ -21,6 +43,11 @@ class ListaProdutos(ListView):
     context_object_name = 'produtos'
     paginate_by = 10
     ordering = ['-id']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categorias'] = models.Categoria.objects.all()
+        return context
 
 
 @user_passes_test(lambda u: u.is_superuser)

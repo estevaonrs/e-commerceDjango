@@ -7,6 +7,19 @@ from PIL import Image
 from utils import utils
 
 
+class Categoria(models.Model):
+    nome = models.CharField(max_length=255)
+    slug = models.SlugField(unique=True, blank=True, null=True)
+
+    def __str__(self):
+        return self.nome
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.nome)
+        super().save(*args, **kwargs)
+
+
 class Produto(models.Model):
     nome = models.CharField(max_length=255)
     descricao_curta = models.TextField(max_length=255)
@@ -17,14 +30,10 @@ class Produto(models.Model):
     preco_marketing = models.FloatField(verbose_name='Preço')
     preco_marketing_promocional = models.FloatField(
         default=0, verbose_name='Preço Promo.')
-    tipo = models.CharField(
-        default='V',
-        max_length=1,
-        choices=(
-            ('V', 'Variável'),
-            ('S', 'Simples'),
-        )
-    )
+    tipo = models.CharField(default='V', max_length=1, choices=(
+        ('V', 'Variável'), ('S', 'Simples')))
+    categoria = models.ForeignKey(
+        Categoria, on_delete=models.PROTECT, default=None, blank=True, null=True)
 
     def get_preco_formatado(self):
         return utils.formata_preco(self.preco_marketing)
@@ -47,11 +56,7 @@ class Produto(models.Model):
         new_height = round((new_width * original_height) / original_width)
 
         new_img = img_pil.resize((new_width, new_height), Image.LANCZOS)
-        new_img.save(
-            img_full_path,
-            optimize=True,
-            quality=50
-        )
+        new_img.save(img_full_path, optimize=True, quality=50)
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -67,6 +72,16 @@ class Produto(models.Model):
 
     def __str__(self):
         return self.nome
+
+
+class ImagemProduto(models.Model):
+    produto = models.ForeignKey(
+        Produto, related_name='imagens', on_delete=models.CASCADE)
+    imagem = models.ImageField(
+        upload_to='produto_imagens/%Y/%m/', blank=True, null=True)
+
+    def __str__(self):
+        return self.produto.nome
 
 
 class Variacao(models.Model):

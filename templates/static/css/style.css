@@ -603,6 +603,7 @@ a:hover {
     margin: 0px;
 }
 
+
 .tshirt_img {
     width: 100%;
     text-align: center;
@@ -1000,7 +1001,10 @@ ul.errorlist li {
 .cart-img {
     max-width: 150px;
 }
-
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    filter: invert(100%) sepia(0%) saturate(7500%) hue-rotate(200deg) brightness(105%) contrast(101%);
+}
 
 
 

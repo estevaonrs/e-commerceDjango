@@ -1,3 +1,12 @@
+import requests
+from .utils import calcular_frete
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+from django.http import HttpResponseBadRequest
+from django.http import JsonResponse
+from django.views.decorators.http import require_http_methods
+from xml.etree import ElementTree as ET
+
 from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import render, redirect
 from django.shortcuts import render, redirect, reverse, get_object_or_404
@@ -7,6 +16,7 @@ from django.views import View
 from django.http import HttpResponse
 from django.contrib import messages
 from django.db.models import Q
+from .utils import calcular_frete
 
 from produto.forms import ProdutoForm
 

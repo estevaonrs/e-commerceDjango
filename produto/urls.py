@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
-
+from .views import categoria_delete, produto_delete
 from . import views
 
 app_name = 'produto'
@@ -16,10 +16,24 @@ urlpatterns = [
     path('carrinho/', views.Carrinho.as_view(), name="carrinho"),
     path('resumodacompra/', views.ResumoDaCompra.as_view(), name="resumodacompra"),
     path('busca/', views.Busca.as_view(), name="busca"),
-    path('cliente_admin/', views.cliente_admin, name="cliente_admin"),
-    path('produto_add/', views.produto_add, name="produto_add"),
+    path('produto_add/', views.produto_add.as_view(), name="produto_add"),
     path('categoria/<slug:categoria_slug>/',
          views.ListaProdutosPorCategoria.as_view(), name='lista_por_categoria'),
+    path('categoria_add/', views.categoria_add, name='categoria_add'),
+    path('categoria/list/', views.categoria_list, name='categoria_list'),
+    path('categoria_edit/<int:id>/', views.categoria_edit, name='categoria_edit'),
+    path('<slug:slug>/excluir/', categoria_delete.as_view(),
+         name='categoria_delete'),
+    path('produto/<slug:slug>/excluir/', produto_delete.as_view(),
+         name='produto_delete'),
+    path('produto_edit/<int:id>/', views.produto_edit, name='produto_edit'),
+
+
+
+
+
+
+
 
 
 

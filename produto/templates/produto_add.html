@@ -1,19 +1,64 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 {% block conteudo %}
-    <div class="card">
-        <div class="card-body">
-            <h4>Adicionar produto</h4>
-            <hr>
-            <form action="{% url 'produto:produto_add'%}" method="post" 
-            enctype="multipart/form-data" autocomplete="off">
-                {% csrf_token %}
-                {{ form|crispy}}
-                <button class="btn btn-success" type="submit">Salvar</button>
-                <a href="{% url 'produto:cliente_admin' %}" class="btn 
-                btn-danger">Cancelar</a>
-            </form>
-        </div>
-    </div>            
-{% endblock %}
+<div class="card">
+<div class="card-body">
+<h4>Adicionar produto</h4>
+<hr>
+<form action="{% url 'produto:produto_add'%}" method="post" 
+         enctype="multipart/form-data" autocomplete="off">
+{% csrf_token %}
+{{ form|crispy}}
+ 
+<!-- Form para adicionar variações do produto -->
+<h5>Variações do produto</h5>
+<div id="variacoes-container">
+  <div class="variacao form-group">
+    {{ variacoes_formset.management_form }}
+    {{ variacoes_formset.non_form_errors }}
+    {{ variacoes_formset.management_form }}
+    {{ form_produto.as_p }}
+         {{ form_variacao.as_p }}
+  </div>
+</div>
+<button id="add_variacao" class="btn btn-secondary" type="submit">Adicionar variação</button>
+<!-- Form para adicionar imagens do produto -->
+<h5>Imagens do produto</h5>
+<div class="form-group">
+   <div class="custom-file">
+       {{ form_imagem.as_p }}
+   </div>
+</div>
+ 
+ <button class="btn btn-success" type="submit">Salvar</button>
+ <a href="{% url 'produto:categoria_add' %}" class="btn 
+ btn-danger">Cancelar</a>
+</form>
+</div>
+</div> 
+<script>
+    $(document).ready(function() {
+      // Encontra o botão 'Adicionar variação'
+      var addVariacaoBtn = $("#add_variacao");
+    
+      // Encontra o elemento pai do botão 'Adicionar variação'
+      var variacoesContainer = $("#variacoes-container");
+    
+      // Encontra o último conjunto de campos de variação
+      var ultimaVariacao = $(".variacao").last();
+    
+      // Cria uma cópia do último conjunto de campos de variação
+      var novaVariacao = ultimaVariacao.clone();
+    
+      // Limpa os campos da nova variação
+      novaVariacao.find("input").val("");
+    
+      // Adiciona a nova variação ao formulário
+      addVariacaoBtn.click(function() {
+        variacoesContainer.append(novaVariacao.clone());
+      });
+    });
+    </script>      
+{% endblock %}     

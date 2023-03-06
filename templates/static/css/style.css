@@ -153,6 +153,10 @@ img {
     padding-bottom: 0 !important;
 }
 
+.modal-backdrop {
+    display: none;
+}
+
 .btn-custom {
     margin-top: 20px;
     background-color: transparent !important;
@@ -160,6 +164,8 @@ img {
     padding: 12px 40px;
     font-size: 16px;
 }
+
+
 
 .lead {
     font-size: 18px;
@@ -630,9 +636,18 @@ a:hover {
     font-weight: bold;
 }
 
+.buy_bt2 a {
+    width: 100%;
+    font-size: 16px;
+    color: #ffffff;
+    background-color: #ffffff;
+    text-align: right;
+    font-weight: bold;
+}
+
 .buy_bt a:hover {
     background-color: transparent;
-    color: #262626;
+    color: #ffffff;
 }
 
 .seemore_bt {
@@ -832,7 +847,7 @@ a:hover {
     height: auto;
     background-size: 100%;
     background-repeat: no-repeat;
-   
+
 }
 
 .footer_logo {
@@ -972,12 +987,12 @@ input.mail_bt::placeholder {
 
 
 
-.border-top-light-custom{
+.border-top-light-custom {
     border-top: 1px solid rgba(0, 0, 0, 0.125);
 }
 
 
-ul.errorlist  {
+ul.errorlist {
     list-style-type: none;
     margin: 5px 0;
     padding: 0;
@@ -994,18 +1009,18 @@ ul.errorlist li {
 .form-group textarea {
     width: 100%;
 }
-.nav-cart, .nav-cart a {
+
+.nav-cart,
+.nav-cart a {
     color: #fff;
     text-decoration: none;
 }
+
 .cart-img {
     max-width: 150px;
 }
+
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
     filter: invert(100%) sepia(0%) saturate(7500%) hue-rotate(200deg) brightness(105%) contrast(101%);
 }
-
-
-
-

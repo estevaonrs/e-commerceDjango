@@ -1,6 +1,7 @@
 {% load omfilters %}
 {% load static %}
 
+
 <!-- banner bg main start -->
 <div class="banner_bg_main">
     <!-- header top section start -->
@@ -39,8 +40,9 @@
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         {% for categoria in categorias %}
                         <a class="dropdown-item"
-                            href="{% url 'produto:lista_por_categoria' categoria_slug=categoria.slug %}">{{
-                            categoria.nome }}</a>
+                            href="{% url 'produto:lista_por_categoria' categoria_slug=categoria.slug %}"
+                            class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ categoria.nome }}</a>
                         {% endfor %}
                         <a class="dropdown-item" href="/">Todas as roupas</a>
                     </div>
@@ -77,8 +79,10 @@
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="{% url 'produto:cliente_admin' %}">Cadastrar
+                                    <a class="dropdown-item" href="{% url 'produto:categoria_add' %}">1 - Cadastrar
                                         Produtos</a>
+                                    <a class="dropdown-item" href="">2 - Gerenciar
+                                        Pedidos</a>
                                 </div>
                             </div>
                             {% endif %}

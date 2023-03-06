@@ -1,29 +1,34 @@
-import requests
-from .utils import calcular_frete
-from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_POST
-from django.http import HttpResponseBadRequest
-from django.http import JsonResponse
-from django.views.decorators.http import require_http_methods
-from xml.etree import ElementTree as ET
-
+from django.urls import reverse_lazy
+from .models import Produto
 from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import render, redirect
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views import View
-from django.http import HttpResponse
 from django.contrib import messages
 from django.db.models import Q
-from .utils import calcular_frete
+from django.views.generic.edit import DeleteView, CreateView
 
-from produto.forms import ProdutoForm
+from produto.forms import CategoriaForm, ProdutoForm
 
 from . import models
 from perfil.models import Perfil
 from .models import Produto
 from .models import Categoria
+
+
+class ListaProdutos(ListView):
+    model = models.Produto
+    template_name = 'produto/lista.html'
+    context_object_name = 'produtos'
+    paginate_by = 10
+    ordering = ['-id']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categorias'] = models.Categoria.objects.all()
+        return context
 
 
 class ListaProdutosPorCategoria(ListView):
@@ -47,42 +52,90 @@ class ListaProdutosPorCategoria(ListView):
         return context
 
 
-class ListaProdutos(ListView):
-    model = models.Produto
-    template_name = 'produto/lista.html'
-    context_object_name = 'produtos'
-    paginate_by = 10
-    ordering = ['-id']
+class produto_add(CreateView):
+    template_name = 'produto_add.html'
+    model = Produto
+    fields = ['nome', 'descricao_curta',
+              'descricao_longa', 'imagem', 'preco_marketing', 'preco_marketing_promocional', 'tipo', 'categoria']
+    success_url = reverse_lazy('produto:categoria_add')
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['categorias'] = models.Categoria.objects.all()
-        return context
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        url = super().form_valid(form)
+        return url
 
 
-@user_passes_test(lambda u: u.is_superuser)
-def cliente_admin(request):
-    produtos = Produto.objects.all()
+def produto_edit(request, id):
+    produto = get_object_or_404(Produto, id=id)
+    form = ProdutoForm(request.POST or None, instance=produto)
+    if form.is_valid():
+        form.save()
+        return redirect('produto:categoria_add')
     context = {
-        'produtos': produtos
+        'form': form,
+        'produto': produto,
     }
 
-    return render(request, 'cliente_admin.html', context)
+    return render(request, 'categoria_add.html', context)
 
 
-def produto_add(request):
-    form = ProdutoForm(request.POST or None)
+class produto_delete(DeleteView):
+    model = Produto
+    success_url = reverse_lazy('produto:categoria_add')
 
+    def get_object(self, queryset=None):
+        slug = self.kwargs.get('slug')
+        obj = get_object_or_404(Produto, slug=self.kwargs.get('slug'))
+        return obj
+
+
+class DetalheProduto(DetailView):
+    model = models.Produto
+    template_name = 'produto/detalhe.html'
+    context_object_name = 'produto'
+    slug_url_kwarg = 'slug'
+
+
+def categoria_list(request):
+    categorias = Categoria.objects.all()
+    context = {'categorias': categorias}
+    return render(request, 'categoria_add.html', context)
+
+
+def categoria_add(request):
+    produtos = Produto.objects.all()
+    categorias = Categoria.objects.all()
+    form = CategoriaForm(request.POST or None)
     if request.POST:
         if form.is_valid():
             form.save()
-            return redirect('produto:cliente_admin')
+            return redirect('produto:categoria_add')
+    context = {'form': form, 'categorias': categorias, 'produtos': produtos}
+    return render(request, 'categoria_add.html', context)
 
+
+def categoria_edit(request, id):
+    categoria = get_object_or_404(Categoria, id=id)
+    form = CategoriaForm(request.POST or None, instance=categoria)
+    if form.is_valid():
+        form.save()
+        return redirect('categoria:categoria_add')
     context = {
-        'form': form
+        'form': form,
+        'categoria': categoria,
     }
 
-    return render(request, 'produto_add.html', context)
+    return render(request, 'categoria_add.html', context)
+
+
+class categoria_delete(DeleteView):
+    model = Categoria
+    success_url = reverse_lazy('produto:categoria_add')
+
+    def get_object(self, queryset=None):
+        slug = self.kwargs.get('slug')
+        obj = get_object_or_404(Categoria, slug=slug)
+        return obj
 
 
 class Busca(ListaProdutos):
@@ -103,13 +156,6 @@ class Busca(ListaProdutos):
 
         self.request.session.save()
         return qs
-
-
-class DetalheProduto(DetailView):
-    model = models.Produto
-    template_name = 'produto/detalhe.html'
-    context_object_name = 'produto'
-    slug_url_kwarg = 'slug'
 
 
 class AdicionarAoCarrinho(View):

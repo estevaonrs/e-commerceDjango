@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+<h1>Pedidos</h1>
+{% for pedido in pedidos %}
+<h2>{{ pedido }}</h2>
+<ul>
+    {% for item in pedido.itempedido_set.all %}
+    <li>Produto: {{ item.produto }}</li>
+    <li>Preço: {{ item.preco }}</li>
+    <li>Quantidade: {{ item.quantidade }}</li>
+    {% endfor %}
+</ul>
+{% endfor %}
+{% endblock %}

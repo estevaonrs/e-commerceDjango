@@ -6,10 +6,13 @@ from django.shortcuts import redirect, render, reverse
 from django.views import View
 from django.views.generic import DetailView, ListView
 from django.db.models.signals import pre_delete
-from produto.models import Variacao
+from produto.models import Variacao, Categoria
 from utils import utils
-
+from produto import models
 from .models import ItemPedido, Pedido
+
+
+from django.db.models import Prefetch
 
 
 class DispatchLoginRequiredMixin(View):
@@ -30,6 +33,11 @@ class Pagar(DispatchLoginRequiredMixin, DetailView):
     model = Pedido
     pk_url_kwarg = 'pk'
     context_object_name = 'pedido'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categorias'] = models.Categoria.objects.all()
+        return context
 
 
 class SalvarPedido(View):
@@ -153,6 +161,11 @@ class Detalhe(DispatchLoginRequiredMixin, DetailView):
     template_name = 'pedido/detalhe.html'
     pk_url_kwarg = 'pk'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categorias'] = models.Categoria.objects.all()
+        return context
+
 
 class Lista(DispatchLoginRequiredMixin, ListView):
     model = Pedido
@@ -160,3 +173,8 @@ class Lista(DispatchLoginRequiredMixin, ListView):
     template_name = 'pedido/lista.html'
     paginate_by = 10
     ordering = ['-id']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categorias'] = models.Categoria.objects.all()
+        return context

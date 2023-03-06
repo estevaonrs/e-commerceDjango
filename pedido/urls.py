@@ -10,4 +10,6 @@ urlpatterns = [
     path('lista/', views.Lista.as_view(), name='lista'),
     path('detalhe/<int:pk>', views.Detalhe.as_view(), name='detalhe'),
 
+
+
 ]

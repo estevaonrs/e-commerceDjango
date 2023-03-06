@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load omfilters %}
+
+{% block conteudo %}
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/js/bootstrap.bundle.min.js"></script>
+<div class="row">
+    <div class="col-lg-12">
+        <br>
+        <h1 class="fashion_taital">Adicionar Categoria</h1>
+        </a>
+        <hr>
+    </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <h1>Cadastro de Categoria</h1>
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button class="btn btn-dark">Salvar</button>
+      </form>
+    </div>
+    <div class="col-md-6">
+      <h1>Lista de Categorias</h1>
+        <ul class="list-group">
+            {% for categoria in categorias %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ categoria.nome }}
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#editarCategoriaModal{{categoria.id}}">
+                        Editar
+                        </button>
+                        <button type="submit" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#excluirCategoriaModal{{categoria.id}}">
+                        Excluir
+                        </button>
+                    </div>
+                </li>      
+                <div class="modal fade" id="editarCategoriaModal{{categoria.id}}" tabindex="-1" aria-labelledby="editarCategoriaModal{{categoria.id}}Label" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editarCategoriaModal{{categoria.id}}Label">Editar Categoria</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form method="POST" action="{% url 'produto:categoria_edit' categoria.id %}">
+                                    {% csrf_token %}
+                                    {{ form|crispy }}
+                                    <button type="submit" class="btn btn-primary">Salvar</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                </form>   
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="excluirCategoriaModal{{categoria.id}}" tabindex="-1" aria-labelledby="excluirCategoriaModal{{categoria.id}}Label" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="excluirCategoriaModal{{categoria.id}}Label">Excluir Categoria</h5>
+                            </div>
+                            <div class="modal-footer">
+                                <form method="POST" action="{% url 'produto:categoria_delete' categoria.slug %}">
+                                    {% csrf_token %}
+                                    <h4>Deseja realmente excluir a categoria "{{categoria.nome}}"?</h4>
+                                    <button type="submit" class="btn btn-danger">Excluir</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                </form> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </u>        
+    </div>    
+</div>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <br>
+            <h1 class="fashion_taital">Adicionar produto <a class="ml-3" href="{% url 'produto:produto_add' %}">
+                <i class="fa fa-plus-circle text-center" aria-hidden="true"></i>
+            
+            </h1>
+            </a>
+            <hr>
+        </div>
+    </div>
+    
+    <div class="fashion_section">
+        <div id="main_slider" class="carousel slide" data-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <div class="container">
+                <div class="fashion_section_2">
+                  <div class="row">
+                    {% for produto in produtos %}
+                    <div class="modal fade" id="confirmar-exclusao-{{ produto.pk }}" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="myModalLabel{{ produto.pk }}Label">Excluir Produto?</h5>
+                                </div>
+                                <div class="modal-footer">
+                                    <form method="POST" action="{% url 'produto:produto_delete' slug=produto.slug %}">
+                                        {% csrf_token %}
+                                        <h4>Deseja realmente excluir o Produto "{{produto.nome}}"?</h4>
+                                        <button type="submit" class="btn btn-danger">Excluir</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                    </form> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-6">
+                      <div class="box_main">
+                        <h4 class="shirt_text">{{ produto.nome }}</h4>
+                        {% if produto.imagem %}
+                        <a href="{% url 'produto:detalhe' produto.slug %}">
+                          <img class="card-img-top" src="{{ produto.imagem.url }}" alt="{{ produto.nome }}">
+                        </a>
+                        {% endif %}
+                        <div class="btn_main">
+                          <a href="{% url 'produto:produto_edit' produto.id %}" class="btn btn-dark">Editar</a>
+                          <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmar-exclusao-{{ produto.pk }}">Excluir</button>  
+                          
+                        </div>
+                      </div>
+                    </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+    <div class="row mt-3">
+        <div class="col">
+            {% include 'parciais/_pagination.html' %}
+        </div>
+    </div>
+</div>
+
+<div class="buy_bt">
+    <a href="{% url 'pedido:pedidos'}">Comprar</a>
+</div>
+
+{% endblock %}

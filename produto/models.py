@@ -86,9 +86,11 @@ class ImagemProduto(models.Model):
 
 class Variacao(models.Model):
     produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
-    nome = models.CharField(max_length=50, blank=True, null=True)
-    preco = models.FloatField()
-    preco_promocional = models.FloatField(default=0)
+    nome = models.CharField(max_length=50, blank=True,
+                            null=True, verbose_name='Nome da variação')
+    preco = models.FloatField(verbose_name='Preço da variação')
+    preco_promocional = models.FloatField(
+        default=0, verbose_name='Preço promo da variação')
     estoque = models.PositiveIntegerField(default=1)
 
     def __str__(self):
@@ -97,3 +99,7 @@ class Variacao(models.Model):
     class Meta:
         verbose_name = 'Variação'
         verbose_name_plural = 'Variações'
+
+
+class Eu(models.Model):
+    pass

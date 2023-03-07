@@ -1,64 +1,117 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 {% block conteudo %}
-<div class="card">
-<div class="card-body">
-<h4>Adicionar produto</h4>
-<hr>
-<form action="{% url 'produto:produto_add'%}" method="post" 
-         enctype="multipart/form-data" autocomplete="off">
-{% csrf_token %}
-{{ form|crispy}}
- 
-<!-- Form para adicionar variações do produto -->
-<h5>Variações do produto</h5>
-<div id="variacoes-container">
-  <div class="variacao form-group">
-    {{ variacoes_formset.management_form }}
-    {{ variacoes_formset.non_form_errors }}
-    {{ variacoes_formset.management_form }}
-    {{ form_produto.as_p }}
-         {{ form_variacao.as_p }}
+<!-- template.html -->
+
+<form method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div>
+      <label for="id_nome">Nome:</label>
+      <input type="text" name="nome" id="id_nome" required>
   </div>
-</div>
-<button id="add_variacao" class="btn btn-secondary" type="submit">Adicionar variação</button>
-<!-- Form para adicionar imagens do produto -->
-<h5>Imagens do produto</h5>
-<div class="form-group">
-   <div class="custom-file">
-       {{ form_imagem.as_p }}
-   </div>
-</div>
- 
- <button class="btn btn-success" type="submit">Salvar</button>
- <a href="{% url 'produto:categoria_add' %}" class="btn 
- btn-danger">Cancelar</a>
-</form>
-</div>
-</div> 
-<script>
-    $(document).ready(function() {
-      // Encontra o botão 'Adicionar variação'
-      var addVariacaoBtn = $("#add_variacao");
-    
-      // Encontra o elemento pai do botão 'Adicionar variação'
-      var variacoesContainer = $("#variacoes-container");
-    
-      // Encontra o último conjunto de campos de variação
-      var ultimaVariacao = $(".variacao").last();
-    
-      // Cria uma cópia do último conjunto de campos de variação
-      var novaVariacao = ultimaVariacao.clone();
-    
-      // Limpa os campos da nova variação
-      novaVariacao.find("input").val("");
-    
-      // Adiciona a nova variação ao formulário
-      addVariacaoBtn.click(function() {
-        variacoesContainer.append(novaVariacao.clone());
-      });
-    });
-    </script>      
-{% endblock %}     
+  <div>
+      <label for="id_descricao_curta">Descrição curta:</label>
+      <textarea name="descricao_curta" id="id_descricao_curta" required></textarea>
+  </div>
+  <div>
+      <label for="id_descricao_longa">Descrição longa:</label>
+      <textarea name="descricao_longa" id="id_descricao_longa" required></textarea>
+  </div>
+  <div>
+      <label for="id_imagem">Imagem:</label>
+      <input type="file" name="imagem" id="id_imagem">
+  </div>
+  <div>
+      <label for="id_preco_marketing">Preço:</label>
+      <input type="number" name="preco_marketing" id="id_preco_marketing" required>
+  </div>
+  <div>
+      <label for="id_preco_marketing_promocional">Preço promocional:</label>
+      <input type="number" name="preco_marketing_promocional" id="id_preco_marketing_promocional">
+  </div>
+  <div>
+      <label for="id_tipo">Tipo:</label>
+      <select name="tipo" id="id_tipo" required>
+          <option value="V">Variável</option>
+          <option value="S">Simples</option>
+      </select>
+  </div>
+  <div>
+      <label for="id_categoria">Categoria:</label>
+      <select name="categoria" id="id_categoria">
+          <option value="">---------</option>
+          {% for categoria in categorias %}
+              <option value="{{ categoria.id }}">{{ categoria.nome }}</option>
+          {% endfor %}
+      </select>
+  </div>
+  <div>
+      <label>Variações:</label>
+      <table>
+          <thead>
+              <tr>
+                  <th>Nome</th>
+                  <th>Preço</th>
+                  <th>Preço promocional</th>
+                  <th>Estoque</th>
+              </tr>
+          </thead>
+          <tbody id="variacoes">
+              <tr>
+                  <td><input type="text" name="nome_variacao[]" required></td>
+                  <td><input type="number" name="preco_variacao[]" required></td>
+                  <td><input type="number" name="preco_promocional_variacao[]"></td>
+                  <td><input type="number" name="estoque_variacao[]" required></td>
+                  </tr>
+                  </tbody>
+                  </table>
+                  <button type="button" id="add_variacao">Adicionar variação</button>                
+                    </div>
+                    <button type="submit">Salvar</button>
+                  </form>
+                  <form enctype="multipart/form-data">
+                    <div>
+                      <label for="id_imagens">Imagem do Produto:</label>
+                      <input type="file" name="imagens" id="id_imagens" multiple>
+                    </div>
+                  </form>
+                  <script>
+                    document.getElementById('add_variacao').addEventListener('click', function() {
+                        var tabela_variacoes = document.getElementById('variacoes');
+                        var linha = document.createElement('tr');
+                        linha.innerHTML = `
+                            <td><input type="text" name="nome_variacao[]" required></td>
+                            <td><input type="number" name="preco_variacao[]" min="0" step="0.01" required></td>
+                            <td><input type="number" name="preco_promocional_variacao[]" min="0" step="0.01"></td>
+                            <td><input type="number" name="estoque_variacao[]" min="0" required></td>
+                            <td><button type="button" class="btn btn-danger" onclick="removerVariacao(this)">Remover</button></td>
+                            `;
+                        // adiciona a nova linha na tabela
+                        tabela_variacoes.appendChild(linha);
+                    });
+                  
+                    function removerVariacao(botao) {
+                        var linha = botao.closest('tr');
+                        linha.remove();
+                    }
+                  
+                    // intercepta o envio do formulário
+                    document.querySelector('form').addEventListener('submit', function(event) {
+                        // previne o comportamento padrão do formulário
+                        event.preventDefault();
+                  
+                        // obtém os dados do formulário
+                        var form = new FormData(event.target);
+                  
+                        // envia os dados para o servidor utilizando o AJAX
+                        fetch('/api/produtos/', {
+                            method: 'POST',
+                            body: form,
+                        })
+                        .then(response => response.json())
+                        .then(data => console.log(data))
+                        .catch(error => console.error(error));
+                    });
+                  </script>
+                  {% endblock %}

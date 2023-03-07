@@ -99,7 +99,3 @@ class Variacao(models.Model):
     class Meta:
         verbose_name = 'Variação'
         verbose_name_plural = 'Variações'
-
-
-class Eu(models.Model):
-    pass

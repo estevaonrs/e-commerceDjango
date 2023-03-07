@@ -9,13 +9,13 @@ from django.views import View
 from django.contrib import messages
 from django.db.models import Q
 from django.views.generic.edit import DeleteView, CreateView
+from django.forms.models import modelformset_factory
 
 from produto.forms import CategoriaForm, ProdutoForm
 
 from . import models
 from perfil.models import Perfil
-from .models import Produto
-from .models import Categoria
+from .models import Categoria, Variacao, ImagemProduto, Produto
 
 
 class ListaProdutos(ListView):
@@ -61,8 +61,52 @@ class produto_add(CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        url = super().form_valid(form)
-        return url
+        produto = form.save()
+
+        nome_variacao = self.request.POST.getlist('nome_variacao[]')
+        preco_variacao = self.request.POST.getlist('preco_variacao[]')
+        preco_promocional_variacao = self.request.POST.getlist(
+            'preco_promocional_variacao[]')
+        estoque_variacao = self.request.POST.getlist('estoque_variacao[]')
+
+        for i in range(len(nome_variacao)):
+            variacao = Variacao(
+                produto=produto,
+                nome=nome_variacao[i],
+                preco=preco_variacao[i],
+                preco_promocional=preco_promocional_variacao[i] or None,
+                estoque=estoque_variacao[i],
+            )
+            variacao.save()
+        # obtém os dados das imagens enviadas pelo formulário
+        imagens = self.request.FILES.getlist('imagem_produto')
+        for imagem in imagens:
+            imagem_produto = ImagemProduto(
+                produto=produto,
+                imagem=imagem
+            )
+            imagem_produto.save()
+
+        # obtém os dados das imagens enviadas pelo formulário via formset
+        imagem_formset = modelformset_factory(
+            ImagemProduto, fields=('imagem',), extra=3)(self.request.POST, self.request.FILES)
+        if imagem_formset.is_valid():
+            imagens = imagem_formset.save(commit=False)
+            for imagem in imagens:
+                imagem.produto = produto
+                imagem.save()
+
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'].enctype = 'multipart/form-data'
+        context['categorias'] = Categoria.objects.all()
+        ImagemFormSet = modelformset_factory(
+            ImagemProduto, fields=('imagem',), extra=3)
+        context['imagem_formset'] = ImagemFormSet(
+            queryset=ImagemProduto.objects.none())
+        return context
 
 
 def produto_edit(request, id):

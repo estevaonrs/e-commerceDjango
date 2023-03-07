@@ -2,7 +2,7 @@
 from django.dispatch import receiver
 from django.db import transaction
 from django.contrib import messages
-from django.shortcuts import redirect, render, reverse
+from django.shortcuts import get_object_or_404, redirect, render, reverse
 from django.views import View
 from django.views.generic import DetailView, ListView
 from django.db.models.signals import pre_delete
@@ -167,10 +167,42 @@ class Detalhe(DispatchLoginRequiredMixin, DetailView):
         return context
 
 
+def detalhe_admin(request, pk):
+    pedido = get_object_or_404(Pedido, pk=pk)
+
+    if request.method == 'POST':
+        pedido.status = request.POST['status']
+        pedido.save()
+
+    return render(request, 'pedido/detalhe_admin.html', {'pedido': pedido})
+
+
+def excluir_pedido(request, pk):
+    pedido = get_object_or_404(Pedido, pk=pk)
+    if request.method == 'POST':
+        pedido.delete()
+        return redirect('pedido:lista_admin')
+
+    return render(request, 'pedido/excluir_pedido.html', {'pedido': pedido})
+
+
 class Lista(DispatchLoginRequiredMixin, ListView):
     model = Pedido
     context_object_name = 'pedidos'
     template_name = 'pedido/lista.html'
+    paginate_by = 10
+    ordering = ['-id']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categorias'] = models.Categoria.objects.all()
+        return context
+
+
+class lista_admin(ListView):
+    model = Pedido
+    context_object_name = 'pedidosadmin'
+    template_name = 'pedido/lista_admin.html'
     paginate_by = 10
     ordering = ['-id']
 

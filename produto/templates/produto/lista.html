@@ -18,7 +18,6 @@
                             <div class="col-lg-4 col-6">
                                 <div class="box_main">
                                     <h4 class="shirt_text">{{ produto.nome }}</h4>
-
                                     {% if produto.imagem %}
                                     <a href="{% url 'produto:detalhe' produto.slug %}">
                                         <img class="card-img-top" src="{{ produto.imagem.url }}"

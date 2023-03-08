@@ -986,7 +986,9 @@ input.mail_bt::placeholder {
 /* copyright section end */
 
 
-
+.categoria-field {
+    width: 15%;
+  }
 .border-top-light-custom {
     border-top: 1px solid rgba(0, 0, 0, 0.125);
 }

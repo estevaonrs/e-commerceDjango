@@ -127,6 +127,10 @@
                     <div class="col-lg-4 col-6">
                       <div class="box_main">
                         <h4 class="shirt_text">{{ produto.nome }}</h4>
+                        <a href="{% url 'produto:estoque_variacao' produto.id %}"> Ver estoque</a>
+                        
+                        
+
                         {% if produto.imagem %}
                         <a href="{% url 'produto:detalhe' produto.slug %}">
                           <img class="card-img-top" src="{{ produto.imagem.url }}" alt="{{ produto.nome }}">
@@ -134,7 +138,7 @@
                         {% endif %}
                         <div class="btn_main">
                           <a href="{% url 'produto:produto_edit' produto.id %}" class="btn btn-dark">Editar</a>
-                          <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmar-exclusao-{{ produto.pk }}">Excluir</button>  
+                          <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmar-exclusao-{{ produto.pk }}">Excluir</button> 
                           
                         </div>
                       </div>

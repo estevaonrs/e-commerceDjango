@@ -1,4 +1,5 @@
 from django.urls import reverse_lazy
+from requests import request
 from .models import Produto
 from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import render, redirect
@@ -11,7 +12,7 @@ from django.db.models import Q
 from django.views.generic.edit import DeleteView, CreateView
 from django.forms.models import modelformset_factory
 
-from produto.forms import CategoriaForm, ProdutoForm
+from produto.forms import CategoriaForm, ProdutoForm, VariacaoForm
 
 from . import models
 from perfil.models import Perfil
@@ -62,6 +63,7 @@ class produto_add(CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         produto = form.save()
+        produto_variacoes = Variacao.objects.filter(produto=produto)
 
         nome_variacao = self.request.POST.getlist('nome_variacao[]')
         preco_variacao = self.request.POST.getlist('preco_variacao[]')
@@ -78,6 +80,11 @@ class produto_add(CreateView):
                 estoque=estoque_variacao[i],
             )
             variacao.save()
+            produto_variacao = get_object_or_404(
+                produto_variacoes, id=variacao.id)
+            produto_variacao.estoque = variacao.estoque
+            produto_variacao.save()
+
         # obtém os dados das imagens enviadas pelo formulário
         imagens = self.request.FILES.getlist('imagem_produto')
         for imagem in imagens:
@@ -89,24 +96,89 @@ class produto_add(CreateView):
 
         # obtém os dados das imagens enviadas pelo formulário via formset
         imagem_formset = modelformset_factory(
-            ImagemProduto, fields=('imagem',), extra=3)(self.request.POST, self.request.FILES)
-        if imagem_formset.is_valid():
-            imagens = imagem_formset.save(commit=False)
-            for imagem in imagens:
-                imagem.produto = produto
-                imagem.save()
-
-        return super().form_valid(form)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['form'].enctype = 'multipart/form-data'
-        context['categorias'] = Categoria.objects.all()
-        ImagemFormSet = modelformset_factory(
             ImagemProduto, fields=('imagem',), extra=3)
-        context['imagem_formset'] = ImagemFormSet(
-            queryset=ImagemProduto.objects.none())
-        return context
+
+        if self.request.POST:
+            form = ProdutoForm(self.request.POST)
+            form.instance.user = self.request.user
+            if form.is_valid():
+                produto = form.save(commit=False)
+                produto.save()
+
+                nome_variacao = self.request.POST.getlist('nome_variacao[]')
+                preco_variacao = self.request.POST.getlist('preco_variacao[]')
+                preco_promocional_variacao = self.request.POST.getlist(
+                    'preco_promocional_variacao[]')
+                estoque_variacao = self.request.POST.getlist(
+                    'estoque_variacao[]')
+
+                for i in range(len(nome_variacao)):
+                    variacao = Variacao(
+                        produto=produto,
+                        nome=nome_variacao[i],
+                        preco=preco_variacao[i],
+                        preco_promocional=preco_promocional_variacao[i] or None,
+                        estoque=estoque_variacao[i],
+                    )
+                    variacao.save()
+
+                imagem_formset = imagem_formset(
+                    self.request.POST, self.request.FILES, queryset=ImagemProduto.objects.none())
+                if imagem_formset.is_valid():
+                    imagens = imagem_formset.save(commit=False)
+                    for imagem in imagens:
+                        imagem.produto = produto
+                        imagem.save()
+                return redirect('produto:categoria_add')
+            else:
+                form = ProdutoForm()
+                context = {
+                    'form': form,
+                    'categorias': Categoria.objects.all(),
+                    'variacao': Variacao.objects.all(),
+                    'imagem_formset': imagem_formset(queryset=ImagemProduto.objects.none())
+                }
+                return render(request, self.template_name, context)
+
+
+class EstoqueVariacaoView(View):
+    def get(self, request, *args, **kwargs):
+        produto_id = kwargs.get('produto_id')
+        produto = Produto.objects.get(id=produto_id)
+        variacoes = Variacao.objects.filter(produto=produto)
+        context = {
+            'produto': produto,
+            'variacoes': variacoes,
+        }
+        return render(request, 'estoque_variacao.html', context)
+
+
+def variacao_add(request):
+    produtos = Produto.objects.all()
+    categorias = Categoria.objects.all()
+
+    form = VariacaoForm(request.POST or None)
+    if request.POST:
+        if form.is_valid():
+            form.save()
+            return redirect('produto:estoque_variacao')
+    context = {'form': form, 'categorias': categorias,
+               'produtos': produtos, }
+    return render(request, 'variacao_add.html', context)
+
+
+def variacao_edit(request, id):
+    variacao = get_object_or_404(Variacao, id=id)
+    form = VariacaoForm(request.POST or None, instance=variacao)
+    if form.is_valid():
+        form.save()
+        return redirect('produto:estoque_variacao', produto_id=variacao.produto.id)
+
+    context = {
+        'form': form,
+        'variacao': variacao,
+    }
+    return render(request, 'variacao_add.html', context)
 
 
 def produto_edit(request, id):
@@ -139,6 +211,11 @@ class DetalheProduto(DetailView):
     context_object_name = 'produto'
     slug_url_kwarg = 'slug'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categorias'] = models.Categoria.objects.all()
+        return context
+
 
 def categoria_list(request):
     categorias = Categoria.objects.all()
@@ -149,12 +226,14 @@ def categoria_list(request):
 def categoria_add(request):
     produtos = Produto.objects.all()
     categorias = Categoria.objects.all()
+
     form = CategoriaForm(request.POST or None)
     if request.POST:
         if form.is_valid():
             form.save()
             return redirect('produto:categoria_add')
-    context = {'form': form, 'categorias': categorias, 'produtos': produtos}
+    context = {'form': form, 'categorias': categorias,
+               'produtos': produtos, }
     return render(request, 'categoria_add.html', context)
 
 

@@ -1,7 +1,8 @@
+from django.forms import inlineformset_factory
 from django.urls import reverse_lazy
-from requests import request
+
 from .models import Produto
-from django.contrib.auth.decorators import user_passes_test
+
 from django.shortcuts import render, redirect
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.views.generic.list import ListView
@@ -56,14 +57,21 @@ class ListaProdutosPorCategoria(ListView):
 class produto_add(CreateView):
     template_name = 'produto_add.html'
     model = Produto
-    fields = ['nome', 'descricao_curta',
-              'descricao_longa', 'imagem', 'preco_marketing', 'preco_marketing_promocional', 'tipo', 'categoria']
+    form_class = ProdutoForm
     success_url = reverse_lazy('produto:categoria_add')
+    ImagemProdutoFormSet = inlineformset_factory(
+        Produto, ImagemProduto, fields=('imagem',), extra=3)
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        produto = form.save()
-        produto_variacoes = Variacao.objects.filter(produto=produto)
+        produto = form.save(commit=False)
+        produto.save()
+
+        imagem_formset = self.ImagemProdutoFormSet(
+            self.request.POST, self.request.FILES, instance=produto)
+
+        if imagem_formset.is_valid():
+            imagem_formset.save()
 
         nome_variacao = self.request.POST.getlist('nome_variacao[]')
         preco_variacao = self.request.POST.getlist('preco_variacao[]')
@@ -80,65 +88,16 @@ class produto_add(CreateView):
                 estoque=estoque_variacao[i],
             )
             variacao.save()
-            produto_variacao = get_object_or_404(
-                produto_variacoes, id=variacao.id)
-            produto_variacao.estoque = variacao.estoque
-            produto_variacao.save()
 
-        # obtém os dados das imagens enviadas pelo formulário
-        imagens = self.request.FILES.getlist('imagem_produto')
-        for imagem in imagens:
-            imagem_produto = ImagemProduto(
-                produto=produto,
-                imagem=imagem
-            )
-            imagem_produto.save()
+        return redirect('produto:categoria_add')
 
-        # obtém os dados das imagens enviadas pelo formulário via formset
-        imagem_formset = modelformset_factory(
-            ImagemProduto, fields=('imagem',), extra=3)
-
-        if self.request.POST:
-            form = ProdutoForm(self.request.POST)
-            form.instance.user = self.request.user
-            if form.is_valid():
-                produto = form.save(commit=False)
-                produto.save()
-
-                nome_variacao = self.request.POST.getlist('nome_variacao[]')
-                preco_variacao = self.request.POST.getlist('preco_variacao[]')
-                preco_promocional_variacao = self.request.POST.getlist(
-                    'preco_promocional_variacao[]')
-                estoque_variacao = self.request.POST.getlist(
-                    'estoque_variacao[]')
-
-                for i in range(len(nome_variacao)):
-                    variacao = Variacao(
-                        produto=produto,
-                        nome=nome_variacao[i],
-                        preco=preco_variacao[i],
-                        preco_promocional=preco_promocional_variacao[i] or None,
-                        estoque=estoque_variacao[i],
-                    )
-                    variacao.save()
-
-                imagem_formset = imagem_formset(
-                    self.request.POST, self.request.FILES, queryset=ImagemProduto.objects.none())
-                if imagem_formset.is_valid():
-                    imagens = imagem_formset.save(commit=False)
-                    for imagem in imagens:
-                        imagem.produto = produto
-                        imagem.save()
-                return redirect('produto:categoria_add')
-            else:
-                form = ProdutoForm()
-                context = {
-                    'form': form,
-                    'categorias': Categoria.objects.all(),
-                    'variacao': Variacao.objects.all(),
-                    'imagem_formset': imagem_formset(queryset=ImagemProduto.objects.none())
-                }
-                return render(request, self.template_name, context)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categorias'] = Categoria.objects.all()
+        context['variacao'] = Variacao.objects.all()
+        context['imagem_formset'] = self.ImagemProdutoFormSet(
+            queryset=ImagemProduto.objects.none())
+        return context
 
 
 class EstoqueVariacaoView(View):

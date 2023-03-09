@@ -26,6 +26,18 @@
                             <label for="id_imagem">Imagem:</label>
                             <input type="file" name="imagem" id="id_imagem">
                         </div>
+                        {% for form in formset %}
+                            <div class="formset_row">
+                                <div class="form-group">
+                                {{ form.imagem.label_tag }}
+                                {{ form.imagem }}
+                                </div>
+                                <div class="form-group">
+                                {{ form.legenda.label_tag }}
+                                {{ form.legenda }}
+                                </div>
+                            </div>
+                        {% endfor %}
                         <div>
                             <label for="id_preco_marketing">Preço:</label>
                             <input type="number" name="preco_marketing" id="id_preco_marketing" required>
@@ -34,46 +46,48 @@
                             <label for="id_preco_marketing_promocional">Preço promocional:</label>
                             <input type="number" name="preco_marketing_promocional" id="id_preco_marketing_promocional">
                         </div>
+                        <div>
+                            <label for="id_imagem">Imagem:</label>
+                            {{ imagem_formset.management_form }}
+                            {% for form in imagem_formset %}
+                                <div>{{ form.imagem }}</div>
+                            {% endfor %}
+                            <button type="button" id="add_imagem">Adicionar imagem</button>
+                        </div>
+                        
                         <div class="categoria-field">
-                            <label for="id_tipo">Tipo:</label>
+
                             {{ form.tipo|as_crispy_field }}
                         </div>
                         <div class="categoria-field">
-                          <label for="id_categoria">Categoria:</label>
+
                           {{ form.categoria|as_crispy_field }}
                         </div>
                         <div>
                             <label>Variações:</label>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Nome</th>
-                                        <th>Preço</th>
-                                        <th>Preço promocional</th>
-                                        <th>Estoque</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="variacoes">
-                                    <tr>
-                                        <td><input type="text" name="nome_variacao[]" required></td>
-                                        <td><input type="number" name="preco_variacao[]" required></td>
-                                        <td><input type="number" name="preco_promocional_variacao[]"></td>
-                                        <td><input type="number" name="estoque_variacao[]" required></td>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Nome</th>
+                                            <th>Preço</th>
+                                            <th>Preço promocional</th>
+                                            <th>Estoque</th>
                                         </tr>
-                                        </tbody>
-                                        </table>
-                                        <button type="button" id="add_variacao">Adicionar variação</button>                
-                                          </div>
-                                          <button type="submit">Salvar</button>
-                                        </form>
-                                        <form enctype="multipart/form-data">
-                                          <div>
-                                            <label for="id_imagens">Imagem do Produto:</label>
-                                            <input type="file" name="imagens" id="id_imagens" multiple>
-                                          </div>
-                                        </form>
+                                    </thead>
+                                    <tbody id="variacoes">
+                                        <tr>
+                                            <td><input type="text" name="nome_variacao[]" required></td>
+                                            <td><input type="number" name="preco_variacao[]" required></td>
+                                            <td><input type="number" name="preco_promocional_variacao[]"></td>
+                                            <td><input type="number" name="estoque_variacao[]" required></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <button type="button" id="add_variacao">Adicionar variação</button>                
+                        </div>
+                        <button type="submit">Salvar</button>
+                    </form>                                          
                 </div>
-
             </div>
         </div>
     </div>

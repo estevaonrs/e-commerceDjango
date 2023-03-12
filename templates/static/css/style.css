@@ -595,7 +595,7 @@ a:hover {
 .shirt_text {
     width: 100%;
     font-size: 20px;
-    color: #f26522;
+    color: #000;
     text-align: center;
     font-weight: bold;
     padding-bottom: 5px;
@@ -604,7 +604,7 @@ a:hover {
 .price_text {
     width: 100%;
     font-size: 16px;
-    color: #f26522;
+    color: #000;
     text-align: center;
     margin: 0px;
 }
@@ -647,7 +647,7 @@ a:hover {
 
 .buy_bt a:hover {
     background-color: transparent;
-    color: #ffffff;
+    color: #767676;
 }
 
 .seemore_bt {
@@ -988,7 +988,8 @@ input.mail_bt::placeholder {
 
 .categoria-field {
     width: 15%;
-  }
+}
+
 .border-top-light-custom {
     border-top: 1px solid rgba(0, 0, 0, 0.125);
 }

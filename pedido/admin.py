@@ -9,12 +9,18 @@ class ItemPedidoInline(admin.TabularInline):
 
 
 class PedidoAdmin(admin.ModelAdmin):
-    ist_display = ['usuario', 'total',
-                   'qtd_total', 'status']
+    list_display = ['usuario', 'total',
+                    'qtd_total', 'status']
     inlines = [
         ItemPedidoInline
     ]
 
 
+class DevolucaoAdmin(admin.ModelAdmin):
+    list_display = ['pedido', 'itens',
+                    'pagamento', 'observacoes']
+
+
 admin.site.register(models.Pedido, PedidoAdmin)
 admin.site.register(models.ItemPedido)
+admin.site.register(models.Devolucao, DevolucaoAdmin)

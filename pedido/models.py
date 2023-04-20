@@ -40,3 +40,18 @@ class ItemPedido(models.Model):
     class Meta:
         verbose_name = 'Item do pedido'
         verbose_name_plural = 'Itens do pedido'
+
+
+class Devolucao(models.Model):
+    pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE)
+    itens = models.ForeignKey(ItemPedido, on_delete=models.CASCADE)
+    pagamento = models.CharField(
+        max_length=255, verbose_name="Tipo de pagamento")
+    observacoes = models.CharField(max_length=255, verbose_name="Observações")
+
+    def __str__(self):
+        return f'Devolução do pedido {self.pedido}'
+
+    class Meta:
+        verbose_name = 'Devolução do pedido'
+        verbose_name_plural = 'Devoluções do pedido'

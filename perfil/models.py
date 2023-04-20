@@ -14,6 +14,7 @@ class Perfil(models.Model):
     idade = models.PositiveIntegerField()
     data_nascimento = models.DateField()
     cpf = models.CharField(max_length=11)
+    cnpj = models.CharField(max_length=14, blank=True, null=True)
     endereco = models.CharField(max_length=50)
     numero = models.CharField(max_length=5)
     complemento = models.CharField(max_length=30)

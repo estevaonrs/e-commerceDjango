@@ -78,6 +78,17 @@
                                 <a class="dropdown-item" href="{% url 'perfil:criar' %}">Atualizar meus dados</a>
                                 <a class="dropdown-item" href="{% url 'perfil:logout' %}">Sair</a>
                             </div>
+
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Painel
+                                    Administrativo
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="{% url 'produto:cadastros' %}">Cadastros</a>
+                                </div>
+                            </div>
+
                             {% if request.user.is_superuser %}
                             <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"

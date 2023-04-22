@@ -14,10 +14,14 @@ from django.views.generic.edit import DeleteView, CreateView
 from django.forms.models import modelformset_factory
 
 from produto.forms import CategoriaForm, ProdutoForm, VariacaoForm
-
+from django.views.generic import TemplateView
 from . import models
 from perfil.models import Perfil
 from .models import Categoria, Variacao, ImagemProduto, Produto
+
+
+class CadastrosView(TemplateView):
+    template_name = 'cadastros.html'
 
 
 class ListaProdutos(ListView):

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load omfilters %}
+
+{% block titulo %}Cadastros | {% endblock %}
+
+{% block conteudo %}
+<div class="fashion_section">
+    <div class="container">
+        <div class="list-group">
+         <br>
+         <button type="button" class="list-group-item list-group-item-action active">
+           CADASTROS
+         </button>
+         <button type="button" class="list-group-item list-group-item-action"><a href="{% url 'produto:categoria_add' %}">CATEGORIAS E PRODUTOS <i class="fa-solid fa-square-plus"></i></a></button>
+         <button type="button" class="list-group-item list-group-item-action"><a href="{% url 'produto:categoria_add' %}">CLIENTES <i class="fa-solid fa-square-plus"></i></a></button>
+         <button type="button" class="list-group-item list-group-item-action"><a href="{% url 'produto:categoria_add' %}">FORNECEDORES <i class="fa-solid fa-square-plus"></i></a></button>
+         <button type="button" class="list-group-item list-group-item-action"><a href="{% url 'produto:categoria_add' %}">VENDEDORES <i class="fa-solid fa-square-plus"></i></a></button>
+         <button type="button" class="list-group-item list-group-item-action"><a href="{% url 'produto:categoria_add' %}">DEVOLUÇÕES <i class="fa-solid fa-square-plus"></i></a></button>
+       </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -13,11 +13,23 @@ from django.db.models import Q
 from django.views.generic.edit import DeleteView, CreateView
 from django.forms.models import modelformset_factory
 
-from produto.forms import CategoriaForm, ProdutoForm, VariacaoForm
+from produto.forms import CategoriaForm, ProdutoForm, VariacaoForm, FornecedorForm
 from django.views.generic import TemplateView
 from . import models
 from perfil.models import Perfil
-from .models import Categoria, Variacao, ImagemProduto, Produto
+from .models import Categoria, Variacao, ImagemProduto, Produto, Fornecedor
+
+
+class FornecedorCreateView(CreateView):
+    model = Fornecedor
+    form_class = FornecedorForm
+    template_name = 'fornecedor_create.html'
+    success_url = reverse_lazy('produto:cadastros')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Novo Fornecedor'
+        return context
 
 
 class CadastrosView(TemplateView):

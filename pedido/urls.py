@@ -13,6 +13,8 @@ urlpatterns = [
     path('detalhe_admin/<int:pk>',
          views.detalhe_admin, name='detalhe_admin'),
     path('pedido/<int:pk>/excluir/', views.excluir_pedido, name='excluir_pedido'),
+    path('nova_devolucao/', views.DevolucaoCreateView.as_view(),
+         name='devolucao_create'),
 
 
 ]

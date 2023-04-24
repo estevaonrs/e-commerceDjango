@@ -43,6 +43,7 @@ class ItemPedido(models.Model):
 
 
 class Devolucao(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE)
     itens = models.ForeignKey(ItemPedido, on_delete=models.CASCADE)
     pagamento = models.CharField(

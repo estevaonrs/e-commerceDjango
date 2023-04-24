@@ -3,16 +3,29 @@ from django.dispatch import receiver
 from django.db import transaction
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render, reverse
+from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import DetailView, ListView
 from django.db.models.signals import pre_delete
 from produto.models import Variacao, Categoria
 from utils import utils
 from produto import models
-from .models import ItemPedido, Pedido
-
-
+from .models import Devolucao, ItemPedido, Pedido
+from pedido.forms import DevolucaoForm
+from django.views.generic.edit import CreateView
 from django.db.models import Prefetch
+
+
+class DevolucaoCreateView(CreateView):
+    model = Devolucao
+    form_class = DevolucaoForm
+    template_name = 'devolucao_create.html'
+    success_url = reverse_lazy('produto:cadastros')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Nova Devolução'
+        return context
 
 
 class DispatchLoginRequiredMixin(View):

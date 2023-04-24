@@ -6,6 +6,6 @@ app_name = 'cliente'
 
 
 urlpatterns = [
-    path('novo/', ClienteCreateView.as_view(), name='cliente_create'),
+    path('novo_cliente/', ClienteCreateView.as_view(), name='cliente_create'),
 
 ]

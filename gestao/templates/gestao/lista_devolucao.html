@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load omfilters %}
+
+{% block titulo %}Devoluções | {% endblock %}
+
+{% block conteudo %}
+
+
+
+<div class="row">
+ <div class="col">
+  <br>
+  <h3 class="mb-4">Devoluções dos pedidos da loja!</h3>
+  <p>Abaixo todos as suas devoluções já cadastradas.</p>
+
+  <div class="table-responsive">
+   <table class="table table-striped">
+    <tr>
+     <th scope="col">Usuário</th>
+     <th scope="col">Pedido</th>
+     <th scope="col">Itens</th>
+     <th scope="col">Tipo de Pagamento</th>
+     <th scope="col">Observações</th>
+    </tr>
+
+
+    {% for devolucao in devolucoes %}
+    <tr>
+     <td>{{ devolucao.usuario }}</td>
+     <th scope="row">{{ devolucao.pedido }}</td>
+     <td>{{ devolucao.itens }}</td>
+     <td>{{ devolucao.pagamento }}</td>
+     <td>{{ devolucao.observacoes }}</td>
+    </tr>
+    {% endfor %}
+
+
+   </table>
+  </div>
+ </div>
+</div>
+
+{% include 'parciais/_pagination.html' %}
+
+{% endblock %}

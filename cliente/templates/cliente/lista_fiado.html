@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load omfilters %}
+
+{% block titulo %}Fiados {% endblock %}
+
+{% block conteudo %}
+
+
+
+<div class="row">
+ <div class="col">
+  <br>
+  <h3 class="mb-4">Todos os pagamentos pendentes como fiados</h3>
+  <p>Abaixo todos os pedidos ainda não pagos realizados na loja.</p>
+
+  <div class="table-responsive">
+   <table class="table table-striped">
+    <tr>
+     <th scope="col">Data</th>
+     <th scope="col">Valor</th>
+     <th scope="col">Cliente</th>
+     <th scope="col">Tipo de pagamento</th>
+    </tr>
+
+
+    {% for fiado in fiados %}
+    <tr>
+     <th scope="row">{{ fiado.data }}</td>
+     <td>{{ fiado.valor }}</td>
+     <td>{{ fiado.cliente }}</td>
+     <td>{{ fiado.pagamento }}</td>
+    </tr>
+    {% endfor %}
+   </table>
+  </div>
+ </div>
+</div>
+
+{% include 'parciais/_pagination.html' %}
+
+{% endblock %}

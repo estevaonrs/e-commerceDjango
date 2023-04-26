@@ -2,7 +2,7 @@ from datetime import datetime
 from .forms import FiadoForm
 from django.shortcuts import render, redirect
 from django.shortcuts import render
-
+from django.views.generic import ListView
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 from .models import Cliente, Fiado
@@ -17,7 +17,7 @@ class ClienteCreateView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Novo Cliente'
+        context['title'] = 'Novo Revendedor'
         return context
 
 
@@ -36,3 +36,11 @@ class FiadoCreateView(CreateView):
         fiado = form.save(commit=False)
         fiado.save()
         return super().form_valid(form)
+
+
+class lista_fiado(ListView):
+    model = Fiado
+    context_object_name = 'fiados'
+    template_name = 'cliente/lista_fiado.html'
+    paginate_by = 10
+    ordering = ['-id']

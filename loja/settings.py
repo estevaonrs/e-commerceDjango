@@ -48,10 +48,16 @@ INSTALLED_APPS = [
     'vendas',
     'cliente',
     'gestao',
+    'bootstrap_datepicker_plus',
 
 
 
 ]
+
+
+BOOTSTRAP4 = {
+    'include_jquery': True,
+}
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -130,6 +136,8 @@ TIME_ZONE = 'America/Sao_Paulo'
 USE_I18N = True
 
 USE_TZ = True
+
+DATE_FORMAT = 'd/m/Y'
 
 
 # Static files (CSS, JavaScript, Images)

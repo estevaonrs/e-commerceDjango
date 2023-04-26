@@ -12,8 +12,8 @@
            GESTÃO
          </button>
          <button type="button" class="list-group-item list-group-item-action"><a href="{% url 'produto:categoria_add' %}">CONTROLE DE CAIXA <i class="fa-solid fa-arrow-right"></i></a></button>
-         <button type="button" class="list-group-item list-group-item-action"><a href="{% url 'cliente:cliente_create' %}">PEDIDOS EM ABERTO <i class="fa-solid fa-arrow-right"></i></i></a></button>
-         <button type="button" class="list-group-item list-group-item-action"><a href="{% url 'produto:fornecedor_create' %}">CONTAS DE CLIENTES (FIADO) <i class="fa-solid fa-arrow-right"></i></i></a></button>
+         <button type="button" class="list-group-item list-group-item-action"><a href="{% url 'pedido:lista_admin' %}">PEDIDOS EM ABERTO <i class="fa-solid fa-arrow-right"></i></i></a></button>
+         <button type="button" class="list-group-item list-group-item-action"><a href="{% url 'cliente:fiado_create' %}">CONTAS DE CLIENTES (FIADO) <i class="fa-solid fa-arrow-right"></i></i></a></button>
          <button type="button" class="list-group-item list-group-item-action"><a href="{% url 'vendas:vendedor_create' %}">CONSULTAR ESTOQUE <i class="fa-solid fa-arrow-right"></i></a></button>
          <button type="button" class="list-group-item list-group-item-action"><a href="{% url 'pedido:devolucao_create' %}">CONSULTAR VENDAS <i class="fa-solid fa-arrow-right"></i></a></button>
          <button type="button" class="list-group-item list-group-item-action"><a href="{% url 'gestao:lista_devolucao' %}">CONSULTAR DEVOLUÇÕES <i class="fa-solid fa-arrow-right"></i></i></a></button>

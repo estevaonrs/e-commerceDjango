@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
-from .views import categoria_delete, produto_delete, EstoqueVariacaoView, CadastrosView, FornecedorCreateView
+from .views import categoria_delete, produto_delete, EstoqueVariacaoView, CadastrosView, FornecedorCreateView, GestaoEstoqueVariacao
 from . import views
 
 app_name = 'produto'
@@ -34,6 +34,8 @@ urlpatterns = [
     path('cadastros/', CadastrosView.as_view(), name='cadastros'),
     path('novo_fornecedor/', FornecedorCreateView.as_view(),
          name='fornecedor_create'),
+    path('GestaoEstoqueVariacao/', GestaoEstoqueVariacao,
+         name='gestao_estoque'),
 
 
 

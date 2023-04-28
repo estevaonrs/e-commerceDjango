@@ -58,7 +58,6 @@ h6 {
     font-weight: normal;
     line-height: normal;
     color: #111111;
-    margin-top: 20px;
 
 }
 
@@ -628,6 +627,11 @@ a:hover {
     width: 100%;
 }
 
+.buy_bt2 {
+    float: left;
+    width: 100%;
+}
+
 .buy_bt a {
     width: 100%;
     font-size: 16px;
@@ -640,8 +644,8 @@ a:hover {
 .buy_bt2 a {
     width: 100%;
     font-size: 16px;
-    color: #ffffff;
-    background-color: #ffffff;
+    color: #000;
+    background-color: transparent;
     text-align: right;
     font-weight: bold;
 }

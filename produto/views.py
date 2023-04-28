@@ -128,6 +128,20 @@ class EstoqueVariacaoView(View):
         return render(request, 'estoque_variacao.html', context)
 
 
+def GestaoEstoqueVariacao(request):
+    produtos = Produto.objects.all()
+    categorias = Categoria.objects.all()
+
+    form = VariacaoForm(request.POST or None)
+    if request.POST:
+        if form.is_valid():
+            form.save()
+            return redirect('produto:estoque_variacao')
+    context = {'form': form, 'categorias': categorias,
+               'produtos': produtos, }
+    return render(request, 'gestao_estoque.html', context)
+
+
 def variacao_add(request):
     produtos = Produto.objects.all()
     categorias = Categoria.objects.all()

@@ -37,8 +37,14 @@ class FornecedorAdmin(admin.ModelAdmin):
     search_fields = ['nome']
 
 
+class ContasPagarAdmin(admin.ModelAdmin):
+    list_display = ['data', 'fornecedor',
+                    'valor', 'pagamento']
+
+
 admin.site.register(models.Produto, ProdutoAdmin)
 admin.site.register(models.Variacao)
 admin.site.register(models.ImagemProduto)
 admin.site.register(models.Categoria)
 admin.site.register(models.Fornecedor)
+admin.site.register(models.ContasPagar, ContasPagarAdmin)

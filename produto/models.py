@@ -73,6 +73,19 @@ class Fornecedor(models.Model):
         verbose_name_plural = 'Fornecedores'
 
 
+class ContasPagar(models.Model):
+    data = models.DateField(verbose_name="Data do pagamento")
+    fornecedor = models.ForeignKey(Fornecedor, on_delete=models.PROTECT,
+                                   default=None, blank=True, null=True, verbose_name="Fornecedor")
+    valor = models.FloatField(verbose_name="Valor da dívida")
+    pagamento = models.CharField(
+        max_length=100, verbose_name="Tipo de pagamento")
+
+    class Meta:
+        verbose_name = 'Contas a pagar'
+        verbose_name_plural = 'Contas a pagar'
+
+
 class Produto(models.Model):
     nome = models.CharField(max_length=255)
     descricao_curta = models.TextField(max_length=255)

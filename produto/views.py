@@ -13,11 +13,11 @@ from django.db.models import Q
 from django.views.generic.edit import DeleteView, CreateView
 from django.forms.models import modelformset_factory
 
-from produto.forms import CategoriaForm, ProdutoForm, VariacaoForm, FornecedorForm
+from produto.forms import CategoriaForm, ProdutoForm, VariacaoForm, FornecedorForm, ContasPagarForm
 from django.views.generic import TemplateView
 from . import models
 from perfil.models import Perfil
-from .models import Categoria, Variacao, ImagemProduto, Produto, Fornecedor
+from .models import Categoria, Variacao, ImagemProduto, Produto, Fornecedor, ContasPagar
 
 
 class FornecedorCreateView(CreateView):
@@ -34,6 +34,22 @@ class FornecedorCreateView(CreateView):
 
 class CadastrosView(TemplateView):
     template_name = 'cadastros.html'
+
+
+class ContasView(TemplateView):
+    template_name = 'contas.html'
+
+
+class ContasPagarCreateView(CreateView):
+    model = ContasPagar
+    form_class = ContasPagarForm
+    template_name = 'contaspagar_create.html'
+    success_url = reverse_lazy('produto:contas')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Conta a Pagar'
+        return context
 
 
 class ListaProdutos(ListView):

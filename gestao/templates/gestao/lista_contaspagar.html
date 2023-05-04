@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load omfilters %}
+
+{% block titulo %}Contas Pagar | {% endblock %}
+
+{% block conteudo %}
+
+
+
+<div class="row">
+ <div class="col">
+  <br>
+  <h3 class="mb-4">Contas a pagar!</h3>
+  <p>Abaixo todas as contas a pagar cadastradas.</p>
+
+  <div class="table-responsive">
+   <table class="table table-striped">
+    <tr>
+     <th scope="col">Data</th>
+     <th scope="col">Fornecedor</th>
+     <th scope="col">Valor a pagar</th>
+     <th scope="col">Tipo de Pagamento</th>
+    </tr>
+
+
+    {% for conta in contaspagar %}
+    <tr>
+     <td>{{ conta.data }}</td>
+     <th scope="row">{{ conta.fornecedor }}</td>
+     <td>{{ conta.valor }}</td>
+     <td>{{ conta.pagamento }}</td>
+    </tr>
+    {% endfor %}
+   </table>
+  </div>
+ </div>
+</div>
+
+{% include 'parciais/_pagination.html' %}
+
+{% endblock %}

@@ -5,8 +5,8 @@ from django.shortcuts import render
 from django.views.generic import ListView
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
-from .models import Cliente, Fiado
-from .forms import ClienteForm, FiadoForm
+from .models import Cliente, Fiado, ContasReceber
+from .forms import ClienteForm, FiadoForm, ContasReceberForm
 
 
 class ClienteCreateView(CreateView):
@@ -18,6 +18,18 @@ class ClienteCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Novo Revendedor'
+        return context
+
+
+class ContasReceberCreateView(CreateView):
+    model = ContasReceber
+    form_class = ContasReceberForm
+    template_name = 'contasreceber_create.html'
+    success_url = reverse_lazy('produto:contas')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Conta a Receber'
         return context
 
 

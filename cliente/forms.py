@@ -23,3 +23,18 @@ class FiadoForm(forms.ModelForm):
                 }
             ),
         }
+
+
+class ContasReceberForm(forms.ModelForm):
+    class Meta:
+        model = models.ContasReceber
+        fields = '__all__'
+        widgets = {
+            'data': forms.DateInput(
+                format='%Y-%m-%d',
+                attrs={
+                    'class': 'form-control',
+                    'type': 'date',
+                }
+            ),
+        }

@@ -1,6 +1,6 @@
 from django.forms.models import BaseInlineFormSet
 from django import forms
-from .models import Produto, Variacao, ImagemProduto, Categoria, Fornecedor
+from .models import Produto, Variacao, ImagemProduto, Categoria, Fornecedor, ContasPagar
 
 
 class FornecedorForm(forms.ModelForm):
@@ -13,6 +13,21 @@ class CategoriaForm(forms.ModelForm):
     class Meta:
         model = Categoria
         fields = ('nome',)
+
+
+class ContasPagarForm(forms.ModelForm):
+    class Meta:
+        model = ContasPagar
+        fields = '__all__'
+        widgets = {
+            'data': forms.DateInput(
+                format='%Y-%m-%d',
+                attrs={
+                    'class': 'form-control',
+                    'type': 'date',
+                }
+            ),
+        }
 
 
 class VariacaoObrigatoria(BaseInlineFormSet):

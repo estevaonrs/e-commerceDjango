@@ -93,3 +93,16 @@ class Fiado(models.Model):
     valor = models.FloatField(verbose_name="Valor da dívida")
     pagamento = models.CharField(
         max_length=100, verbose_name="Tipo de pagamento")
+
+
+class ContasReceber(models.Model):
+    data = models.DateField(verbose_name="Data do pagamento")
+    cliente = models.ForeignKey(Cliente, on_delete=models.PROTECT,
+                                default=None, blank=True, null=True, verbose_name="Cliente")
+    valor = models.FloatField(verbose_name="Valor da dívida")
+    pagamento = models.CharField(
+        max_length=100, verbose_name="Tipo de pagamento")
+
+    class Meta:
+        verbose_name = 'Contas a receber'
+        verbose_name_plural = 'Contas a receber'

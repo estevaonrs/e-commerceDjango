@@ -54,7 +54,7 @@ class ContasPagarCreateView(CreateView):
 
 class ListaProdutos(ListView):
     model = models.Produto
-    template_name = 'produto/lista.html'
+    template_name = 'produto/lista_varejo.html'
     context_object_name = 'produtos'
     paginate_by = 10
     ordering = ['-id']

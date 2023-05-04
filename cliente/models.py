@@ -10,6 +10,8 @@ from utils.validacpf import valida_cpf
 class Cliente(models.Model):
     codigo = models.CharField(max_length=4,
                               verbose_name='Código', blank=True, null=True)
+    usuario = models.OneToOneField(User, on_delete=models.CASCADE,
+                                   verbose_name='Usuário')
     nome = models.CharField(max_length=100,
                             verbose_name='Nome completo', blank=True, null=True)
     idade = models.PositiveIntegerField()

@@ -1,4 +1,5 @@
 from datetime import datetime
+
 from .forms import FiadoForm
 from django.shortcuts import render, redirect
 from django.shortcuts import render
@@ -7,6 +8,7 @@ from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 from .models import Cliente, Fiado, ContasReceber
 from .forms import ClienteForm, FiadoForm, ContasReceberForm
+from produto.models import Produto
 
 
 from django.contrib.auth.decorators import login_required
@@ -17,13 +19,16 @@ def codigo_acesso(request):
     perfil = Cliente.objects.filter(usuario=request.user).first()
 
     if not perfil or not perfil.codigo:
-        return render(request, 'codigo_acesso.html', {'erro': 'Você não tem acesso ao catálogo de atacado.'})
+        return render(request, 'codigo_acesso.html', {'erro': 'Você não tem acesso ao catálogo de atacado, fale com a loja!.'})
 
     if request.method == 'POST':
         codigo_digitado = request.POST.get('codigo', '')
 
         if codigo_digitado == perfil.codigo:
-            return render(request, 'produto/lista_atacado.html')
+            produtos = Produto.objects.all()
+            context = {
+                'produtos': produtos, }
+            return render(request, 'produto/lista_atacado.html', context)
 
         else:
             return render(request, 'codigo_acesso.html', {'erro': 'Código inválido.'})

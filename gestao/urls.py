@@ -11,6 +11,9 @@ urlpatterns = [
          name='lista_contasreceber'),
     path('lista_contaspagar/', views.ContasPagar.as_view(),
          name='lista_contaspagar'),
+    path('dashboard/', views.Dashboard.as_view(),
+         name='dashboard'),
+
 
 
 ]

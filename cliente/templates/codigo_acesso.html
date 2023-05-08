@@ -1,3 +1,8 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block conteudo %}
 {% if erro %}
   <p class="text-danger">{{ erro }}</p>
 {% endif %}
@@ -9,3 +14,4 @@
   </div>
   <button type="submit" class="btn btn-primary">Acessar</button>
 </form>
+{% endblock %}

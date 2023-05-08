@@ -48,7 +48,8 @@ class Devolucao(models.Model):
     itens = models.ForeignKey(ItemPedido, on_delete=models.CASCADE)
     pagamento = models.CharField(
         max_length=255, verbose_name="Tipo de pagamento")
-    observacoes = models.CharField(max_length=255, verbose_name="Observações")
+    observacoes = models.CharField(
+        max_length=255, verbose_name="Observações")
 
     def __str__(self):
         return f'Devolução do pedido {self.pedido}'

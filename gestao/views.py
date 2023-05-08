@@ -12,6 +12,10 @@ class GestaoView(TemplateView):
     template_name = 'gestao.html'
 
 
+class Dashboard(TemplateView):
+    template_name = 'dashboard.html'
+
+
 class ListaDevolucao(ListView):
     model = Devolucao
     context_object_name = 'devolucoes'

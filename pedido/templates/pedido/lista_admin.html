@@ -1,50 +1,76 @@
-{% extends 'base.html' %}
+{% extends "includes/base_dashboard.html" %}
 {% load omfilters %}
 
 {% block titulo %}Pedidos{% endblock %}
 
-{% block conteudo %}
+{% block content %}
 
+<div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8  2xl:col-span-2">
 
-
-<div class="row">
-    <div class="col">
-        <br>
-        <h3 class="mb-4">Todos os pedidos</h3>
-        <p>Abaixo todos os pedidos realizados na loja para você administrar.</p>
-
-        <div class="table-responsive">
-            <table class="table table-striped">
-                <tr>
-                    <th scope="col">Pedido</th>
-                    <th scope="col">Usuário</th>
-                    <th scope="col">Total</th>
-                    <th scope="col">Qtd. Itens</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Mais detalhes</th>
-                </tr>
-
-
-                {% for pedido in pedidosadmin %}
-                <tr>
-                    <th scope="row">{{ pedido }}</td>
-                    <td>{{ pedido.usuario }}</td>
-                    <td>{{ pedido.total|formata_preco }}</td>
-                    <td>{{ pedido.qtd_total }}</td>
-                    <td>{{ pedido.get_status_display }}</td>
-                    <td>
+    <div class="flex items-center justify-between mb-4">
+      <div class="flex-shrink-0">
+        <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">Todos os pedidos</span><br><br>
+      </div>
+      
+    </div>
+    
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
+                    Pedido
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Usuário
+                </th>
+                <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
+                    Total
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Qtd. Itens
+                </th>
+                <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
+                    Status
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Mais detalhes
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pedido in pedidosadmin %}
+                <tr class="border-b border-gray-200 dark:border-gray-700">
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
+                        {{ pedido }}
+                    </th>
+                    <td class="px-6 py-4">
+                        {{ pedido.usuario }}
+                    </td>
+                    <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
+                        {{ pedido.total|formata_preco }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ pedido.qtd_total }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ pedido.get_status_display }}
+                    </td>
+                    <td class="px-6 py-4">
                         <a href="{% url 'pedido:detalhe_admin' pedido.id %}">
                             Ver <i class="fa fa-search-plus ml-2"></i>
                         </a>
                     </td>
                 </tr>
-                {% endfor %}
-
-
-            </table>
-        </div>
-    </div>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
+
+  </div>
+
+
+
 
 {% include 'parciais/_pagination.html' %}
 

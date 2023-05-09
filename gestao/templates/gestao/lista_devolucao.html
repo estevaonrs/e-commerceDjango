@@ -1,45 +1,74 @@
-{% extends 'base.html' %}
+{% extends "includes/base_dashboard.html" %}
 {% load omfilters %}
 
-{% block titulo %}Devoluções | {% endblock %}
+{% block titulo %}Pedidos{% endblock %}
 
-{% block conteudo %}
+{% block content %}
 
 
 
-<div class="row">
- <div class="col">
-  <br>
-  <h3 class="mb-4">Devoluções dos pedidos da loja!</h3>
-  <p>Abaixo todos as suas devoluções já cadastradas.</p>
+<div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8  2xl:col-span-2">
 
-  <div class="table-responsive">
-   <table class="table table-striped">
+ <div class="flex items-center justify-between mb-4">
+  <div class="flex-shrink-0">
+   <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">Devoluções dos pedidos da
+    loja!</span><br><br>
+  </div>
+
+ </div>
+
+ <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+  <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+   <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
     <tr>
-     <th scope="col">Usuário</th>
-     <th scope="col">Pedido</th>
-     <th scope="col">Itens</th>
-     <th scope="col">Tipo de Pagamento</th>
-     <th scope="col">Observações</th>
+     <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
+      Usuário
+     </th>
+     <th scope="col" class="px-6 py-3">
+      Pedido
+     </th>
+     <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
+      Itens
+     </th>
+     <th scope="col" class="px-6 py-3">
+      Tipo de pagamento
+     </th>
+     <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
+      Observações
+     </th>
     </tr>
-
-
+   </thead>
+   <tbody>
     {% for devolucao in devolucoes %}
-    <tr>
-     <td>{{ devolucao.usuario }}</td>
-     <th scope="row">{{ devolucao.pedido }}</td>
-     <td>{{ devolucao.itens }}</td>
-     <td>{{ devolucao.pagamento }}</td>
-     <td>{{ devolucao.observacoes }}</td>
+    <tr class="border-b border-gray-200 dark:border-gray-700">
+     <th scope="row"
+      class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
+      {{ devolucao.usuario }}
+     </th>
+     <td class="px-6 py-4">
+      {{ devolucao.pedido }}
+     </td>
+     <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
+      {{ devolucao.itens }}
+     </td>
+     <td class="px-6 py-4">
+      {{ devolucao.pagamento }}
+     </td>
+     <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
+      {{ devolucao.observacoes }}
+     </td>
+
     </tr>
     {% endfor %}
-
-
-   </table>
-  </div>
+   </tbody>
+  </table>
  </div>
 </div>
 
+
+
 {% include 'parciais/_pagination.html' %}
+
+
 
 {% endblock %}

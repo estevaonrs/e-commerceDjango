@@ -1,40 +1,63 @@
-{% extends 'base.html' %}
+{% extends "includes/base_dashboard.html" %}
 {% load omfilters %}
 
-{% block titulo %}Fiados {% endblock %}
+{% block titulo %}Pedidos{% endblock %}
 
-{% block conteudo %}
+{% block content %}
 
+<div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8  2xl:col-span-2">
 
+ <div class="flex items-center justify-between mb-4">
+  <div class="flex-shrink-0">
+   <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">Todos os pagamentos pendentes como
+    fiados</span><br><br>
+  </div>
 
-<div class="row">
- <div class="col">
-  <br>
-  <h3 class="mb-4">Todos os pagamentos pendentes como fiados</h3>
-  <p>Abaixo todos os pedidos ainda não pagos realizados na loja.</p>
+ </div>
 
-  <div class="table-responsive">
-   <table class="table table-striped">
+ <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+  <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+   <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
     <tr>
-     <th scope="col">Data</th>
-     <th scope="col">Valor</th>
-     <th scope="col">Cliente</th>
-     <th scope="col">Tipo de pagamento</th>
+     <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
+      Data
+     </th>
+     <th scope="col" class="px-6 py-3">
+      Valor
+     </th>
+     <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
+      Cliente
+     </th>
+     <th scope="col" class="px-6 py-3">
+      Tipo de pagamento
+     </th>
     </tr>
-
-
+   </thead>
+   <tbody>
     {% for fiado in fiados %}
-    <tr>
-     <th scope="row">{{ fiado.data }}</td>
-     <td>{{ fiado.valor }}</td>
-     <td>{{ fiado.cliente }}</td>
-     <td>{{ fiado.pagamento }}</td>
+    <tr class="border-b border-gray-200 dark:border-gray-700">
+     <th scope="row"
+      class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
+      {{ fiado.data }}
+     </th>
+     <td class="px-6 py-4">
+      {{ fiado.valor }}
+     </td>
+     <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
+      {{ fiado.cliente }}
+     </td>
+     <td class="px-6 py-4">
+      {{ fiado.pagamento }}
+     </td>
+
     </tr>
     {% endfor %}
-   </table>
-  </div>
+   </tbody>
+  </table>
  </div>
 </div>
+
+
 
 {% include 'parciais/_pagination.html' %}
 

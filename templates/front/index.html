@@ -1,0 +1,840 @@
+{% load static %}
+
+{% load omfilters %}
+
+
+<!doctype html>
+<html lang="en">
+
+<!-- Head -->
+
+<head>
+  <!-- Page Meta Tags-->
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+
+  <!-- Custom Google Fonts-->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Roboto:wght@300;400;700&display=auto"
+    rel="stylesheet">
+
+  <!-- Favicon -->
+  <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/favicon/apple-touch-icon.png'%}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon/favicon-32x32.png'%}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon/favicon-16x16.png'%}">
+  <link rel="mask-icon" href="{% static 'images/favicon/safari-pinned-tab.svg'%}" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+
+  <!-- Vendor CSS -->
+  <link rel="stylesheet" href="{% static 'css/libs.bundle.css'%}" />
+
+  <!-- Main CSS -->
+  <link rel="stylesheet" href="{% static 'css/theme.bundle.css'%}" />
+
+  <!-- Fix for custom scrollbar if JS is disabled-->
+  <noscript>
+    <style>
+      /**
+          * Reinstate scrolling for non-JS clients
+          */
+      .simplebar-content-wrapper {
+        overflow: auto;
+      }
+    </style>
+  </noscript>
+
+  <!-- Page Title -->
+  <title>American Brand | Início</title>
+
+</head>
+
+<body class="">
+
+  <!-- Navbar -->
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white flex-column border-0  ">
+    <div class="container-fluid">
+      <div class="w-100">
+        <div class="d-flex justify-content-between align-items-center flex-wrap">
+
+          <!-- Logo-->
+          <a class="navbar-brand fw-bold fs-3 m-0 p-0 flex-shrink-0 order-0" href="./index.html">
+            <div class="d-flex align-items-center">
+              <picture class="d-block ">
+                <img class="img-fluid" src="{% static 'images/logos/logoab.png'%}" style="width: 200px;"
+                  alt="HTML Bootstrap Template by Pixel Rocket">
+              </picture>
+            </div>
+          </a>
+          <!-- / Logo-->
+
+          <!-- Navbar Icons-->
+          <ul class="list-unstyled mb-0 d-flex align-items-center order-1 order-lg-2 nav-sidelinks">
+
+            <!-- Mobile Nav Toggler-->
+            <li class="d-lg-none">
+              <span class="nav-link text-body d-flex align-items-center cursor-pointer" data-bs-toggle="collapse"
+                data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+                aria-label="Toggle navigation"><i class="ri-menu-line ri-lg me-1"></i> Menu</span>
+            </li>
+            <!-- /Mobile Nav Toggler-->
+
+            <!-- Navbar Search-->
+            <li class="d-none d-sm-block">
+              <span class="nav-link text-body search-trigger cursor-pointer">Buscar</span>
+
+              <!-- Search navbar overlay-->
+              <div class="navbar-search d-none">
+                <div class="input-group mb-3 h-100">
+                  <span class="input-group-text px-4 bg-transparent border-0"><i
+                      class="ri-search-line ri-lg"></i></span>
+                  <input type="text" class="form-control text-body bg-transparent border-0"
+                    placeholder="Procure por produtos...">
+                  <span
+                    class="input-group-text px-4 cursor-pointer disable-child-pointer close-search bg-transparent border-0"><i
+                      class="ri-close-circle-line ri-lg"></i></span>
+                </div>
+              </div>
+              <div class="search-overlay"></div>
+              <!-- / Search navbar overlay-->
+
+            </li>
+            <!-- /Navbar Search-->
+
+            <!-- Navbar Login-->
+            <li class="ms-1 d-none d-lg-inline-block">
+              <a class="nav-link text-body" href="./login.html">
+                Login
+              </a>
+            </li>
+            <!-- /Navbar Login-->
+
+            <!-- Navbar Cart Icon-->
+            <li class="ms-1 d-inline-block position-relative dropdown-cart">
+              <button class="nav-link me-0 disable-child-pointer border-0 p-0 bg-transparent text-body" type="button">
+                Carrinho (2)
+              </button>
+              <div class="cart-dropdown dropdown-menu">
+
+                <!-- Cart Header-->
+                <div class="d-flex justify-content-between align-items-center border-bottom pt-3 pb-4">
+                  <h6 class="fw-bolder m-0">Resumo do carrinho (2 itens)</h6>
+                  <i class="ri-close-circle-line text-muted ri-lg cursor-pointer btn-close-cart"></i>
+                </div>
+                <!-- / Cart Header-->
+
+                <!-- Cart Items-->
+                <div>
+
+                  <!-- Cart Product-->
+                  <div class="row mx-0 py-4 g-0 border-bottom">
+                    <div class="col-2 position-relative">
+                      <picture class="d-block ">
+                        <img class="img-fluid" src="{% static 'images/products/product-cart-1.jpg'%}"
+                          alt="HTML Bootstrap Template by Pixel Rocket">
+                      </picture>
+                    </div>
+                    <div class="col-9 offset-1">
+                      <div>
+                        <h6 class="justify-content-between d-flex align-items-start mb-2">
+                          Nike Air VaporMax 2021
+                          <i class="ri-close-line ms-3"></i>
+                        </h6>
+                        <span class="d-block text-muted fw-bolder text-uppercase fs-9">Tamanho:
+                          9 /
+                          Qtd: 1</span>
+                      </div>
+                      <p class="fw-bolder text-end text-muted m-0">R$85.00</p>
+                    </div>
+                  </div>
+                  <!-- Cart Product-->
+                  <div class="row mx-0 py-4 g-0 border-bottom">
+                    <div class="col-2 position-relative">
+                      <picture class="d-block ">
+                        <img class="img-fluid" src="{% static 'images/products/product-cart-2.jpg'%}"
+                          alt="HTML Bootstrap Template by Pixel Rocket">
+                      </picture>
+                    </div>
+                    <div class="col-9 offset-1">
+                      <div>
+                        <h6 class="justify-content-between d-flex align-items-start mb-2">
+                          Nike ZoomX Vaporfly
+                          <i class="ri-close-line ms-3"></i>
+                        </h6>
+                        <span class="d-block text-muted fw-bolder text-uppercase fs-9">Tamanho:
+                          11
+                          / Qtd: 1</span>
+                      </div>
+                      <p class="fw-bolder text-end text-muted m-0">R$125.00</p>
+                    </div>
+                  </div>
+                </div>
+                <!-- /Cart Items-->
+
+                <!-- Cart Summary-->
+                <div>
+                  <div class="pt-3">
+                    <div
+                      class="d-flex flex-column flex-md-row justify-content-md-between align-items-md-start mb-4 mb-md-2">
+                      <div>
+                        <p class="m-0 fw-bold fs-5">Total</p>
+                      </div>
+                      <p class="m-0 fs-5 fw-bold">$422.99</p>
+                    </div>
+                  </div>
+                  <a href="./cart.html" class="btn btn-outline-dark w-100 text-center mt-4" role="button">Ver
+                    Carrinho</a>
+                  <a href="./checkout.html" class="btn btn-dark w-100 text-center mt-2" role="button">Proceder para o
+                    Checkout</a>
+                </div>
+                <!-- / Cart Summary-->
+              </div>
+
+
+            </li>
+            <!-- /Navbar Cart Icon-->
+
+          </ul>
+          <!-- Navbar Icons-->
+
+          <!-- Main Navigation-->
+          <div
+            class="flex-shrink-0 collapse navbar-collapse navbar-collapse-light w-auto flex-grow-1 order-2 order-lg-1"
+            id="navbarNavDropdown">
+
+            <!-- Menu-->
+            <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+              <li class="nav-item dropdown dropdown position-static">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                  Camiseta
+                </a>
+
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                  Short
+                </a>
+
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="./category.html" role="button">
+                  Regata
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="./category.html" role="button">
+                  Todos os produtos
+                </a>
+              </li>
+
+            </ul> <!-- / Menu-->
+
+          </div>
+          <!-- / Main Navigation-->
+
+        </div>
+      </div>
+    </div>
+  </nav>
+  <!-- / Navbar--> <!-- / Navbar-->
+
+  <!-- Main Section-->
+  <section class="mt-0 overflow-hidden ">
+    <!-- Page Content Goes Here -->
+
+    <!-- / Top banner -->
+    <section class="vh-75 vh-lg-60 container-fluid rounded overflow-hidden" data-aos="fade-in">
+      <!-- Swiper Info -->
+      <div class="swiper-container overflow-hidden rounded h-100 bg-light" data-swiper data-options='{
+              "spaceBetween": 0,
+              "slidesPerView": 1,
+              "effect": "fade",
+              "speed": 1000,
+              "loop": true,
+              "parallax": true,
+              "observer": true,
+              "observeParents": true,
+              "lazy": {
+                "loadPrevNext": true
+                },
+                "autoplay": {
+                  "delay": 5000,
+                  "disableOnInteraction": false
+              },
+              "pagination": {
+                "el": ".swiper-pagination",
+                "clickable": true
+                }
+              }'>
+        <div class="swiper-wrapper">
+
+          <!-- Slide-->
+          <div class="swiper-slide position-relative h-100 w-100">
+            <div class="w-100 h-100 overflow-hidden position-absolute z-index-1 top-0 start-0 end-0 bottom-0">
+              <div class="w-100 h-100 bg-img-cover bg-pos-center-center overflow-hidden" data-swiper-parallax="-100"
+                style=" will-change: transform; background-image: url(./images/banners/banner-2.jpg)">
+              </div>
+            </div>
+            <div
+              class="container position-relative z-index-10 d-flex h-100 align-items-start flex-column justify-content-center">
+              <p class="title-small text-white opacity-75 mb-0" data-swiper-parallax="-100">Lifestyle</p>
+              <h2 class="display-3 tracking-wide fw-bold text-uppercase tracking-wide text-white"
+                data-swiper-parallax="100">
+                <span class="text-outline-light">American</span> Brand
+              </h2>
+              <div data-swiper-parallax-y="-25">
+                <a href="./category.html" class="btn btn-psuedo text-white" role="button">Compre
+                  agora</a>
+              </div>
+            </div>
+          </div>
+          <!-- /Slide-->
+
+          <!-- Slide-->
+          <div class="swiper-slide position-relative h-100 w-100">
+            <div class="w-100 h-100 overflow-hidden position-absolute z-index-1 top-0 start-0 end-0 bottom-0">
+              <div class="w-100 h-100 bg-img-cover bg-pos-center-center overflow-hidden" data-swiper-parallax="-100"
+                style=" will-change: transform; background-image: url(./static/images/banners/banner-2.jpg)">
+              </div>
+            </div>
+            <div
+              class="container position-relative z-index-10 d-flex h-100 align-items-start flex-column justify-content-center">
+              <p class="title-small text-white opacity-75 mb-0" data-swiper-parallax="-100">Lifestyle</p>
+              <h2 class="display-3 tracking-wide fw-bold text-uppercase tracking-wide text-white"
+                data-swiper-parallax="100">
+                <span class="text-outline-light">American</span> Brand
+              </h2>
+              <div data-swiper-parallax-y="-25">
+                <a href="./category.html" class="btn btn-psuedo text-white" role="button">Compre
+                  agora</a>
+              </div>
+            </div>
+          </div>
+          <!--/Slide-->
+
+          <!-- Slide-->
+          <div class="swiper-slide position-relative h-100 w-100">
+            <div class="w-100 h-100 overflow-hidden position-absolute z-index-1 top-0 start-0 end-0 bottom-0">
+              <div class="w-100 h-100 bg-img-cover bg-pos-center-center overflow-hidden" data-swiper-parallax="-100"
+                style=" will-change: transform; background-image: url(./static/images/banners/banner-4.jpg)">
+              </div>
+            </div>
+            <div
+              class="container position-relative z-index-10 d-flex h-100 align-items-start flex-column justify-content-center">
+              <p class="title-small text-white opacity-75 mb-0" data-swiper-parallax="-100">Lifestyle</p>
+              <h2 class="display-3 tracking-wide fw-bold text-uppercase tracking-wide text-white"
+                data-swiper-parallax="100">
+                <span class="text-outline-light">American</span> Brand
+              </h2>
+              <div data-swiper-parallax-y="-25">
+                <a href="./category.html" class="btn btn-psuedo text-white" role="button">Compre
+                  agora</a>
+              </div>
+            </div>
+          </div>
+          <!-- /Slide-->
+
+          <!--Slide-->
+          <div class="swiper-slide position-relative h-100 w-100">
+            <div class="w-100 h-100 overflow-hidden position-absolute z-index-1 top-0 start-0 end-0 bottom-0">
+              <div class="w-100 h-100 bg-img-cover bg-pos-center-center overflow-hidden" data-swiper-parallax="-100"
+                style=" will-change: transform; background-image: url(./static/images/banners/banner-3.jpg)">
+              </div>
+            </div>
+            <div
+              class="container position-relative z-index-10 d-flex h-100 align-items-start flex-column justify-content-center">
+              <p class="title-small text-white opacity-75 mb-0" data-swiper-parallax="-100">Lifestyle</p>
+              <h2 class="display-3 tracking-wide fw-bold text-uppercase tracking-wide text-white"
+                data-swiper-parallax="100">
+                <span class="text-outline-light">American</span> Brand
+              </h2>
+              <div data-swiper-parallax-y="-25">
+                <a href="./category.html" class="btn btn-psuedo text-white" role="button">Compre
+                  agora</a>
+              </div>
+            </div>
+          </div>
+          <!--/Slide-->
+
+        </div>
+
+        <div class="swiper-pagination swiper-pagination-bullet-light"></div>
+
+      </div>
+      <!-- / Swiper Info-->
+    </section>
+    <!--/ Top Banner-->
+
+    <!-- Featured Brands-->
+    <div class="brand-section container-fluid" data-aos="fade-in">
+      <div class="bg-overlay-sides-white-to-transparent bg-white py-5 py-md-7">
+        <section class="marquee marquee-hover-pause">
+          <div class="marquee-body">
+            <div class="marquee-section animation-marquee-50">
+              <div class="mx-3 mx-lg-5 f-w-24">
+                <a class="d-block" href="./category.html">
+                  <picture>
+                    <img class="img-fluid d-table mx-auto" src="{% static 'images/logos/logoab.png'%}" alt="">
+                  </picture>
+                </a>
+              </div>
+              <div class="mx-3 mx-lg-5 f-w-24">
+                <a class="d-block" href="./category.html">
+                  <picture>
+                    <img class="img-fluid d-table mx-auto" src="{% static 'images/logos/logoab2.png'%}" alt="">
+                  </picture>
+                </a>
+              </div>
+              <div class="mx-3 mx-lg-5 f-w-24">
+                <a class="d-block" href="./category.html">
+                  <picture>
+                    <img class="img-fluid d-table mx-auto" src="{% static 'images/logos/logoab.png'%}" alt="">
+                  </picture>
+                </a>
+              </div>
+              <div class="mx-3 mx-lg-5 f-w-24">
+                <a class="d-block" href="./category.html">
+                  <picture>
+                    <img class="img-fluid d-table mx-auto" src="{% static 'images/logos/logoab2.png'%}" alt="">
+                  </picture>
+                </a>
+              </div>
+              <div class="mx-3 mx-lg-5 f-w-24">
+                <a class="d-block" href="./category.html">
+                  <picture>
+                    <img class="img-fluid d-table mx-auto" src="{% static 'images/logos/logoab.png'%}" alt="">
+                  </picture>
+                </a>
+              </div>
+              <div class="mx-3 mx-lg-5 f-w-24">
+                <a class="d-block" href="./category.html">
+                  <picture>
+                    <img class="img-fluid d-table mx-auto" src="{% static 'images/logos/logoab2.png'%}" alt="">
+                  </picture>
+                </a>
+              </div>
+              <div class="mx-3 mx-lg-5 f-w-24">
+                <a class="d-block" href="./category.html">
+                  <picture>
+                    <img class="img-fluid d-table mx-auto" src="{% static 'images/logos/logoab.png'%}" alt="">
+                  </picture>
+                </a>
+              </div>
+              <div class="mx-3 mx-lg-5 f-w-24">
+                <a class="d-block" href="./category.html">
+                  <picture>
+                    <img class="img-fluid d-table mx-auto" src="{% static 'images/logos/logoab2.png'%}" alt="">
+                  </picture>
+                </a>
+              </div>
+              <div class="mx-3 mx-lg-5 f-w-24">
+                <a class="d-block" href="./category.html">
+                  <picture>
+                    <img class="img-fluid d-table mx-auto" src="{% static 'images/logos/logoab.png'%}" alt="">
+                  </picture>
+                </a>
+              </div>
+            </div>
+            <div class="marquee-section animation-marquee-50">
+              <div class="mx-5 f-w-24">
+                <a class="d-block" href="./category.html">
+                  <picture>
+                    <img class="img-fluid d-table mx-auto" src="{% static 'images/logos/logoab2.png'%}" alt="">
+                  </picture>
+                </a>
+              </div>
+              <div class="mx-5 f-w-24">
+                <a class="d-block" href="./category.html">
+                  <picture>
+                    <img class="img-fluid d-table mx-auto" src="{% static 'images/logos/logoab.png'%}" alt="">
+                  </picture>
+                </a>
+              </div>
+              <div class="mx-5 f-w-24">
+                <a class="d-block" href="./category.html">
+                  <picture>
+                    <img class="img-fluid d-table mx-auto" src="{% static 'images/logos/logoab2.png'%}" alt="">
+                  </picture>
+                </a>
+              </div>
+              <div class="mx-5 f-w-24">
+                <a class="d-block" href="./category.html">
+                  <picture>
+                    <img class="img-fluid d-table mx-auto" src="{% static 'images/logos/logoab.png'%}" alt="">
+                  </picture>
+                </a>
+              </div>
+              <div class="mx-5 f-w-24">
+                <a class="d-block" href="./category.html">
+                  <picture>
+                    <img class="img-fluid d-table mx-auto" src="{% static 'images/logos/logoab2.png'%}" alt="">
+                  </picture>
+                </a>
+              </div>
+              <div class="mx-5 f-w-24">
+                <a class="d-block" href="./category.html">
+                  <picture>
+                    <img class="img-fluid d-table mx-auto" src="{% static 'images/logos/logoab.png'%}" alt="">
+                  </picture>
+                </a>
+              </div>
+              <div class="mx-5 f-w-24">
+                <a class="d-block" href="./category.html">
+                  <picture>
+                    <img class="img-fluid d-table mx-auto" src="{% static 'images/logos/logoab2.png'%}" alt="">
+                  </picture>
+                </a>
+              </div>
+              <div class="mx-5 f-w-24">
+                <a class="d-block" href="./category.html">
+                  <picture>
+                    <img class="img-fluid d-table mx-auto" src="{% static 'images/logos/logoab.png'%}" alt="">
+                  </picture>
+                </a>
+              </div>
+              <div class="mx-5 f-w-24">
+                <a class="d-block" href="./category.html">
+                  <picture>
+                    <img class="img-fluid d-table mx-auto" src="{% static 'images/logos/logoab2.png'%}" alt="">
+                  </picture>
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+    <!--/ Featured Brands-->
+    <div class="container-fluid" data-aos="fade-in">
+      <!-- Category Toolbar-->
+      <div class="d-flex justify-content-between items-center pt-5 pb-4 flex-column flex-lg-row">
+        <div>
+
+          <h1 class="fw-bold fs-3 mb-2">CATÁLOGO</h1>
+          <p class="m-0 text-muted small">Mostrando 10 produtos por página</p>
+        </div>
+        <div class="d-flex justify-content-end align-items-center mt-4 mt-lg-0 flex-column flex-md-row">
+
+          <!-- Filter Trigger-->
+          <button class="btn bg-light p-3 me-md-3 d-flex align-items-center fs-7 lh-1 w-100 mb-2 mb-md-0 w-md-auto "
+            type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilters"
+            aria-controls="offcanvasFilters">
+            <i class="ri-equalizer-line me-2"></i> Filtro
+          </button>
+          <!-- / Filter Trigger-->
+
+          <!-- Sort Options-->
+          <select class="form-select form-select-sm border-0 bg-light p-3 pe-5 lh-1 fs-7">
+            <option selected>Organizado por</option>
+            <option value="1">Maior valor</option>
+            <option value="2">Menor valor</option>
+            <option value="3">Nome</option>
+          </select>
+          <!-- / Sort Options-->
+        </div>
+      </div> <!-- /Category Toolbar-->
+
+      <!-- Products-->
+      <div class="row g-4">
+
+
+        {% for produto in produtos %}
+        <div class="col-12 col-sm-6 col-lg-4">
+          <!-- Card Product-->
+          <div class="card border border-transparent position-relative overflow-hidden h-100 transparent">
+            <div class="card-img position-relative">
+              <div class="card-badges">
+                <span class="badge badge-card"><span class="f-w-2 f-h-2 bg-success rounded-circle d-block me-1"></span>
+                  Produto
+                  Novo</span>
+              </div>
+              <span class="position-absolute top-0 end-0 p-2 z-index-20 text-muted"><i class="ri-heart-line"></i></span>
+              {% if produto.imagem %}
+              <picture class="position-relative overflow-hidden d-block bg-light">
+                <img class="w-100 img-fluid position-relative z-index-10" title="" src="{{ produto.imagem.url }}"
+                  alt="{{ produto.nome }}">
+              </picture>
+              {% endif %}
+              <div class="position-absolute start-0 bottom-0 end-0 z-index-20 p-2">
+                <button class="btn btn-quick-add"><i class="ri-add-line me-2"></i> Compre
+                  Agora</button>
+              </div>
+            </div>
+            <div class="card-body px-0">
+              <a class="text-decoration-none link-cover" href="./product.html">{{ produto.nome }}</a>
+              <small class="text-muted d-block">3 cores, 4 tamanhos</small>
+              {% if produto.preco_marketing_promocional %}
+              <p class="mt-2 mb-0 small">{{ produto.preco_marketing_promocional|formata_preco }}</p>
+              {% endif %}
+              <p class="mt-2 mb-0 small"></p>{{ produto.preco_marketing|formata_preco }}</p>
+            </div>
+          </div>
+          <!--/ Card Product-->
+        </div>
+        {% endfor %}
+      </div>
+      <!-- / Products-->
+
+      <!-- Pagination-->
+      <div class="pagination">
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1">&laquo;</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&lsaquo;</a>
+            </li>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+
+            {% if page_obj.number == num %}
+            <li class="page-item active">
+                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+            </li>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+            </li>
+            {% endif %}
+
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">&rsaquo;</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a>
+            </li>
+            {% endif %}
+        </ul>
+    </div> <!-- / Pagination-->
+</div>
+
+
+    <div class="container-fluid">
+
+      <!-- Featured Categories-->
+      <div class="m-0">
+        <!-- Swiper Latest -->
+        <div class="swiper-container overflow-hidden overflow-lg-visible" data-swiper data-options='{
+                        "spaceBetween": 25,
+                        "slidesPerView": 1,
+                        "observer": true,
+                        "observeParents": true,
+                        "breakpoints": {     
+                          "540": {
+                            "slidesPerView": 1,
+                            "spaceBetween": 0
+                          },
+                          "770": {
+                            "slidesPerView": 2
+                          },
+                          "1024": {
+                            "slidesPerView": 3
+                          },
+                          "1200": {
+                            "slidesPerView": 4
+                          },
+                          "1500": {
+                            "slidesPerView": 5
+                          }
+                        },   
+                        "navigation": {
+                          "nextEl": ".swiper-next",
+                          "prevEl": ".swiper-prev"
+                        }
+                      }'>
+          <div class="swiper-wrapper">
+            <div class="swiper-slide align-self-stretch bg-transparent h-auto">
+              <div class="me-xl-n4 me-xxl-n5" data-aos="fade-up" data-aos-delay="000">
+                <picture class="d-block mb-4 img-clip-shape-one">
+                  <img class="w-100" title="" src="{% static 'images/products/a.jpeg'%}"
+                    alt="HTML Bootstrap Template by Pixel Rocket">
+                </picture>
+                <p class="title-small mb-2 text-muted">Mais vendidos</p>
+                <h4 class="lead fw-bold">Premium Essentials</h4>
+                <a href="./category.html" class="btn btn-psuedo align-self-start">Shop Now</a>
+              </div>
+            </div>
+            <div class="swiper-slide align-self-stretch bg-transparent h-auto">
+              <div class="me-xl-n4 me-xxl-n5" data-aos="fade-up" data-aos-delay="100">
+                <picture class="d-block mb-4 img-clip-shape-one">
+                  <img class="w-100" title="" src="{% static 'images/products/c.jpeg'%}"
+                    alt="HTML Bootstrap Template by Pixel Rocket">
+                </picture>
+                <p class="title-small mb-2 text-muted">Curated Selection</p>
+                <h4 class="lead fw-bold">Our Favourites</h4>
+                <a href="./category.html" class="btn btn-psuedo align-self-start">Shop Now</a>
+              </div>
+            </div>
+            <div class="swiper-slide align-self-stretch bg-transparent h-auto">
+              <div class="me-xl-n4 me-xxl-n5" data-aos="fade-up" data-aos-delay="200">
+                <picture class="d-block mb-4 img-clip-shape-one">
+                  <img class="w-100" title="" src="{% static 'images/products/d.jpeg'%}"
+                    alt="HTML Bootstrap Template by Pixel Rocket">
+                </picture>
+                <p class="title-small mb-2 text-muted">Streetwear Basics</p>
+                <h4 class="lead fw-bold">T-Shirts &amp; Shirts</h4>
+                <a href="./category.html" class="btn btn-psuedo align-self-start">Shop Now</a>
+              </div>
+            </div>
+            <div class="swiper-slide align-self-stretch bg-transparent h-auto">
+              <div class="me-xl-n4 me-xxl-n5" data-aos="fade-up" data-aos-delay="300">
+                <picture class="d-block mb-4 img-clip-shape-one">
+                  <img class="w-100" title="" src="{% static 'images/products/e.jpeg'%}"
+                    alt="HTML Bootstrap Template by Pixel Rocket">
+                </picture>
+                <p class="title-small mb-2 text-muted">Waterproof &amp; Lightweight</p>
+                <h4 class="lead fw-bold">Jackets &amp; Coats</h4>
+                <a href="./category.html" class="btn btn-psuedo align-self-start">Shop Now</a>
+              </div>
+            </div>
+            <div class="swiper-slide align-self-stretch bg-transparent h-auto">
+              <div class="me-xl-n4 me-xxl-n5" data-aos="fade-up" data-aos-delay="400">
+                <picture class="d-block mb-4 img-clip-shape-one">
+                  <img class="w-100" title="" src="{% static 'images/products/f.jpeg'%}"
+                    alt="HTML Bootstrap Template by Pixel Rocket">
+                </picture>
+                <p class="title-small mb-2 text-muted">Keep Warm</p>
+                <h4 class="lead fw-bold">Hats &amp; Beanies</h4>
+                <a href="./category.html" class="btn btn-psuedo align-self-start">Shop Now</a>
+              </div>
+            </div>
+            <div class="swiper-slide align-self-stretch bg-transparent h-auto">
+              <div class="me-xl-n4 me-xxl-n5" data-aos="fade-up" data-aos-delay="500">
+                <picture class="d-block mb-4 img-clip-shape-one">
+                  <img class="w-100" title="" src="{% static 'images/products/g.jpeg'%}"
+                    alt="HTML Bootstrap Template by Pixel Rocket">
+                </picture>
+                <p class="title-small mb-2 text-muted">20% Off</p>
+                <h4 class="lead fw-bold">Summer Sale</h4>
+                <a href="./category.html" class="btn btn-psuedo align-self-start">Shop Now</a>
+              </div>
+            </div>
+            <div class="swiper-slide align-self-stretch bg-transparent h-auto">
+              <div class="me-xl-n4 me-xxl-n5" data-aos="fade-up" data-aos-delay="600">
+                <picture class="d-block mb-4 img-clip-shape-one">
+                  <img class="w-100" title="" src="{% static 'images/products/h.jpeg'%}"
+                    alt="HTML Bootstrap Template by Pixel Rocket">
+                </picture>
+                <p class="title-small mb-2 text-muted">Just Arrived</p>
+                <h4 class="lead fw-bold">Latest Kicks</h4>
+                <a href="./category.html" class="btn btn-psuedo align-self-start">Shop Now</a>
+              </div>
+            </div>
+
+            <div class="swiper-slide align-self-stretch bg-transparent h-auto">
+              <div class="me-xl-n4 me-xxl-n5" data-aos="fade-up" data-aos-delay="700">
+                <picture class="d-block mb-4 img-clip-shape-one">
+                  <img class="w-100" title="" src="{% static 'images/products/i.jpeg'%}"
+                    alt="HTML Bootstrap Template by Pixel Rocket">
+                </picture>
+                <p class="title-small mb-2 text-muted">Accessories</p>
+                <h4 class="lead fw-bold">Bags &amp; Rugsacks</h4>
+                <a href="./category.html" class="btn btn-psuedo align-self-start">Shop Now</a>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="swiper-btn swiper-prev swiper-disabled-hide swiper-btn-side btn-icon bg-white text-dark ms-3 shadow mt-n5">
+            <i class="ri-arrow-left-s-line "></i>
+          </div>
+          <div
+            class="swiper-btn swiper-next swiper-disabled-hide swiper-btn-side swiper-btn-side-right btn-icon bg-white text-dark me-3 shadow mt-n5">
+            <i class="ri-arrow-right-s-line ri-lg"></i>
+          </div>
+
+        </div>
+        <!-- / Swiper Latest--> <!-- SVG Used for Clipath on featured images above-->
+        <svg width="0" height="0">
+          <defs>
+            <clipPath id="svg-slanted-one" clipPathUnits="objectBoundingBox">
+              <path
+                d="M0.822,1 H0.016 a0.015,0.015,0,0,1,-0.016,-0.015 L0.158,0.015 A0.016,0.015,0,0,1,0.173,0 L0.984,0 a0.016,0.015,0,0,1,0.016,0.015 L0.837,0.985 A0.016,0.015,0,0,1,0.822,1">
+              </path>
+            </clipPath>
+          </defs>
+        </svg>
+      </div>
+      <!-- /Featured Categories-->
+
+
+      <!-- Homepage Banners-->
+
+      <!-- / Homepage Banners-->
+
+      <!-- Instagram-->
+      <!-- Swiper Instagram -->
+      <div data-aos="fade-in">
+        <h3 class="title-small text-muted text-center mb-3 mt-5"><i class="ri-instagram-line align-bottom"></i>
+          AMERICANBRAND
+        </h3>
+
+      </div>
+      <!-- /Swiper Instagram-->
+      <!-- / Instagram-->
+
+    </div>
+
+    <!-- /Page Content -->
+  </section>
+  <!-- / Main Section-->
+
+  <!-- Footer -->
+  <footer class="border-top py-5 mt-4  ">
+    <div class="container-fluid">
+      <div class="d-flex justify-content-between align-items-center flex-column flex-lg-row">
+        <div>
+          <ul class="list-unstyled">
+            <li class="d-inline-block me-1"><a class="text-decoration-none text-dark-hover transition-all" href="#"><i
+                  class="ri-instagram-fill"></i></a></li>
+            <li class="d-inline-block me-1"><a class="text-decoration-none text-dark-hover transition-all" href="#"><i
+                  class="ri-facebook-fill"></i></a></li>
+            <li class="d-inline-block me-1"><a class="text-decoration-none text-dark-hover transition-all" href="#"><i
+                  class="ri-twitter-fill"></i></a></li>
+            <li class="d-inline-block me-1"><a class="text-decoration-none text-dark-hover transition-all" href="#"><i
+                  class="ri-snapchat-fill"></i></a></li>
+          </ul>
+        </div>
+        <div class="d-flex align-items-center justify-content-end flex-column flex-lg-row">
+          <p class="small m-0 text-center text-lg-start">&copy; 2023 Estevão Todos os Direitos Reservados.
+
+          </p>
+          <ul class="list-unstyled mb-0 ms-lg-4 mt-3 mt-lg-0 d-flex justify-content-end align-items-center">
+            <li class="bg-light p-2 d-flex align-items-center justify-content-center me-2">
+              <i class="pi pi-sm pi-paypal"></i>
+            </li>
+            <li class="bg-light p-2 d-flex align-items-center justify-content-center me-2">
+              <i class="pi pi-sm pi-mastercard"></i>
+            </li>
+            <li class="bg-light p-2 d-flex align-items-center justify-content-center me-2">
+              <i class="pi pi-sm pi-american-express"></i>
+            </li>
+            <li class="bg-light p-2 d-flex align-items-center justify-content-center"><i class="pi pi-sm pi-visa"></i>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer> <!-- / Footer-->
+
+
+  <!-- Theme JS -->
+  <!-- Vendor JS -->
+  <script src=".{% static 'js/vendor.bundle.js'%}"></script>
+
+  <!-- Theme JS -->
+  <script src="{% static 'js/theme.bundle.js'%}"></script>
+</body>
+</html>

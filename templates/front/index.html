@@ -108,96 +108,36 @@
 
             <!-- Navbar Login-->
             <li class="ms-1 d-none d-lg-inline-block">
-              <a class="nav-link text-body" href="./login.html">
+              <a class="nav-link text-body" href="{% url 'perfil:criar' %}">
                 Login
               </a>
             </li>
             <!-- /Navbar Login-->
 
+
+            <!-- Navbar Cadastro-->
+            <li class="ms-1 d-none d-lg-inline-block">
+              <a class="nav-link text-body" href="{% url 'perfil:criar' %}">
+                Criar conta
+              </a>
+            </li>
+            <!-- /Navbar Cadastro-->
+
+            {% if request.session.carrinho %}
+
             <!-- Navbar Cart Icon-->
             <li class="ms-1 d-inline-block position-relative dropdown-cart">
-              <button class="nav-link me-0 disable-child-pointer border-0 p-0 bg-transparent text-body" type="button">
-                Carrinho (2)
-              </button>
-              <div class="cart-dropdown dropdown-menu">
 
-                <!-- Cart Header-->
-                <div class="d-flex justify-content-between align-items-center border-bottom pt-3 pb-4">
-                  <h6 class="fw-bolder m-0">Resumo do carrinho (2 itens)</h6>
-                  <i class="ri-close-circle-line text-muted ri-lg cursor-pointer btn-close-cart"></i>
-                </div>
-                <!-- / Cart Header-->
+              <a class="nav-link text-body" href="{% url 'produto:carrinho' %}">
+                Carrinho ({{ request.session.carrinho|cart_total_qtd }}X)
+              </a>
 
-                <!-- Cart Items-->
-                <div>
-
-                  <!-- Cart Product-->
-                  <div class="row mx-0 py-4 g-0 border-bottom">
-                    <div class="col-2 position-relative">
-                      <picture class="d-block ">
-                        <img class="img-fluid" src="{% static 'images/products/product-cart-1.jpg'%}"
-                          alt="HTML Bootstrap Template by Pixel Rocket">
-                      </picture>
-                    </div>
-                    <div class="col-9 offset-1">
-                      <div>
-                        <h6 class="justify-content-between d-flex align-items-start mb-2">
-                          Nike Air VaporMax 2021
-                          <i class="ri-close-line ms-3"></i>
-                        </h6>
-                        <span class="d-block text-muted fw-bolder text-uppercase fs-9">Tamanho:
-                          9 /
-                          Qtd: 1</span>
-                      </div>
-                      <p class="fw-bolder text-end text-muted m-0">R$85.00</p>
-                    </div>
-                  </div>
-                  <!-- Cart Product-->
-                  <div class="row mx-0 py-4 g-0 border-bottom">
-                    <div class="col-2 position-relative">
-                      <picture class="d-block ">
-                        <img class="img-fluid" src="{% static 'images/products/product-cart-2.jpg'%}"
-                          alt="HTML Bootstrap Template by Pixel Rocket">
-                      </picture>
-                    </div>
-                    <div class="col-9 offset-1">
-                      <div>
-                        <h6 class="justify-content-between d-flex align-items-start mb-2">
-                          Nike ZoomX Vaporfly
-                          <i class="ri-close-line ms-3"></i>
-                        </h6>
-                        <span class="d-block text-muted fw-bolder text-uppercase fs-9">Tamanho:
-                          11
-                          / Qtd: 1</span>
-                      </div>
-                      <p class="fw-bolder text-end text-muted m-0">R$125.00</p>
-                    </div>
-                  </div>
-                </div>
-                <!-- /Cart Items-->
-
-                <!-- Cart Summary-->
-                <div>
-                  <div class="pt-3">
-                    <div
-                      class="d-flex flex-column flex-md-row justify-content-md-between align-items-md-start mb-4 mb-md-2">
-                      <div>
-                        <p class="m-0 fw-bold fs-5">Total</p>
-                      </div>
-                      <p class="m-0 fs-5 fw-bold">$422.99</p>
-                    </div>
-                  </div>
-                  <a href="./cart.html" class="btn btn-outline-dark w-100 text-center mt-4" role="button">Ver
-                    Carrinho</a>
-                  <a href="./checkout.html" class="btn btn-dark w-100 text-center mt-2" role="button">Proceder para o
-                    Checkout</a>
-                </div>
-                <!-- / Cart Summary-->
-              </div>
-
+              {% endif %}
 
             </li>
             <!-- /Navbar Cart Icon-->
+
+
 
           </ul>
           <!-- Navbar Icons-->
@@ -279,7 +219,7 @@
           <div class="swiper-slide position-relative h-100 w-100">
             <div class="w-100 h-100 overflow-hidden position-absolute z-index-1 top-0 start-0 end-0 bottom-0">
               <div class="w-100 h-100 bg-img-cover bg-pos-center-center overflow-hidden" data-swiper-parallax="-100"
-                style=" will-change: transform; background-image: url(./images/banners/banner-2.jpg)">
+                style=" will-change: transform; background-image: url({% static 'images/banners/banner-1.jpg'%})">
               </div>
             </div>
             <div
@@ -301,7 +241,7 @@
           <div class="swiper-slide position-relative h-100 w-100">
             <div class="w-100 h-100 overflow-hidden position-absolute z-index-1 top-0 start-0 end-0 bottom-0">
               <div class="w-100 h-100 bg-img-cover bg-pos-center-center overflow-hidden" data-swiper-parallax="-100"
-                style=" will-change: transform; background-image: url(./static/images/banners/banner-2.jpg)">
+                style=" will-change: transform; background-image: url({% static 'images/banners/banner-2.jpg'%})">
               </div>
             </div>
             <div
@@ -323,7 +263,7 @@
           <div class="swiper-slide position-relative h-100 w-100">
             <div class="w-100 h-100 overflow-hidden position-absolute z-index-1 top-0 start-0 end-0 bottom-0">
               <div class="w-100 h-100 bg-img-cover bg-pos-center-center overflow-hidden" data-swiper-parallax="-100"
-                style=" will-change: transform; background-image: url(./static/images/banners/banner-4.jpg)">
+                style=" will-change: transform; background-image: url({% static 'images/banners/banner-3.jpg'%})">
               </div>
             </div>
             <div
@@ -345,7 +285,7 @@
           <div class="swiper-slide position-relative h-100 w-100">
             <div class="w-100 h-100 overflow-hidden position-absolute z-index-1 top-0 start-0 end-0 bottom-0">
               <div class="w-100 h-100 bg-img-cover bg-pos-center-center overflow-hidden" data-swiper-parallax="-100"
-                style=" will-change: transform; background-image: url(./static/images/banners/banner-3.jpg)">
+                style=" will-change: transform; background-image: url({% static 'images/banners/banner-4.jpg'%})">
               </div>
             </div>
             <div
@@ -568,7 +508,7 @@
               </div>
             </div>
             <div class="card-body px-0">
-              <a class="text-decoration-none link-cover" href="./product.html">{{ produto.nome }}</a>
+              <a class="text-decoration-none link-cover" href="{% url 'produto:detalhe' produto.slug %}">{{ produto.nome }}</a>
               <small class="text-muted d-block">3 cores, 4 tamanhos</small>
               {% if produto.preco_marketing_promocional %}
               <p class="mt-2 mb-0 small">{{ produto.preco_marketing_promocional|formata_preco }}</p>

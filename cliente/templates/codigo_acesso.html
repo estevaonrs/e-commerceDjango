@@ -2,16 +2,49 @@
 
 {% load crispy_forms_tags %}
 
+{% load static %}
+
+{% load omfilters %}
+
+{% block titulo %}Produtos | {% endblock %}
+
 {% block conteudo %}
-{% if erro %}
-  <p class="text-danger">{{ erro }}</p>
-{% endif %}
-<form method="post">
-  {% csrf_token %}
-  <div class="form-group">
-    <label for="codigo">Código de acesso:</label>
-    <input type="text" class="form-control" id="codigo" name="codigo">
-  </div>
-  <button type="submit" class="btn btn-primary">Acessar</button>
-</form>
+
+
+
+    <!-- Main Section-->
+    <section class="mt-0 ">
+        <!-- Page Content Goes Here -->
+
+        <!-- Breadcrumbs-->
+        <div class="bg-dark py-6">
+            <div class="container-fluid">
+                <nav class="m-0" aria-label="breadcrumb">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item breadcrumb-light"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item breadcrumb-light"><a href="#">T-Shirts</a></li>
+                        <li class="breadcrumb-item  breadcrumb-light active" aria-current="page">Osaka Japan Mens
+                            T-Shirt</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <!-- / Breadcrumbs-->
+
+        <div class="container-fluid mt-5">                   
+            {% if erro %}
+            <p class="text-danger">{{ erro }}</p>
+            {% endif %}
+            <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="codigo">Código de acesso:</label>
+              <input type="text" class="form-control" id="codigo" name="codigo">
+            </div>
+            <button type="submit" class="btn btn-primary">Acessar</button>
+            </form>
+        </div>
+        <!-- /Page Content -->
+    </section>
+    <!-- / Main Section-->
 {% endblock %}

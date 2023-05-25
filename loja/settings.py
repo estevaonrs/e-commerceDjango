@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'cliente',
     'gestao',
     'bootstrap_datepicker_plus',
+    'rest_framework',
 
 
 

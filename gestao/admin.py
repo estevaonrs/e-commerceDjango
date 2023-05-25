@@ -1,3 +1,9 @@
 from django.contrib import admin
+from . import models
 
-# Register your models here.
+
+class Caixa(admin.ModelAdmin):
+    list_display = ['nome', 'valor']
+
+
+admin.site.register(models.Caixa, Caixa)

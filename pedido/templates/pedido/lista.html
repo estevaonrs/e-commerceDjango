@@ -4,45 +4,69 @@
 {% block titulo %}Pedidos de {{ user }} | {% endblock %}
 
 {% block conteudo %}
+<!-- Main Section-->
+<section class="mt-0 ">
+    <!-- Page Content Goes Here -->
 
-
-
-<div class="row">
-    <div class="col">
-        <br>
-        <h3 class="mb-4">Pedidos de {{ user }}</h3>
-        <p>Abaixo todos os seus pedidos realizados na loja.</p>
-
-        <div class="table-responsive">
-            <table class="table table-striped">
-                <tr>
-                    <th scope="col">Pedido</th>
-                    <th scope="col">Total</th>
-                    <th scope="col">Qtd. Itens</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Mais detalhes</th>
-                </tr>
-
-
-                {% for pedido in pedidos %}
-                <tr>
-                    <th scope="row">{{ pedido }}</td>
-                    <td>{{ pedido.total|formata_preco }}</td>
-                    <td>{{ pedido.qtd_total }}</td>
-                    <td>{{ pedido.get_status_display }}</td>
-                    <td>
-                        <a href="{% url 'pedido:detalhe' pedido.id %}">
-                            Ver <i class="fa fa-search-plus ml-2"></i>
-                        </a>
-                    </td>
-                </tr>
-                {% endfor %}
-
-
-            </table>
+    <!-- Breadcrumbs-->
+    <div class="bg-dark py-6">
+        <div class="container-fluid">
+            <nav class="m-0" aria-label="breadcrumb">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item breadcrumb-light"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item breadcrumb-light"><a href="#">T-Shirts</a></li>
+                    <li class="breadcrumb-item  breadcrumb-light active" aria-current="page">Osaka Japan Mens
+                        T-Shirt</li>
+                </ol>
+            </nav>
         </div>
     </div>
-</div>
+    <!-- / Breadcrumbs-->
+
+    <div class="container-fluid mt-5">
+
+        <div class="row">
+            <div class="col">
+                <br>
+                <h3 class="mb-4">Pedidos de {{ user }}</h3>
+                <p>Abaixo todos os seus pedidos realizados na loja.</p>
+
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <tr>
+                            <th scope="col">Pedido</th>
+                            <th scope="col">Total</th>
+                            <th scope="col">Qtd. Itens</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Mais detalhes</th>
+                        </tr>
+
+
+                        {% for pedido in pedidos %}
+                        <tr>
+                            <th scope="row">{{ pedido }}</td>
+                            <td>{{ pedido.total|formata_preco }}</td>
+                            <td>{{ pedido.qtd_total }}</td>
+                            <td>{{ pedido.get_status_display }}</td>
+                            <td>
+                                <a href="{% url 'pedido:detalhe' pedido.id %}">
+                                    Ver <i class="fa fa-search-plus ml-2"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Page Content -->
+</section>
+<!-- / Main Section-->
+
+
 
 
 {% include 'parciais/_pagination.html' %}

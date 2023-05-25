@@ -13,6 +13,10 @@ urlpatterns = [
          name='lista_contaspagar'),
     path('dashboard/', views.Dashboard.as_view(),
          name='dashboard'),
+    path('caixa/', views.Caixa.as_view(),
+         name='caixa'),
+    path('lista_caixa/', views.ListaCaixa.as_view(),
+         name='lista_caixa'),
 
 
 

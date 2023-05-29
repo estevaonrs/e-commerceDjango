@@ -7,7 +7,7 @@ class CaixaAberto(models.Model):
     nome = models.CharField(max_length=65, verbose_name='Apelido do Caixa')
     valor = models.FloatField(verbose_name='Valor de Abertura')
     status = models.CharField(
-        default="C",
+        default="A",
         max_length=1,
         choices=(
             ('A', 'Aberto'),

@@ -4,11 +4,12 @@ from django.shortcuts import get_object_or_404, render
 from django.views.generic import TemplateView, CreateView
 from . models import CaixaAberto
 from . forms import CaixaAbertoForm
-from pedido.models import Devolucao
+from pedido.models import Devolucao, Pedido
 from cliente.models import ContasReceber
 from produto.models import ContasPagar
 from django.views.generic.detail import DetailView
 from datetime import date
+from django.db.models import Sum, Avg
 
 from gestao import models
 
@@ -23,7 +24,7 @@ class DetalheCaixa(TemplateView):
 
 class CaixaAbertoDetail(DetailView):
     model = CaixaAberto
-    context_object_name = 'caixas'
+    context_object_name = 'caixa'
     template_name = 'gestao/caixa_aberto_detail.html'
 
     def get_context_data(self, **kwargs):
@@ -31,8 +32,20 @@ class CaixaAbertoDetail(DetailView):
         caixa = self.get_object()
         data_caixa = caixa.data
         devolucoes = Devolucao.objects.filter(data=data_caixa)
+        pedidos_aprovados = Pedido.objects.filter(status='A', data=data_caixa)
+        quantidade_aprovados = pedidos_aprovados.count()
+        total_pedidos = pedidos_aprovados.aggregate(Sum('total'))['total__sum']
+        valor_medio_vendas = pedidos_aprovados.aggregate(Avg('total'))[
+            'total__avg']
+        soma_devolucoes = devolucoes.aggregate(Sum('pedido__total'))[
+            'pedido__total__sum']
         context['data_caixa'] = data_caixa
+        context['pedidos_aprovados'] = pedidos_aprovados
+        context['quantidade_aprovados'] = quantidade_aprovados
         context['devolucoes'] = devolucoes
+        context['total_pedidos'] = total_pedidos
+        context['valor_medio_vendas'] = valor_medio_vendas
+        context['soma_devolucoes'] = soma_devolucoes
         return context
 
 
@@ -66,7 +79,7 @@ class ContasPagar(ListView):
 
 class Caixa(CreateView):
     model = CaixaAberto
-    form_class = CaixaAberto
+    form_class = CaixaAbertoForm
     template_name = 'gestao/caixa_create.html'
     success_url = reverse_lazy('gestao:dashboard')
 

@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
+from django.db.models import Count
 
 
 class Pedido(models.Model):
@@ -12,13 +13,16 @@ class Pedido(models.Model):
         max_length=1,
         choices=(
             ('A', 'Aprovado'),
-            ('C', 'Criado'),
-            ('R', 'Reprovado'),
-            ('P', 'Pendente'),
             ('E', 'Enviado'),
             ('F', 'Finalizado'),
         )
     )
+    data = models.DateField(default=timezone.now,
+                            verbose_name='Data do pedido')
+
+    @staticmethod
+    def obter_quantidade_aprovados_por_dia(data):
+        return Pedido.objects.filter(status='A', data=data).count()
 
     def __str__(self):
         return f'Pedido N. {self.pk}'
@@ -51,6 +55,7 @@ class Devolucao(models.Model):
         max_length=255, verbose_name="Tipo de pagamento")
     observacoes = models.CharField(
         max_length=255, verbose_name="Observações")
+
     data = models.DateField(default=timezone.now,
                             verbose_name='Data da devolução')
 

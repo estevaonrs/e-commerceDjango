@@ -9,7 +9,7 @@
 
  <div class="flex items-center justify-between mb-4">
   <div class="flex-shrink-0"><br><br><br>
-   <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">Lista de Caixas já abertos!</span><br><br>
+   <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">Todos as vendas</span><br><br>
   </div>
 
  </div>
@@ -19,49 +19,66 @@
    <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
     <tr>
      <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-      Nome
+      Pedido
      </th>
      <th scope="col" class="px-6 py-3">
-      Valor de abertura
+      Usuário
+     </th>
+     <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
+      Total
+     </th>
+     <th scope="col" class="px-6 py-3">
+      Qtd. Itens
+     </th>
+     <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
+      Status
+     </th>
+     <th scope="col" class="px-6 py-3">
+      Mais detalhes
      </th>
      <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
       Data
      </th>
-     <th scope="col" class="px-6 py-3">
-      Status
-     </th>
-     <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-      Detalhe
-     </th>
     </tr>
    </thead>
    <tbody>
-    {% for caixa in caixas %}
+    {% for pedido in pedidosadmin %}
+    {% if pedido.status == 'A' %}
     <tr class="border-b border-gray-200 dark:border-gray-700">
      <th scope="row"
       class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
-
-      {{ caixa.nome }}
+      {{ pedido }}
      </th>
      <td class="px-6 py-4">
-      {{ caixa.valor }}
+      {{ pedido.usuario }}
      </td>
      <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
-      {{ caixa.data }}
+      {{ pedido.total|formata_preco }}
      </td>
-     <td
-      class="px-6 py-4 {% if caixa.status == 'A' %}text-green-500{% elif caixa.status == 'F' %}text-red-500{% endif %}">
-      {{ caixa.get_status_display }}
+     <td class="px-6 py-4">
+      {{ pedido.qtd_total }}
      </td>
      <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
-      <a href="{% url 'gestao:caixa_aberto_detail' caixa.id %}">Detalhes do Caixa Aberto {{ caixa.id }}</a>
+      {{ pedido.get_status_display }}
+     </td>
+     <td class="px-6 py-4">
+      <a href="{% url 'pedido:detalhe_admin' pedido.id %}">
+       Ver <i class="fa fa-search-plus ml-2"></i>
+      </a>
+     </td>
+     <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
+      {{ pedido.data }}
      </td>
     </tr>
+    {% endif %}
     {% endfor %}
    </tbody>
   </table>
  </div>
+
 </div>
+
+
 
 
 {% include 'parciais/_pagination.html' %}

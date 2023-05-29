@@ -9,60 +9,60 @@
 
 <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8  2xl:col-span-2">
 
- <div class="flex items-center justify-between mb-4">
-  <div class="flex-shrink-0">
-   <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">Devoluções dos pedidos da
-    loja!</span><br><br>
+  <div class="flex items-center justify-between mb-4">
+    <div class="flex-shrink-0">
+      <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">Devoluções dos pedidos da
+        loja!</span><br><br>
+    </div>
+
   </div>
 
- </div>
+  <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+      <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
+        <tr>
+          <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
+            Usuário
+          </th>
+          <th scope="col" class="px-6 py-3">
+            Pedido
+          </th>
+          <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
+            Total
+          </th>
+          <th scope="col" class="px-6 py-3">
+            Tipo de pagamento
+          </th>
+          <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
+            Observações
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for devolucao in devolucoes %}
+        <tr class="border-b border-gray-200 dark:border-gray-700">
+          <th scope="row"
+            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
+            {{ devolucao.usuario }}
+          </th>
+          <td class="px-6 py-4">
+            {{ devolucao.pedido }}
+          </td>
+          <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
+            R$ {{ devolucao.pedido.total }}
+          </td>
+          <td class="px-6 py-4">
+            {{ devolucao.pagamento }}
+          </td>
+          <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
+            {{ devolucao.observacoes }}
+          </td>
 
- <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-  <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-   <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
-    <tr>
-     <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-      Usuário
-     </th>
-     <th scope="col" class="px-6 py-3">
-      Pedido
-     </th>
-     <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-      Itens
-     </th>
-     <th scope="col" class="px-6 py-3">
-      Tipo de pagamento
-     </th>
-     <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-      Observações
-     </th>
-    </tr>
-   </thead>
-   <tbody>
-    {% for devolucao in devolucoes %}
-    <tr class="border-b border-gray-200 dark:border-gray-700">
-     <th scope="row"
-      class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
-      {{ devolucao.usuario }}
-     </th>
-     <td class="px-6 py-4">
-      {{ devolucao.pedido }}
-     </td>
-     <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
-      {{ devolucao.itens }}
-     </td>
-     <td class="px-6 py-4">
-      {{ devolucao.pagamento }}
-     </td>
-     <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
-      {{ devolucao.observacoes }}
-     </td>
-
-    </tr>
-    {% endfor %}
-   </tbody>
-  </table>
- </div>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </div>
 
 

@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils import timezone
 
 
 class Pedido(models.Model):
@@ -50,6 +51,8 @@ class Devolucao(models.Model):
         max_length=255, verbose_name="Tipo de pagamento")
     observacoes = models.CharField(
         max_length=255, verbose_name="Observações")
+    data = models.DateField(default=timezone.now,
+                            verbose_name='Data da devolução')
 
     def __str__(self):
         return f'Devolução do pedido {self.pedido}'

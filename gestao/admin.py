@@ -2,8 +2,8 @@ from django.contrib import admin
 from . import models
 
 
-class Caixa(admin.ModelAdmin):
-    list_display = ['nome', 'valor']
+class CaixaAberto(admin.ModelAdmin):
+    list_display = ['nome', 'valor', 'status', 'data']
 
 
-admin.site.register(models.Caixa, Caixa)
+admin.site.register(models.CaixaAberto, CaixaAberto)

@@ -1,16 +1,39 @@
 from django.urls import reverse_lazy
 from django.views.generic import ListView
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.views.generic import TemplateView, CreateView
-from . models import Caixa
-from . forms import CaixaForm
+from . models import CaixaAberto
+from . forms import CaixaAbertoForm
 from pedido.models import Devolucao
 from cliente.models import ContasReceber
 from produto.models import ContasPagar
+from django.views.generic.detail import DetailView
+from datetime import date
+
+from gestao import models
 
 
 class GestaoView(TemplateView):
     template_name = 'gestao.html'
+
+
+class DetalheCaixa(TemplateView):
+    template_name = 'gestao/detalhe_caixa.html'
+
+
+class CaixaAbertoDetail(DetailView):
+    model = CaixaAberto
+    context_object_name = 'caixas'
+    template_name = 'gestao/caixa_aberto_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        caixa = self.get_object()
+        data_caixa = caixa.data
+        devolucoes = Devolucao.objects.filter(data=data_caixa)
+        context['data_caixa'] = data_caixa
+        context['devolucoes'] = devolucoes
+        return context
 
 
 class Dashboard(TemplateView):
@@ -42,8 +65,8 @@ class ContasPagar(ListView):
 
 
 class Caixa(CreateView):
-    model = Caixa
-    form_class = CaixaForm
+    model = CaixaAberto
+    form_class = CaixaAberto
     template_name = 'gestao/caixa_create.html'
     success_url = reverse_lazy('gestao:dashboard')
 
@@ -53,8 +76,8 @@ class Caixa(CreateView):
         return context
 
 
-class ListaCaixa(ListView):
-    model = Caixa
+class CaixaAberto(ListView):
+    model = CaixaAberto
     context_object_name = 'caixas'
     template_name = 'gestao/lista_caixa.html'
     paginate_by = 10

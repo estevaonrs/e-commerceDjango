@@ -19,35 +19,41 @@
    <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
     <tr>
      <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
+      Nome
+     </th>
+     <th scope="col" class="px-6 py-3">
+      Valor de abertura
+     </th>
+     <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
       Data
      </th>
      <th scope="col" class="px-6 py-3">
-      Fornecedor
+      Status
      </th>
      <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-      Valor a pagar
+      Detalhe
      </th>
-     <th scope="col" class="px-6 py-3">
-      Tipo de pagamento
-     </th>
-
     </tr>
    </thead>
    <tbody>
-    {% for conta in contaspagar %}
+    {% for caixa in caixas %}
     <tr class="border-b border-gray-200 dark:border-gray-700">
      <th scope="row"
       class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
-      {{ conta.data }}
+
+      {{ caixa.nome }}
      </th>
      <td class="px-6 py-4">
-      {{ conta.fornecedor }}
+      {{ caixa.valor }}
      </td>
      <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
-      {{ conta.valor }}
+      {{ caixa.data }}
      </td>
      <td class="px-6 py-4">
-      {{ conta.pagamento }}
+      {{ caixa.get_status_display}}
+     </td>
+     <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
+      <a href="{% url 'gestao:caixa_aberto_detail' caixa.id %}">Detalhes do Caixa Aberto {{ caixa.id }}</a>
      </td>
     </tr>
     {% endfor %}

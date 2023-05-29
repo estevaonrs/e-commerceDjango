@@ -1,0 +1,78 @@
+{% extends "includes/base_dashboard.html" %}
+{% load omfilters %}
+
+{% block titulo %}Pedidos{% endblock %}
+
+{% block content %}
+
+
+<div class="bg-gray-50 shadow rounded-lg p-4 sm:p-6 xl:p-8  2xl:col-span-2">
+
+ <div class="flex items-center justify-between mb-4">
+  <div class="flex-shrink-0">
+   <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">Gestão do caixa {{ caixas.id }},
+    {{ caixas.data }}</span><br><br>
+  </div>
+
+ </div>
+
+ <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+
+
+  <div class="mt-4">
+   <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 mb-4">
+    <div class="flex items-center">
+     <div class="flex-shrink-0">
+      <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">Resumo Geral</span><br><br>
+      <h3 class="text-base font-normal text-gray-500">Quantidade de Vendas:</h3>
+      <h3 class="text-base font-normal text-gray-500">Valor Total:</h3>
+      <h3 class="text-base font-normal text-gray-500">Valor Médio das Vendas:</h3>
+     </div>
+    </div>
+   </div>
+
+   <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 mb-4">
+    <div class="flex items-center">
+     <div class="flex-shrink-0">
+      <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">Resumo De Vendas</span><br><br>
+      <h3 class="text-base font-normal text-gray-500">Total Vendido:</h3>
+      {% for devolucao in devolucoes %}
+      {% if devolucao.data == data_caixa %}
+      <h3 class="text-base font-normal text-gray-500">Devoluções: R$ {{ devolucao.pedido.total }}</h3>
+      {% endif %}
+      {% endfor %}
+     </div>
+    </div>
+   </div>
+
+   <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 mb-4">
+    <div class="flex items-center">
+     <div class="flex-shrink-0">
+      <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">Movimentações do Caixa</span><br><br>
+      <h3 class="text-base font-normal text-gray-500">Total de Vendas:</h3>
+      <h3 class="text-base font-normal text-gray-500">Recebimentos:</h3>
+      <h3 class="text-base font-normal text-gray-500">Reforços:</h3>
+      <h3 class="text-base font-normal text-gray-500">Retiradas:</h3>
+      <h3 class="text-base font-normal text-gray-500">Vendas Fiado:</h3>
+      <h3 class="text-base font-normal text-gray-500">Saldo:</h3>
+     </div>
+    </div>
+   </div>
+
+   <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 mb-4">
+    <div class="flex items-center">
+     <div class="flex-shrink-0">
+      <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">Dinheiro</span><br><br>
+      <h3 class="text-base font-normal text-gray-500">Entrada:</h3>
+      <h3 class="text-base font-normal text-gray-500">Saída:</h3>
+      <h3 class="text-base font-normal text-gray-500">Saldo:</h3>
+     </div>
+    </div>
+   </div>
+  </div>
+
+ </div>
+</div>
+
+
+{% endblock %}

@@ -15,8 +15,11 @@ urlpatterns = [
          name='dashboard'),
     path('caixa/', views.Caixa.as_view(),
          name='caixa'),
-    path('lista_caixa/', views.ListaCaixa.as_view(),
+    path('lista_caixa/', views.CaixaAberto.as_view(),
          name='lista_caixa'),
+    path('caixas/<int:pk>/', views.CaixaAbertoDetail.as_view(),
+         name='caixa_aberto_detail'),
+
 
 
 

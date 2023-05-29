@@ -2,7 +2,7 @@ from django import forms
 from . import models
 
 
-class CaixaForm(forms.ModelForm):
+class CaixaAbertoForm(forms.ModelForm):
     class Meta:
-        model = models.Caixa
+        model = models.CaixaAberto
         fields = '__all__'

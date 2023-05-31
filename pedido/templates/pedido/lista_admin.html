@@ -39,6 +39,9 @@
                     <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
                         Data
                     </th>
+                    <th scope="col" class="px-6 py-3">
+                        Tipo de pagamento
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -67,6 +70,9 @@
                     </td>
                     <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
                         {{ pedido.data }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ pedido.get_pagamento_display }}
                     </td>
                 </tr>
                 {% endfor %}

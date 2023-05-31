@@ -1,0 +1,77 @@
+{% extends "includes/base_dashboard.html" %}
+{% load omfilters %}
+{% load static %}
+{% block titulo %}Pedidos{% endblock %}
+
+{% block content %}
+<br><br><br><br><br>
+<section class="mt-0">
+ <!-- Page Content Goes Here -->
+ <div class="container">
+  <div class="row g-0">
+   <div class="col-lg-7 pt-5 pt-lg-10">
+    <div class="pe-lg-5">
+     <div class="row mb-5">
+      <div class="col-lg">
+       <br>
+       <h2>Resumo da sua compra</h2>
+      </div>
+     </div>
+     <div class="pt-5 mt-5 pb-5 border-top d-flex justify-content-md-end align-items-center">
+      <a href="{% url 'pedido:salvarpedido_admin' %}" class="btn btn-dark w-100 w-md-auto" role="button">Salvar
+       Pedido</a>
+     </div>
+    </div>
+   </div>
+   <div class="col-12 col-lg-5 bg-light pt-lg-10 aside-checkout pb-5 pb-lg-0 my-5 my-lg-0">
+    <div class="p-4 py-lg-0 pe-lg-0 ps-lg-5">
+     <div class="pb-3">
+      {% for linha in carrinho.values %}
+
+      <!-- Cart Item-->
+      <div class="row mx-0 py-4 g-0 border-bottom">
+       <div class="col-2 position-relative">
+        <picture class="d-block border">
+         <img class="img-fluid" src="{% get_media_prefix %}{{ linha.imagem }}"
+          alt="HTML Bootstrap Template by Pixel Rocket">
+        </picture>
+       </div>
+       <div class="col-9 offset-1">
+        <div>
+         <h6 class="justify-content-between d-flex align-items-start mb-2">
+          {{ linha.produto_nome }}
+
+         </h6>
+         Tamanho: {{ linha.variacao_nome }}<br>
+         Quantidade: {{ linha.quantidade }}
+        </div>
+        <p class="fw-bolder text-end text-muted m-0">{% if linha.preco_quantitativo_promocional %}
+         {{ linha.preco_quantitativo_promocional|formata_preco }}
+         {% else %}
+         {{ linha.preco_quantitativo|formata_preco }}
+         {% endif %}</p>
+       </div>
+      </div> <!-- / Cart Item-->
+      {% endfor %}
+     </div>
+     <div class="py-4 border-bottom">
+      <div class="d-flex justify-content-between align-items-center mb-2">
+       <p class="m-0 fw-bolder fs-6">Total</p>
+       <p class="m-0 fs-6 fw-bolder">{{ carrinho|cart_totals|formata_preco }}</p>
+      </div>
+     </div>
+     <div class="py-4">
+      <div class="input-group mb-0">
+       <input type="text" class="form-control" placeholder="Insira seu cupom">
+       <button class="btn btn-dark btn-sm px-4">Aplicar</button>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+ </div>
+ <!-- /Page Content -->
+</section>
+<!-- / Main Section-->
+
+{% endblock %}

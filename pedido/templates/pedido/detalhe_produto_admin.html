@@ -1,0 +1,129 @@
+{% extends "includes/base_dashboard.html" %}
+{% load omfilters %}
+{% load static %}
+{% block titulo %}Pedidos{% endblock %}
+
+{% block content %}
+
+<!-- Main Section-->
+<section class="mt-0 ">
+ <!-- Page Content Goes Here -->
+
+
+
+ <div class="container-fluid mt-5">
+
+  <!-- Product Top Section-->
+  <div class="row g-9" data-sticky-container>
+
+   <!-- Product Images-->
+   <div class="col-12 col-md-6 col-xl-7">
+    <div class="row g-3" data-aos="fade-right">
+     <div class="col-12">
+      <picture>
+       <img class="img-fluid" data-zoomable src="{{ produto.imagem.url }}" alt="{{ produto.nome }}">
+      </picture>
+     </div>
+     {% for imagem in produto.imagens.all %}
+     {% if imagem.imagem %}
+     <div class="col-12">
+      <picture>
+       <img class="img-fluid" data-zoomable src="{{ imagem.imagem.url }}" alt="HTML Bootstrap Template by Pixel Rocket">
+      </picture>
+     </div>
+     {% endif %}
+     {% endfor %}
+
+    </div>
+   </div>
+   <!-- /Product Images-->
+
+
+
+   <!-- Product Information-->
+   <div class="col-12 col-md-6 col-lg-5">
+    <div class="sticky-top top-5">
+     <div class="pb-3" data-aos="fade-in">
+
+
+      <h1 class="mb-1 fs-2 fw-bold">{{ produto.nome }}</h1>
+      <div class="d-flex justify-content-between align-items-center">
+       <p class="fs-4 m-0">
+        {% if produto.preco_marketing_promocional %}
+        <span id="variation-preco-promocional" class="product-price mb-2">
+         {{ produto.preco_marketing_promocional|formata_preco }}
+        </span>
+        <span id="variation-preco" class="product-old-price text-muted mb-2">
+         {{ produto.preco_marketing|formata_preco }}
+        </span>
+        {% else %}
+        <span id="variation-preco" class="product-price mb-2">
+         {{ produto.preco_marketing|formata_preco }}
+        </span>
+        {% endif %}
+       </p>
+      </div>
+      <form action="{% url 'produto:adicionaraocarrinho_admin' %}" id="form-add-to-cart">
+       <div class="form-group">
+        <select id="select-variacoes" name="vid" class="form-control form-control-lg mb-3">
+         {% for variacao in produto.variacao_set.all %}
+         {% if variacao.preco_promocional %}
+         <option data-preco="{{ variacao.preco|formata_preco }}"
+          data-preco-promocional="{{ variacao.preco_promocional|formata_preco }}" value="{{ variacao.id }}">
+          {% if variacao.nome %}
+          {{ variacao.nome }}
+          {% else %}
+          {{ variacao }}
+          {% endif %}
+         </option>
+         {% else %}
+         <option data-preco="{{ variacao.preco|formata_preco }}" value="{{ variacao.id }}">
+          {% if variacao.nome %}
+          {{ variacao.nome }}
+          {% endif %}
+         </option>
+         {% endif %}
+         {% endfor %}
+        </select>
+       </div>
+       {% include 'parciais/_messages.html' %}<br>
+       <div class="text-left">
+        <button type="submit" class="btn btn-dark btn-lg btn-block">
+         <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+         Adicionar ao Carrinho
+        </button>
+       </div>
+      </form>
+      <div class="container-fluid">
+       <div class="w-100">
+        <div class="d-flex justify-content-between align-items-center flex-wrap">
+         <ul>
+          {% if request.session.carrinho %}
+          <!-- Navbar Cart Icon-->
+          <li class="ms-1 d-none d-lg-inline-block">
+
+           <a class="nav-link text-body" href="{% url 'produto:carrinho_admin' %}">
+            <i class="fa-solid fa-cart-shopping"></i> Carrinho ({{ request.session.carrinho|cart_total_qtd }}X)
+           </a>
+          </li>
+          {% endif %}
+         </ul>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+   <!-- / Product Information-->
+  </div>
+  <!-- / Product Top Section-->
+
+
+ </div>
+
+ <!-- /Page Content -->
+</section>
+<!-- / Main Section-->
+
+
+{% endblock %}

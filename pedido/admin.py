@@ -10,7 +10,7 @@ class ItemPedidoInline(admin.TabularInline):
 
 class PedidoAdmin(admin.ModelAdmin):
     list_display = ['usuario', 'total',
-                    'qtd_total', 'status', 'data']
+                    'qtd_total', 'status', 'data', 'pagamento']
     inlines = [
         ItemPedidoInline
     ]

@@ -16,8 +16,18 @@ class CaixaAberto(models.Model):
     )
     data = models.DateField(default=timezone.now,
                             verbose_name='Data de Abertura')
-    devolucao = models.ForeignKey(
-        Devolucao, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.nome
+
+
+class Reforço(models.Model):
+    reforço = models.FloatField(verbose_name='Valor do Reforço')
+    data = models.DateField(default=timezone.now,
+                            verbose_name='Data do reforço')
+
+
+class Retirada(models.Model):
+    retirada = models.FloatField(verbose_name='Valor da Retirada')
+    data = models.DateField(default=timezone.now,
+                            verbose_name='Data da retirada')

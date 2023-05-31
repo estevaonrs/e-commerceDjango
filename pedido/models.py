@@ -9,7 +9,7 @@ class Pedido(models.Model):
     total = models.FloatField()
     qtd_total = models.PositiveIntegerField()
     status = models.CharField(
-        default="C",
+        default="L",
         max_length=1,
         choices=(
             ('A', 'Aprovado'),
@@ -19,6 +19,14 @@ class Pedido(models.Model):
     )
     data = models.DateField(default=timezone.now,
                             verbose_name='Data do pedido')
+    pagamento = models.CharField(
+        default="C",
+        max_length=1,
+        choices=(
+            ('C', 'Cartão'),
+            ('D', 'Dinheiro'),
+        )
+    )
 
     @staticmethod
     def obter_quantidade_aprovados_por_dia(data):

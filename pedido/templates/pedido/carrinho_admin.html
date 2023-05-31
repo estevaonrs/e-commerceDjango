@@ -1,0 +1,143 @@
+{% extends "includes/base_dashboard.html" %}
+{% load omfilters %}
+{% load static %}
+{% block titulo %}Pedidos{% endblock %}
+
+{% block content %}
+<br><br><br><br><br>
+{% if carrinho %}
+<!-- Main Section-->
+<section class="mt-0 overflow-lg-hidden  ">
+  <!-- Page Content Goes Here -->
+  <div class="container">
+    <div class="row g-0 ">
+      <div class="col-12 col-lg-7 pt-5 pt-lg-10">
+        <div class="pe-lg-5">
+
+
+          <div class="mt-5">
+            <h3 class="fs-5 fw-bolder mb-0 border-bottom pb-4">Seu Carrinho</h3>
+            {% for linha in carrinho.values %}
+            <div class="table-responsive">
+              <table class="table align-middle">
+                <tbody class="border-0">
+                  <!-- Cart Item-->
+                  <div class="row mx-0 py-4 g-0 border-bottom">
+                    <div class="col-2 position-relative">
+                      <picture class="d-block border">
+                        <img class="img-fluid" src="{% get_media_prefix %}{{ linha.imagem }}"
+                          alt="HTML Bootstrap Template by Pixel Rocket">
+                      </picture>
+                    </div>
+                    <div class="col-9 offset-1">
+                      <div>
+                        <h6 class="justify-content-between d-flex align-items-start mb-2">
+                          {{ linha.produto_nome }}
+                          <a style="text-decoration:none;"
+                            href="{% url 'produto:removerdocarrinho_admin' %}?vid={{ linha.variacao_id }}"><i
+                              class="fa-solid fa-minus"></i></a>
+                        </h6>
+                        <span class="d-block text-muted fw-bolder text-uppercase fs-9">
+                          Tamanho: {{ linha.variacao_nome }}<br>
+                          Quantidade: {{ linha.quantidade }}<a style="text-decoration:none;"
+                            href="{% url 'produto:adicionaraocarrinho' %}?vid={{linha.variacao_id}}">
+                            <i class="fa-solid fa-plus"></i>
+                          </a>
+                        </span>
+                      </div>
+                      <p class="fw-bolder text-end text-muted m-0">
+                        {% if linha.preco_quantitativo_promocional %}
+                        {{ linha.preco_quantitativo_promocional|formata_preco }}
+                        {% else %}
+                        {{ linha.preco_quantitativo|formata_preco }}
+                        {% endif %}
+                      </p>
+                    </div>
+                  </div> <!-- / Cart Item-->
+                </tbody>
+              </table>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-lg-5 bg-light pt-lg-10 aside-checkout pb-5 pb-lg-0 my-5 my-lg-0">
+        <div class="p-4 py-lg-0 pe-lg-0 ps-lg-5">
+          <div class="pb-4 border-bottom">
+            <div class="d-flex flex-column flex-md-row justify-content-md-between mb-4 mb-md-2">
+              <div>
+                <p class="m-0 fw-bold fs-5">Total</p>
+              </div>
+              <p class="m-0 fs-5 fw-bold">{{ carrinho|cart_totals|formata_preco }}</p>
+            </div>
+          </div>
+          <div class="py-4">
+            <div class="input-group mb-0">
+              <input type="text" class="form-control" placeholder="Insira seu cupom">
+              <button class="btn btn-secondary btn-sm px-4">Aplicar</button>
+            </div>
+          </div>
+          <div class="col-lg mt-auto">
+
+            {% if request.user.is_authenticated %}
+            <a class="btn btn-lg btn-block btn-dark" href="{% url 'produto:resumodacompra_admin' %}">
+              Comprar
+            </a>
+            {% else %}
+            <a class="btn btn-lg btn-block btn-primary" href="{% url 'perfil:criar' %}">
+              Entrar ou cadastrar e comprar
+            </a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- /Page Content -->
+</section>
+<!-- / Main Section-->
+
+
+
+
+{% else %}
+<section class="mt-0 overflow-lg-hidden  vh-lg-100">
+  <!-- Page Content Goes Here -->
+  <div class="container">
+    <div class="row g-0 vh-lg-100">
+      <div class="col-12 col-lg-7 pt-5 pt-lg-10">
+        <div class="pe-lg-5">
+
+          <nav class="d-none d-md-block">
+            <ul class="list-unstyled d-flex justify-content-start mt-4 align-items-center fw-bolder small">
+              <li class="me-4"><a class="nav-link-checkout active" href="./cart.html">Seu Carrinho</a>
+              </li>
+              <li class="me-4"><a class="nav-link-checkout " href="./checkout.html">Detalhes</a>
+              </li>
+              <li class="me-4"><a class="nav-link-checkout " href="./checkout-shipping.html">Envio</a>
+              </li>
+              <li><a class="nav-link-checkout nav-link-last " href="./checkout-payment.html">Pagamento</a>
+              </li>
+            </ul>
+          </nav>
+          <div class="mt-5">
+            <h3 class="fs-5 fw-bolder mb-0 border-bottom pb-4">Não há produtos no seu carrinho!</h3>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- /Page Content -->
+</section>
+
+
+{% endif %}
+
+
+
+
+{% endblock %}

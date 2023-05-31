@@ -1,17 +1,16 @@
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import TemplateView, CreateView
-from . models import CaixaAberto
-from . forms import CaixaAbertoForm
+from . models import CaixaAberto, Retirada, Reforço
+from . forms import CaixaAbertoForm, ReforçoForm, RetiradaForm
 from pedido.models import Devolucao, Pedido
-from cliente.models import ContasReceber
+from cliente.models import ContasReceber, Fiado
 from produto.models import ContasPagar
 from django.views.generic.detail import DetailView
 from datetime import date
 from django.db.models import Sum, Avg
-
-from gestao import models
 
 
 class GestaoView(TemplateView):
@@ -31,14 +30,24 @@ class CaixaAbertoDetail(DetailView):
         context = super().get_context_data(**kwargs)
         caixa = self.get_object()
         data_caixa = caixa.data
+
         devolucoes = Devolucao.objects.filter(data=data_caixa)
         pedidos_aprovados = Pedido.objects.filter(status='A', data=data_caixa)
         quantidade_aprovados = pedidos_aprovados.count()
-        total_pedidos = pedidos_aprovados.aggregate(Sum('total'))['total__sum']
-        valor_medio_vendas = pedidos_aprovados.aggregate(Avg('total'))[
-            'total__avg']
-        soma_devolucoes = devolucoes.aggregate(Sum('pedido__total'))[
-            'pedido__total__sum']
+
+        soma_fiados = Fiado.objects.filter(
+            data=data_caixa).aggregate(soma=Sum('valor'))['soma']
+        total_pedidos = pedidos_aprovados.aggregate(
+            total=Sum('total'))['total']
+        valor_medio_vendas = pedidos_aprovados.aggregate(media=Avg('total'))[
+            'media']
+        soma_devolucoes = devolucoes.aggregate(
+            soma=Sum('pedido__total'))['soma']
+        soma_retiradas = Retirada.objects.filter(
+            data=data_caixa).aggregate(soma=Sum('retirada'))['soma']
+        soma_reforcos = Reforço.objects.filter(data=data_caixa).aggregate(soma=Sum('reforço'))['soma']
+
+        context['soma_fiados'] = soma_fiados
         context['data_caixa'] = data_caixa
         context['pedidos_aprovados'] = pedidos_aprovados
         context['quantidade_aprovados'] = quantidade_aprovados
@@ -46,7 +55,40 @@ class CaixaAbertoDetail(DetailView):
         context['total_pedidos'] = total_pedidos
         context['valor_medio_vendas'] = valor_medio_vendas
         context['soma_devolucoes'] = soma_devolucoes
+        context['reforco_form'] = ReforçoForm()
+        context['retirada_form'] = RetiradaForm()
+        context['soma_retiradas'] = soma_retiradas
+        context['soma_reforcos'] = soma_reforcos
+
         return context
+
+
+def reforco_caixa(request, pk):
+    caixa = get_object_or_404(CaixaAbertoDetail.model, pk=pk)
+
+    if request.method == 'POST':
+        form = ReforçoForm(request.POST)
+        if form.is_valid():
+            reforco = form.save(commit=False)
+            reforco.caixa_aberto = caixa
+            reforco.save()
+            return redirect('gestao:caixa_aberto_detail', pk=caixa.pk)
+
+    return redirect('gestao:caixa_aberto_detail', pk=caixa.pk)
+
+
+def retirada_caixa(request, pk):
+    caixa = get_object_or_404(CaixaAbertoDetail.model, pk=pk)
+
+    if request.method == 'POST':
+        form = RetiradaForm(request.POST)
+        if form.is_valid():
+            retirada = form.save(commit=False)
+            retirada.caixa_aberto = caixa
+            retirada.save()
+            return redirect('gestao:caixa_aberto_detail', pk=caixa.pk)
+
+    return redirect('gestao:caixa_aberto_detail', pk=caixa.pk)
 
 
 class Dashboard(TemplateView):

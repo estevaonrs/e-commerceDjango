@@ -19,8 +19,10 @@ urlpatterns = [
          name='lista_caixa'),
     path('caixas/<int:pk>/', views.CaixaAbertoDetail.as_view(),
          name='caixa_aberto_detail'),
-
-
+    path('caixa_aberto/<int:pk>/reforco/',
+         views.reforco_caixa, name='reforco_caixa'),
+    path('caixa_aberto/<int:pk>/retirada/',
+         views.retirada_caixa, name='retirada_caixa'),
 
 
 ]

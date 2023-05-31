@@ -61,18 +61,6 @@
                 {% endif %}
                 <!-- /Navbar Cart Icon-->
                 {% if request.user.is_authenticated %}
-
-                <li class="ms-1 d-none d-lg-inline-block">
-                    <a class="nav-link text-body" href="{% url 'cliente:codigo_acesso' %}">
-                        Catálogo de atacado
-                    </a>
-                </li>
-                {% if request.user.is_superuser %}
-                <li class="ms-1 d-none d-lg-inline-block">
-                    <a class="nav-link text-body" href="{% url 'gestao:dashboard' %}">
-                        Painel Administrativo
-                    </a>
-                </li>
                 <li class="ms-1 d-inline-block position-relative dropdown-cart">
                     <button class="nav-link me-0 disable-child-pointer border-0 p-0 bg-transparent text-body"
                         type="button">
@@ -95,6 +83,19 @@
                         </div>
                     </div>
                 </li>
+
+                <li class="ms-1 d-none d-lg-inline-block">
+                    <a class="nav-link text-body" href="{% url 'cliente:codigo_acesso' %}">
+                        Catálogo de atacado
+                    </a>
+                </li>
+                {% if request.user.is_superuser %}
+                <li class="ms-1 d-none d-lg-inline-block">
+                    <a class="nav-link text-body" href="{% url 'gestao:dashboard' %}">
+                        Painel Administrativo
+                    </a>
+                </li>
+
                 {% endif %}
                 {% else %}
 

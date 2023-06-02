@@ -1,7 +1,10 @@
 from django.urls import path
 
 from cliente.models import ContasReceber
-from .views import ClienteCreateView, ContasReceberDeleteView, ContasReceberListView, ContasReceberUpdateView, FiadoCreateView, lista_fiado, ContasReceberCreateView, codigo_acesso
+from .views import ClienteCreateView, ContasReceberDeleteView,\
+    ContasReceberListView, ContasReceberUpdateView, FiadoCreateView, \
+    lista_fiado, ContasReceberCreateView, codigo_acesso, FiadoUpdateView, \
+    FiadoDeleteView
 
 
 app_name = 'cliente'
@@ -19,4 +22,8 @@ urlpatterns = [
          ContasReceberUpdateView.as_view(), name='conta_receber_edit'),
     path('conta_receber_delete/<int:pk>/',
          ContasReceberDeleteView.as_view(), name='conta_receber_delete'),
+    path('fiado_edit/<int:pk>/',
+         FiadoUpdateView.as_view(), name='fiado_edit'),
+    path('fiado_delete/<int:pk>/',
+         FiadoDeleteView.as_view(), name='fiado_delete'),
 ]

@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
-from django.db.models import Count
+from vendas.models import Vendedor
 
 
 class Pedido(models.Model):
@@ -26,6 +26,8 @@ class Pedido(models.Model):
             ('D', 'Dinheiro'),
         )
     )
+    vendedor = models.ForeignKey(
+        Vendedor, on_delete=models.CASCADE, blank=True, null=True)
 
     @staticmethod
     def obter_quantidade_aprovados_por_dia(data):

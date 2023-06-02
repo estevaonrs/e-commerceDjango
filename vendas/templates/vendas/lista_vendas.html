@@ -73,9 +73,8 @@
       {{ pedido.data }}
      </td>
      <td class="px-6 py-4">
-      <a href="{% url 'pedido:detalhe_admin' pedido.id %}">
-       Ver <i class="fa fa-search-plus ml-2"></i>
-      </a>
+      {{ pedido.vendedor }}
+
      </td>
     </tr>
     {% endif %}

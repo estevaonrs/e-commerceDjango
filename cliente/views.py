@@ -114,3 +114,26 @@ class lista_fiado(ListView):
     template_name = 'cliente/lista_fiado.html'
     paginate_by = 10
     ordering = ['-id']
+
+
+class FiadoUpdateView(UpdateView):
+    model = Fiado
+    form_class = FiadoForm
+    template_name = 'fiado_create.html'
+    success_url = reverse_lazy('cliente:lista_fiado')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Editar Fiado'
+        return context
+
+
+class FiadoDeleteView(DeleteView):
+    model = Fiado
+    template_name = 'fiado_delete.html'
+    success_url = reverse_lazy('cliente:lista_fiado')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Excluir Fiado?'
+        return context

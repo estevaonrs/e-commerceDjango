@@ -46,7 +46,7 @@ urlpatterns = [
          name='fornecedor_create'),
     path('conta_pagar/', ContasPagarCreateView.as_view(),
          name='conta_pagar'),
-    path('GestaoEstoqueVariacao/', GestaoEstoqueVariacao,
+    path('gestao_estoque/', GestaoEstoqueVariacao,
          name='gestao_estoque'),
     path('lista_contaspagar/', views.ContasPagarListView.as_view(),
          name='lista_contaspagar'),

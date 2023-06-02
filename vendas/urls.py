@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.urls import path
-from .views import VendedorCreateView, Vendas, VendedoresListView
+from .views import VendedorCreateView, Vendas, VendedoresListView, VendedoresUpdateView, VendedoresDeleteView
 
 app_name = 'vendas'
 
@@ -11,4 +11,9 @@ urlpatterns = [
          name='vendas'),
     path('lista_vendedores/', VendedoresListView.as_view(),
          name='lista_vendedores'),
+    path('vendedor_edit/<int:pk>/',
+         VendedoresUpdateView.as_view(), name='vendedor_edit'),
+    path('vendedor_delete/<int:pk>/',
+         VendedoresDeleteView.as_view(), name='vendedor_delete'),
+
 ]

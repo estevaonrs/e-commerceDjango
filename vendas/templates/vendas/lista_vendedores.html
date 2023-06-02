@@ -37,11 +37,17 @@
       {{ vendedor.vendedor }}
      </th>
      <td class="px-6 py-4">
-      {{ vendedor.comissao }}
+      {{ vendedor.comissao|floatformat:2 }}%
+
      </td>
      <th scope="row"
       class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
-      {{ vendedor.vendedor }}
+      <a href="{% url 'vendas:vendedor_edit' vendedor.id %}">
+       <i class="fa-solid fa-pen-to-square fa-xl"></i>
+      </a>
+      <a href="{% url 'vendas:vendedor_delete' vendedor.id %}">
+       <i class="fa-solid fa-trash fa-xl"></i>
+      </a>
      </th>
     </tr>
     {% endfor %}

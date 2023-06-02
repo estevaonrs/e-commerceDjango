@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
+from vendas import models
 from pedido.models import Pedido
 from vendas.forms import VendedorForm
-from django.views.generic import TemplateView, CreateView, DetailView, ListView
+from django.views.generic import UpdateView, CreateView, DeleteView, ListView
 from .models import Vendedor
 
 
@@ -10,7 +11,7 @@ class VendedorCreateView(CreateView):
     model = Vendedor
     form_class = VendedorForm
     template_name = 'vendedor_create.html'
-    success_url = reverse_lazy('produto:cadastros')
+    success_url = reverse_lazy('vendas:lista_vendedores')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -25,6 +26,11 @@ class Vendas(ListView):
     paginate_by = 10
     ordering = ['-id']
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['vendedores'] = models.Vendedor.objects.all()
+        return context
+
 
 class VendedoresListView(ListView):
     model = Vendedor
@@ -32,3 +38,26 @@ class VendedoresListView(ListView):
     template_name = 'vendas/lista_vendedores.html'
     paginate_by = 10
     ordering = ['-id']
+
+
+class VendedoresUpdateView(UpdateView):
+    model = Vendedor
+    form_class = VendedorForm
+    template_name = 'vendedor_create.html'
+    success_url = reverse_lazy('c')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Editar Vendedor'
+        return context
+
+
+class VendedoresDeleteView(DeleteView):
+    model = Vendedor
+    template_name = 'vendedor_delete.html'
+    success_url = reverse_lazy('vendas:lista_vendedores')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Excluir Vendedor?'
+        return context

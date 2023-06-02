@@ -13,7 +13,7 @@ class ClienteForm(forms.ModelForm):
 class FiadoForm(forms.ModelForm):
     class Meta:
         model = models.Fiado
-        fields = ['data', 'cliente', 'valor', 'pagamento']
+        fields = ['data', 'cliente', 'valor', 'pagamento', 'status']
         widgets = {
             'data': forms.DateInput(
                 format='%Y-%m-%d',

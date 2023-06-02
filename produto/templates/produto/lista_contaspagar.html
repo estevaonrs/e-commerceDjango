@@ -30,6 +30,12 @@
      <th scope="col" class="px-6 py-3">
       Tipo de pagamento
      </th>
+     <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
+      Status
+     </th>
+     <th scope="col" class="px-6 py-4">
+      Ações
+     </th>
 
     </tr>
    </thead>
@@ -48,6 +54,18 @@
      </td>
      <td class="px-6 py-4">
       {{ conta.pagamento }}
+     </td>
+     <td
+      class="px-6 py-4 bg-gray-50 dark:bg-gray-800 {% if conta.status == 'D' %}text-red-500{% elif conta.status == 'P' %}text-green-500{% endif %}">
+      {{ conta.get_status_display }}
+     </td>
+     <td class="px-6 py-4">
+      <a href="{% url 'produto:conta_pagar_edit' conta.id %}">
+       <i class="fa-solid fa-pen-to-square fa-xl"></i>
+      </a>
+      <a href="{% url 'produto:conta_pagar_delete' conta.id %}">
+       <i class="fa-solid fa-trash fa-xl"></i>
+      </a>
      </td>
     </tr>
     {% endfor %}

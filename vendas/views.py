@@ -24,3 +24,11 @@ class Vendas(ListView):
     template_name = 'vendas/lista_vendas.html'
     paginate_by = 10
     ordering = ['-id']
+
+
+class VendedoresListView(ListView):
+    model = Vendedor
+    context_object_name = 'vendedores'
+    template_name = 'vendas/lista_vendedores.html'
+    paginate_by = 10
+    ordering = ['-id']

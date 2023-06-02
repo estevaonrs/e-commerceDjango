@@ -2,15 +2,16 @@ from django.forms import inlineformset_factory
 from django.urls import reverse_lazy
 
 from .models import Produto
+from django.views.generic import DeleteView
 
 from django.shortcuts import render, redirect
-from django.shortcuts import render, redirect, reverse, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views import View
 from django.contrib import messages
 from django.db.models import Q
-from django.views.generic.edit import DeleteView, CreateView
+from django.views.generic.edit import DeleteView, CreateView, UpdateView
 from django.forms.models import modelformset_factory
 
 from produto.forms import CategoriaForm, ProdutoForm, VariacaoForm, FornecedorForm, ContasPagarForm
@@ -44,11 +45,42 @@ class ContasPagarCreateView(CreateView):
     model = ContasPagar
     form_class = ContasPagarForm
     template_name = 'contaspagar_create.html'
-    success_url = reverse_lazy('produto:contas')
+    success_url = reverse_lazy('produto:lista_contaspagar')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Conta a Pagar'
+        return context
+
+
+class ContasPagarListView(ListView):
+    model = ContasPagar
+    context_object_name = 'contaspagar'
+    template_name = 'produto/lista_contaspagar.html'
+    paginate_by = 10
+    ordering = ['-id']
+
+
+class ContasPagarUpdateView(UpdateView):
+    model = ContasPagar
+    form_class = ContasPagarForm
+    template_name = 'contaspagar_create.html'
+    success_url = reverse_lazy('produto:lista_contaspagar')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Editar Conta a Pagar'
+        return context
+
+
+class ContasPagarDeleteView(DeleteView):
+    model = ContasPagar
+    template_name = 'contaspagar_delete.html'
+    success_url = reverse_lazy('produto:lista_contaspagar')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Excluir Conta a Pagar'
         return context
 
 

@@ -9,12 +9,11 @@ class Pedido(models.Model):
     total = models.FloatField()
     qtd_total = models.PositiveIntegerField()
     status = models.CharField(
-        default="L",
+        default="C",
         max_length=1,
         choices=(
+            ('C', 'Criado'),
             ('A', 'Aprovado'),
-            ('E', 'Enviado'),
-            ('F', 'Finalizado'),
         )
     )
     data = models.DateField(default=timezone.now,

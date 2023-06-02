@@ -9,7 +9,7 @@
 
  <div class="flex items-center justify-between mb-4">
   <div class="flex-shrink-0"><br><br><br>
-   <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">Contas a receber!</span><br><br>
+   <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">Todos os vendedores</span><br><br>
   </div>
 
  </div>
@@ -19,42 +19,39 @@
    <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
     <tr>
      <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-      Data
+      Vendedor
      </th>
      <th scope="col" class="px-6 py-3">
-      Cliente
+      Comissão
      </th>
      <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-      Valor a receber
-     </th>
-     <th scope="col" class="px-6 py-3">
-      Tipo de pagamento
-     </th>
-
+      Ações
     </tr>
    </thead>
    <tbody>
-    {% for conta in contasreceber %}
+    {% for vendedor in vendedores %}
+
     <tr class="border-b border-gray-200 dark:border-gray-700">
      <th scope="row"
       class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
-      {{ conta.data }}
+      {{ vendedor.vendedor }}
      </th>
      <td class="px-6 py-4">
-      {{ conta.cliente }}
+      {{ vendedor.comissao }}
      </td>
-     <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
-      {{ conta.valor }}
-     </td>
-     <td class="px-6 py-4">
-      {{ conta.pagamento }}
-     </td>
+     <th scope="row"
+      class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
+      {{ vendedor.vendedor }}
+     </th>
     </tr>
     {% endfor %}
    </tbody>
   </table>
  </div>
+
 </div>
+
+
 
 
 {% include 'parciais/_pagination.html' %}

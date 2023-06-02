@@ -96,7 +96,21 @@ class Fiado(models.Model):
                                 default=None, blank=True, null=True, verbose_name="Cliente")
     valor = models.FloatField(verbose_name="Valor da dívida")
     pagamento = models.CharField(
-        max_length=100, verbose_name="Tipo de pagamento")
+        default="C",
+        max_length=1,
+        choices=(
+            ('C', 'Cartão'),
+            ('D', 'Dinheiro'),
+        )
+    )
+    status = models.CharField(
+        default="D",
+        max_length=1,
+        choices=(
+            ('D', 'Devendo'),
+            ('P', 'Pago'),
+        )
+    )
 
 
 class ContasReceber(models.Model):
@@ -106,6 +120,14 @@ class ContasReceber(models.Model):
     valor = models.FloatField(verbose_name="Valor da dívida")
     pagamento = models.CharField(
         max_length=100, verbose_name="Tipo de pagamento")
+    status = models.CharField(
+        default="D",
+        max_length=1,
+        choices=(
+            ('D', 'Devendo'),
+            ('P', 'Pago'),
+        )
+    )
 
     class Meta:
         verbose_name = 'Contas a receber'

@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.shortcuts import render
 from django.views.generic import ListView
 from django.urls import reverse_lazy
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Cliente, Fiado, ContasReceber
 from .forms import ClienteForm, FiadoForm, ContasReceberForm
 from produto.models import Produto
@@ -52,11 +52,42 @@ class ContasReceberCreateView(CreateView):
     model = ContasReceber
     form_class = ContasReceberForm
     template_name = 'contasreceber_create.html'
-    success_url = reverse_lazy('produto:contas')
+    success_url = reverse_lazy('cliente:lista_contasreceber')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Conta a Receber'
+        return context
+
+
+class ContasReceberListView(ListView):
+    model = ContasReceber
+    context_object_name = 'contasreceber'
+    template_name = 'cliente/lista_contasreceber.html'
+    paginate_by = 10
+    ordering = ['-id']
+
+
+class ContasReceberUpdateView(UpdateView):
+    model = ContasReceber
+    form_class = ContasReceberForm
+    template_name = 'contasreceber_create.html'
+    success_url = reverse_lazy('cliente:lista_contasreceber')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Editar Conta a Receber'
+        return context
+
+
+class ContasReceberDeleteView(DeleteView):
+    model = ContasReceber
+    template_name = 'contasreceber_delete.html'
+    success_url = reverse_lazy('cliente:lista_contasreceber')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Excluir Conta a Receber'
         return context
 
 

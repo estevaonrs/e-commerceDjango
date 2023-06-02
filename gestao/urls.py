@@ -6,11 +6,8 @@ app_name = 'gestao'
 
 urlpatterns = [
     path('gestao/', views.GestaoView.as_view(), name='gestao'),
-    path('lista_devolucao/', views.ListaDevolucao.as_view(), name='lista_devolucao'),
-    path('lista_contasreceber/', views.ContasReceber.as_view(),
-         name='lista_contasreceber'),
-    path('lista_contaspagar/', views.ContasPagar.as_view(),
-         name='lista_contaspagar'),
+
+
     path('dashboard/', views.Dashboard.as_view(),
          name='dashboard'),
     path('caixa/', views.Caixa.as_view(),
@@ -23,6 +20,8 @@ urlpatterns = [
          views.reforco_caixa, name='reforco_caixa'),
     path('caixa_aberto/<int:pk>/retirada/',
          views.retirada_caixa, name='retirada_caixa'),
+
+
 
 
 ]

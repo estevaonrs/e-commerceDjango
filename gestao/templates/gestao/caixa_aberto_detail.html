@@ -29,8 +29,17 @@
                 data-toggle="modal" data-target="#modalRetirada">Retirada</a>
             </li>
             <li>
-              <a href="{% url 'perfil:logout' %}"
-                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Fechar Caixa</a>
+              <form action="" method="post">
+                {% csrf_token %}
+                <button type="submit" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Fechar Caixa</button>
+              </form>
+            </li>
+            <li>
+              <form method="post">
+                {% csrf_token %}
+            
+                <button type="submit" name="reopen" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Reabrir Caixa</button>
+            </form>
             </li>
           </ul>
         </div>
@@ -93,9 +102,18 @@
         <div class="flex items-center">
           <div class="flex-shrink-0">
             <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">Resumo Geral</span><br><br>
-            <h3 class="text-base font-normal text-gray-500">Quantidade de Vendas: {{ quantidade_aprovados }}</h3>
-            <h3 class="text-base font-normal text-gray-500">Valor Total: R$ {{ total_pedidos }}</h3>
-            <h3 class="text-base font-normal text-gray-500">Valor Médio das Vendas: R$ {{ valor_medio_vendas }}</h3>
+            <h3 class="text-base font-normal text-gray-500" style="color: blue;">Quantidade de Vendas: {{ quantidade_aprovados }}</h3>
+            {% if total_pedidos %}
+            <h3 class="text-base font-normal text-gray-500" style="color: green;">Valor Total: R$ {{ total_pedidos|floatformat:2 }}</h3>
+            {% else %}
+            <h3 class="text-base font-normal text-gray-500">Valor Total: R$ 0</h3>
+            {% endif %}
+            {% if valor_medio_vendas %}
+            <h3 class="text-base font-normal text-gray-500" style="color: blue;">Valor Médio das Vendas: R$ {{ valor_medio_vendas|floatformat:2 }}</h3>
+            {% else %}
+            <h3 class="text-base font-normal text-gray-500">Valor Médio das Vendas: R$ 0</h3>
+            {% endif %}
+
           </div>
         </div>
       </div>
@@ -104,25 +122,20 @@
         <div class="flex items-center">
           <div class="flex-shrink-0">
             <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">Resumo De Vendas</span><br><br>
-            <h3 class="text-base font-normal text-gray-500">Total Vendido: R$ {{ total_pedidos }}</h3>
-            <h3 class="text-base font-normal text-gray-500">Devoluções: R$ {{ soma_devolucoes }}</h3>
+            {% if total_pedidos %}
+            <h3 class="text-base font-normal text-gray-500" style="color: green;">Total Vendido: R$ {{ total_pedidos|floatformat:2 }}
+            </h3>
+            {% else %}
+            <h3 class="text-base font-normal text-gray-500">Total Vendido: R$ 0</h3>
+            {% endif %}
 
-          </div>
-        </div>
-      </div>
+            {% if soma_devolucoes %}
+            <h3 class="text-base font-normal text-gray-500" style="color: red;">Devoluções: R$ {{ soma_devolucoes|floatformat:2 }}
+            </h3>
+            {% else %}
+            <h3 class="text-base font-normal text-gray-500">Devoluções: R$ 0</h3>
+            {% endif %}
 
-      <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 mb-4">
-        <div class="flex items-center">
-          <div class="flex-shrink-0">
-            <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">Movimentações do
-              Caixa</span><br><br>
-            <h3 class="text-base font-normal text-gray-500">Valor Inicial do Caixa (+): R$ {{ caixa.valor }}</h3>
-            <h3 class="text-base font-normal text-gray-500">Total de Vendas (+): R$ {{ total_pedidos }}</h3>
-            <h3 class="text-base font-normal text-gray-500">Recebimentos (Fiado +): R$ {{ soma_fiados }}</h3>
-            <h3 class="text-base font-normal text-gray-500">Reforços (+): R${{ soma_reforcos }}</h3>
-            <h3 class="text-base font-normal text-gray-500">Retiradas (-): R${{ soma_retiradas }}</h3>
-            <h3 class="text-base font-normal text-gray-500">Vendas Fiado (-):</h3>
-            <h3 class="text-base font-normal text-gray-500">Saldo:</h3>
           </div>
         </div>
       </div>
@@ -131,13 +144,79 @@
         <div class="flex items-center">
           <div class="flex-shrink-0">
             <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">Dinheiro</span><br><br>
-            <h3 class="text-base font-normal text-gray-500">Entrada:</h3>
-            <h3 class="text-base font-normal text-gray-500">Saída:</h3>
-            <h3 class="text-base font-normal text-gray-500">Saldo:</h3>
+            <h3 class="text-base font-normal text-gray-500" style="color: blue;">Quantidade de vendas: {{ quantidade_pedidos_d }}</h3>
+            <h3 class="text-base font-normal text-gray-500" style="color: green;">Total de vendas em Dinheiro: R${{ soma_quantidade_pedidos_d|floatformat:2 }}</h3>
+          </div>
+        </div>
+      </div>
+      <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 mb-4">
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">Cartão</span><br><br>
+            <h3 class="text-base font-normal text-gray-500" style="color: blue;">Quantidade de vendas: {{ quantidade_pedidos_c }}</h3>
+            <h3 class="text-base font-normal text-gray-500" style="color: green;">Total de vendas em Cartão: R${{ soma_quantidade_pedidos_c|floatformat:2 }}</h3>
           </div>
         </div>
       </div>
     </div>
+
+      <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 mb-4">
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">Movimentações do
+              Caixa</span><br><br>
+            <h3 class="text-base font-normal text-gray-500" style="color: green;">Valor Inicial do Caixa (+):
+              R$ {{ caixa.valor|floatformat:2 }}</h3>
+            {% if total_pedidos %}
+            <h3 class="text-base font-normal text-gray-500" style="color: green;">Total de Vendas (+): R$
+              {{ total_pedidos|floatformat:2 }}</h3>
+            {% else %}
+            <h3 class="text-base font-normal text-gray-500">Total de Vendas (+): R$ 0</h3>
+            {% endif %}
+            {% if soma_fiados %}
+            <h3 class="text-base font-normal text-gray-500" style="color: green;">Recebimentos (Fiado +): R$
+              {{ soma_fiados|floatformat:2 }}</h3>
+            {% else %}
+            <h3 class="text-base font-normal text-gray-500">Recebimentos (Fiado +): R$ 0</h3>
+            {% endif %}
+            {% if soma_reforcos %}
+            <h3 class="text-base font-normal text-gray-500" style="color: green;">Reforços (+): R${{ soma_reforcos|floatformat:2 }}
+            </h3>
+            {% else %}
+            <h3 class="text-base font-normal text-gray-500">Reforços (+): R$0</h3>
+            {% endif %}
+            {% if soma_retiradas %}
+            <h3 class="text-base font-normal text-gray-500" style="color: red;">Retiradas (-): R${{ soma_retiradas|floatformat:2 }}
+            </h3>
+            {% else %}
+            <h3 class="text-base font-normal text-gray-500">Retiradas (-): R$0</h3>
+            {% endif %}
+            {% if diminuicao_fiados %}
+            <h3 class="text-base font-normal text-gray-500" style="color: red;">Vendas Fiado (-): R$ {{ diminuicao_fiados|floatformat:2 }}</h3>
+            {% else %}
+            <h3 class="text-base font-normal text-gray-500">Vendas Fiado: R$ 0</h3>
+            {% endif %}
+            {% if soma_devolucoes %}
+            <h3 class="text-base font-normal text-gray-500" style="color: red;">Devoluções: R$ {{ soma_devolucoes|floatformat:2 }}
+            </h3>
+            {% else %}
+            <h3 class="text-base font-normal text-gray-500">Devoluções: R$ 0</h3>
+            {% endif %}            
+            {% if saldo %}
+                {% if saldo < 0 %}
+                    <h3 class="text-base font-normal text-red-500">Saldo: R$ {{ saldo|floatformat:2 }}</h3>
+                {% else %}
+                    <h3 class="text-base font-normal text-green-500">Saldo: R$ {{ saldo|floatformat:2 }}</h3>
+                {% endif %}
+            {% else %}
+                <h3 class="text-base font-normal text-green-500">Saldo: R$ {{ caixa.valor|floatformat:2 }}</h3>
+            {% endif %}          
+
+          </div>
+        </div>
+      </div>
+
+      
 
   </div>
 </div>

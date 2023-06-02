@@ -5,7 +5,7 @@ from . import models
 
 class FiadoAdmin(admin.ModelAdmin):
     list_display = ['data', 'cliente',
-                    'valor', 'pagamento']
+                    'valor', 'pagamento', 'status']
 
 
 class ContasReceberAdmin(admin.ModelAdmin):

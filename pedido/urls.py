@@ -19,6 +19,13 @@ urlpatterns = [
          name='devolucao_create'),
     path('criar_novo_pedido/', views.criar_novo_pedido.as_view(),
          name='criar_novo_pedido'),
+    path('lista_devolucao/', views.DevolucaoListView.as_view(),
+         name='lista_devolucao'),
+    path('devolucao_edit/<int:pk>/',
+         views.DevolucaoUpdateView.as_view(), name='devolucao_edit'),
+    path('devolucao_delete/<int:pk>/',
+         views.DevolucaoDeleteView.as_view(), name='devolucao_delete'),
+
 
 
 

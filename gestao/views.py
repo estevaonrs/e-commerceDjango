@@ -1,3 +1,4 @@
+from .models import CaixaAberto
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView
@@ -6,8 +7,8 @@ from django.views.generic import TemplateView, CreateView
 from . models import CaixaAberto, Retirada, Reforço
 from . forms import CaixaAbertoForm, ReforçoForm, RetiradaForm
 from pedido.models import Devolucao, Pedido
-from cliente.models import ContasReceber, Fiado
-from produto.models import ContasPagar
+from cliente.models import Fiado
+
 from django.views.generic.detail import DetailView
 from datetime import date
 from django.db.models import Sum, Avg
@@ -35,19 +36,45 @@ class CaixaAbertoDetail(DetailView):
         pedidos_aprovados = Pedido.objects.filter(status='A', data=data_caixa)
         quantidade_aprovados = pedidos_aprovados.count()
 
-        soma_fiados = Fiado.objects.filter(
-            data=data_caixa).aggregate(soma=Sum('valor'))['soma']
+        pedidos_c = Pedido.objects.filter(
+            data=data_caixa, pagamento='C', status='A')
+        quantidade_pedidos_c = pedidos_c.count()
+        soma_quantidade_pedidos_c = pedidos_c.aggregate(soma=Sum('total'))[
+            'soma'] or 0
+
+        pedidos_d = Pedido.objects.filter(
+            data=data_caixa, pagamento='D', status='A')
+        quantidade_pedidos_d = pedidos_d.count()
+        soma_quantidade_pedidos_d = pedidos_d.aggregate(soma=Sum('total'))[
+            'soma'] or 0
+
+        fiados = Fiado.objects.filter(data=data_caixa, status='P')
+        soma_fiados = fiados.aggregate(soma=Sum('valor'))['soma'] or 0
+
+        fiados_d = Fiado.objects.filter(data=data_caixa, status='D')
+        diminuicao_fiados = - \
+            (fiados_d.aggregate(soma=Sum('valor'))['soma'] or 0)
+
         total_pedidos = pedidos_aprovados.aggregate(
-            total=Sum('total'))['total']
+            total=Sum('total'))['total'] or 0
         valor_medio_vendas = pedidos_aprovados.aggregate(media=Avg('total'))[
             'media']
         soma_devolucoes = devolucoes.aggregate(
-            soma=Sum('pedido__total'))['soma']
+            soma=Sum('pedido__total'))['soma'] or 0
         soma_retiradas = Retirada.objects.filter(
-            data=data_caixa).aggregate(soma=Sum('retirada'))['soma']
-        soma_reforcos = Reforço.objects.filter(data=data_caixa).aggregate(soma=Sum('reforço'))['soma']
+            data=data_caixa).aggregate(soma=Sum('retirada'))['soma'] or 0
+        soma_reforcos = Reforço.objects.filter(data=data_caixa).aggregate(soma=Sum('reforço'))['soma'] or 0
 
+        saldo = caixa.valor + total_pedidos - soma_devolucoes + \
+            soma_reforcos + soma_fiados - soma_retiradas + diminuicao_fiados
+
+        context['quantidade_pedidos_c'] = quantidade_pedidos_c
+        context['soma_quantidade_pedidos_c'] = soma_quantidade_pedidos_c
+        context['quantidade_pedidos_d'] = quantidade_pedidos_d
+        context['soma_quantidade_pedidos_d'] = soma_quantidade_pedidos_d
         context['soma_fiados'] = soma_fiados
+        context['diminuicao_fiados'] = diminuicao_fiados
+        context['saldo'] = saldo
         context['data_caixa'] = data_caixa
         context['pedidos_aprovados'] = pedidos_aprovados
         context['quantidade_aprovados'] = quantidade_aprovados
@@ -61,6 +88,22 @@ class CaixaAbertoDetail(DetailView):
         context['soma_reforcos'] = soma_reforcos
 
         return context
+
+    def post(self, request, *args, **kwargs):
+        caixa = self.get_object()
+
+        if 'reopen' in request.POST:
+            # Verifica se o caixa está fechado antes de reabri-lo
+            if caixa.status == 'F':
+                caixa.status = 'A'
+                caixa.save()
+        else:
+            # Verifica se o caixa está aberto antes de fechá-lo
+            if caixa.status == 'A':
+                caixa.status = 'F'
+                caixa.save()
+
+        return redirect('gestao:lista_caixa')
 
 
 def reforco_caixa(request, pk):
@@ -93,30 +136,6 @@ def retirada_caixa(request, pk):
 
 class Dashboard(TemplateView):
     template_name = 'dashboard.html'
-
-
-class ListaDevolucao(ListView):
-    model = Devolucao
-    context_object_name = 'devolucoes'
-    template_name = 'gestao/lista_devolucao.html'
-    paginate_by = 10
-    ordering = ['-id']
-
-
-class ContasReceber(ListView):
-    model = ContasReceber
-    context_object_name = 'contasreceber'
-    template_name = 'gestao/lista_contasreceber.html'
-    paginate_by = 10
-    ordering = ['-id']
-
-
-class ContasPagar(ListView):
-    model = ContasPagar
-    context_object_name = 'contaspagar'
-    template_name = 'gestao/lista_contaspagar.html'
-    paginate_by = 10
-    ordering = ['-id']
 
 
 class Caixa(CreateView):

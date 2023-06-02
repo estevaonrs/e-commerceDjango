@@ -36,6 +36,13 @@
           <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
             Observações
           </th>
+          <th scope="col" class="px-6 py-3">
+            Data
+          </th>
+          <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
+            Ações
+          </th>
+
         </tr>
       </thead>
       <tbody>
@@ -57,9 +64,21 @@
           <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
             {{ devolucao.observacoes }}
           </td>
+          <td class="px-6 py-4">
+            {{ devolucao.data }}
+          </td>
 
+          <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
+            <a href="{% url 'pedido:devolucao_edit' devolucao.id %}">
+              <i class="fa-solid fa-pen-to-square fa-xl"></i>
+            </a>
+            <a href="{% url 'pedido:devolucao_delete' devolucao.id %}">
+              <i class="fa-solid fa-trash fa-xl"></i>
+            </a>
+          </td>
         </tr>
         {% endfor %}
+
       </tbody>
     </table>
   </div>

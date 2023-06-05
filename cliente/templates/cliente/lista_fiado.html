@@ -9,8 +9,7 @@
 
   <div class="flex items-center justify-between mb-4">
     <div class="flex-shrink-0"><br><br><br>
-      <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">Todos os pagamentos pendentes como
-        fiados</span><br><br>
+      <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">Fiados</span><br><br>
     </div>
 
   </div>
@@ -20,21 +19,24 @@
       <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
         <tr>
           <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-            Data
+            Data da compra
           </th>
           <th scope="col" class="px-6 py-3">
+            Data do pagamento
+          </th>
+          <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
             Valor
           </th>
-          <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
+          <th scope="col" class="px-6 py-3">
             Cliente
           </th>
-          <th scope="col" class="px-6 py-3">
+          <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
             Tipo de pagamento
           </th>
-          <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
+          <th scope="col" class="px-6 py-3">
             Status
           </th>
-          <th scope="col" class="px-6 py-4">
+          <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
             Ações
           </th>
         </tr>
@@ -47,25 +49,29 @@
             {{ fiado.data }}
           </th>
           <td class="px-6 py-4">
-            {{ fiado.valor }}
+            {{ fiado.data_p }}
           </td>
           <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
-            {{ fiado.cliente }}
+            {{ fiado.valor|floatformat:2 }}
           </td>
           <td class="px-6 py-4">
+            {{ fiado.cliente }}
+          </td>
+          <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
             {{ fiado.get_pagamento_display }}
           </td>
           <td
-            class="px-6 py-4 bg-gray-50 dark:bg-gray-800 {% if fiado.status == 'D' %}text-red-500{% elif fiado.status == 'P' %}text-green-500{% endif %}">
+            class="px-6 py-4 {% if fiado.status == 'D' %}text-red-500{% elif fiado.status == 'P' %}text-green-500{% endif %}">
             {{ fiado.get_status_display }}
           </td>
-          <td class="px-6 py-4">
+          <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
             <a href="{% url 'cliente:fiado_edit' fiado.id %}">
-              <i class="fa-solid fa-pen-to-square fa-xl"></i>
+              <i class="fa-solid fa-pen-to-square fa-xl" style="color:mediumblue"></i>
             </a>
             <a href="{% url 'cliente:fiado_delete' fiado.id %}">
-              <i class="fa-solid fa-trash fa-xl"></i>
+              <i class="fa-solid fa-trash fa-xl" style="color: red;"></i>
             </a>
+
           </td>
 
         </tr>

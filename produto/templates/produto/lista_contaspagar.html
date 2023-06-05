@@ -50,7 +50,7 @@
       {{ conta.fornecedor }}
      </td>
      <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
-      {{ conta.valor }}
+      {{ conta.valor|floatformat:2 }}
      </td>
      <td class="px-6 py-4">
       {{ conta.pagamento }}
@@ -61,10 +61,10 @@
      </td>
      <td class="px-6 py-4">
       <a href="{% url 'produto:conta_pagar_edit' conta.id %}">
-       <i class="fa-solid fa-pen-to-square fa-xl"></i>
+       <i class="fa-solid fa-pen-to-square fa-xl" style="color:mediumblue"></i>
       </a>
       <a href="{% url 'produto:conta_pagar_delete' conta.id %}">
-       <i class="fa-solid fa-trash fa-xl"></i>
+       <i class="fa-solid fa-trash fa-xl" style="color: red;"></i>
       </a>
      </td>
     </tr>

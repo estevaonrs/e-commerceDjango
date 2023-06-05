@@ -1,5 +1,5 @@
 from django.forms import inlineformset_factory
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 
 from .models import Produto
 from django.views.generic import DeleteView
@@ -30,6 +30,37 @@ class FornecedorCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Novo Fornecedor'
+        return context
+
+
+class FornecedorListView(ListView):
+    model = Fornecedor
+    context_object_name = 'fornecedores'
+    template_name = 'produto/lista_fornecedores.html'
+    paginate_by = 10
+    ordering = ['-id']
+
+
+class FornecedorUpdateView(UpdateView):
+    model = Fornecedor
+    form_class = FornecedorForm
+    template_name = 'fornecedor_create.html'
+    success_url = reverse_lazy('produto:lista_fornecedores')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Editar Fornecedor'
+        return context
+
+
+class FornecedorDeleteView(DeleteView):
+    model = Fornecedor
+    template_name = 'fornecedor_delete.html'
+    success_url = reverse_lazy('produto:lista_fornecedor')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Excluir Fornecedor'
         return context
 
 

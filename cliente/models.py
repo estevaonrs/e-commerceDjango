@@ -91,7 +91,9 @@ class Cliente(models.Model):
 
 class Fiado(models.Model):
     data = models.DateField(default=timezone.now,
-                            verbose_name='Data do pagamento')
+                            verbose_name='Data da compra')
+    data_p = models.DateField(default=timezone.now,
+                              verbose_name='Data do pagamento')
     cliente = models.ForeignKey(Cliente, on_delete=models.PROTECT,
                                 default=None, blank=True, null=True, verbose_name="Cliente")
     valor = models.FloatField(verbose_name="Valor da dívida")

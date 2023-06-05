@@ -1,5 +1,6 @@
 {% extends "includes/base_dashboard.html" %}
 {% load omfilters %}
+{% load static %}
 
 {% block titulo %}Pedidos{% endblock %}
 
@@ -10,215 +11,411 @@
 
   <div class="flex items-center justify-between mb-4">
     <div class="flex-shrink-0"><br><br><br>
-      <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">Gestão do caixa {{ caixa.id }},
+      <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">Gestão do caixa: <br>{{ caixa.id }},
         {{ caixa.data }} <button id="dropdownDefaultButton" data-dropdown-toggle="dropdownCircle" type="button"><i
             class="fa-solid fa-circle-plus"></i>
           <svg class="w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg">
-          </svg></button>
-        <!-- Dropdown menu -->
-        <div id="dropdownCircle"
-          class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-          <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
-            <li>
-              <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                data-toggle="modal" data-target="#modalReforco">Reforço</a>
-            </li>
-            <li>
-              <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                data-toggle="modal" data-target="#modalRetirada">Retirada</a>
-            </li>
-            <li>
-              <form action="" method="post">
-                {% csrf_token %}
-                <button type="submit" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Fechar Caixa</button>
-              </form>
-            </li>
-            <li>
-              <form method="post">
-                {% csrf_token %}
-            
-                <button type="submit" name="reopen" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Reabrir Caixa</button>
+          </svg></button></span>
+      <!-- Dropdown menu -->
+      <div id="dropdownCircle"
+        class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+          <li>
+            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+              data-toggle="modal" data-target="#modalReforco">Reforço</a>
+          </li>
+          <li>
+            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+              data-toggle="modal" data-target="#modalRetirada">Retirada</a>
+          </li>
+          <li>
+            <form action="" method="post">
+              {% csrf_token %}
+              <button type="submit"
+                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Fechar
+                Caixa</button>
             </form>
-            </li>
-          </ul>
-        </div>
+          </li>
+          <li>
+            <form method="post">
+              {% csrf_token %}
 
-        <!-- Modal de Reforço -->
-        <div class="modal fade" id="modalReforco" tabindex="-1" role="dialog" aria-labelledby="modalReforcoLabel"
-          aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="modalReforcoLabel">Reforço de Caixa</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <!-- Formulário para reforço de caixa -->
-                <form action="{% url 'gestao:reforco_caixa' caixa.pk %}" method="post">
-                  {% csrf_token %}
-                  {{ reforco_form.as_p }}
-                  <button type="submit" class="btn btn-primary">Confirmar</button>
-                </form>
-              </div>
+              <button type="submit" name="reopen"
+                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Reabrir
+                Caixa</button>
+            </form>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Modal de Reforço -->
+      <div class="modal fade" id="modalReforco" tabindex="-1" role="dialog" aria-labelledby="modalReforcoLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modalReforcoLabel">Reforço de Caixa</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <!-- Formulário para reforço de caixa -->
+              <form action="{% url 'gestao:reforco_caixa' caixa.pk %}" method="post">
+                {% csrf_token %}
+                {{ reforco_form.as_p }}
+                <button type="submit" class="btn btn-primary">Confirmar</button>
+              </form>
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- Modal de Retirada -->
-        <div class="modal fade" id="modalRetirada" tabindex="-1" role="dialog" aria-labelledby="modalRetiradaLabel"
-          aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="modalRetiradaLabel">Retirada de Caixa</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <!-- Formulário para retirada de caixa -->
-                <form action="{% url 'gestao:retirada_caixa' caixa.pk %}" method="post">
-                  {% csrf_token %}
-                  {{ retirada_form.as_p }}
-                  <button type="submit" class="btn btn-primary">Confirmar</button>
-                </form>
-              </div>
+      <!-- Modal de Retirada -->
+      <div class="modal fade" id="modalRetirada" tabindex="-1" role="dialog" aria-labelledby="modalRetiradaLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modalRetiradaLabel">Retirada de Caixa</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <!-- Formulário para retirada de caixa -->
+              <form action="{% url 'gestao:retirada_caixa' caixa.pk %}" method="post">
+                {% csrf_token %}
+                {{ retirada_form.as_p }}
+                <button type="submit" class="btn btn-primary">Confirmar</button>
+              </form>
             </div>
           </div>
         </div>
+      </div>
       </span><br><br>
     </div>
 
   </div>
 
-  <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
 
+  <main>
 
-    <div class="mt-4">
-      <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 mb-4">
-        <div class="flex items-center">
-          <div class="flex-shrink-0">
-            <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">Resumo Geral</span><br><br>
-            <h3 class="text-base font-normal text-gray-500" style="color: blue;">Quantidade de Vendas: {{ quantidade_aprovados }}</h3>
-            {% if total_pedidos %}
-            <h3 class="text-base font-normal text-gray-500" style="color: green;">Valor Total: R$ {{ total_pedidos|floatformat:2 }}</h3>
-            {% else %}
-            <h3 class="text-base font-normal text-gray-500">Valor Total: R$ 0</h3>
-            {% endif %}
-            {% if valor_medio_vendas %}
-            <h3 class="text-base font-normal text-gray-500" style="color: blue;">Valor Médio das Vendas: R$ {{ valor_medio_vendas|floatformat:2 }}</h3>
-            {% else %}
-            <h3 class="text-base font-normal text-gray-500">Valor Médio das Vendas: R$ 0</h3>
-            {% endif %}
-
+    <div class="pt-6 px-4">
+      <div class="grid grid-cols-1 2xl:grid-cols-2 xl:gap-4 my-4">
+        <!-- Top Sales Card -->
+        <div class="bg-white shadow rounded-lg mb-4 p-4 sm:p-6 h-full">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xl font-bold leading-none text-gray-900">Movimentações financeiras de hoje
+            </h3>
+          </div>
+          <div class="flow-root">
+            <ul role="list" class="divide-y divide-gray-200">
+              <li class="py-3 sm:py-4">
+                <div class="flex items-center space-x-4">
+                  <div class="flex-1 min-w-0">
+                    <p class="text-sm font-medium text-gray-900 truncate">
+                      <canvas id="grafico-barras" data-total-pedidos="{{ total_pedidos }}"
+                        data-valor-medio-vendas="{{ valor_medio_vendas }}"
+                        data-quantidade-devolucoes="{{ soma_devolucoes }}" data-soma-fiados="{{ soma_fiados }}"
+                        data-diminuicao-fiados="{{ diminuicao_fiados }}" data-saldo="{{ saldo }}"
+                        data-soma-retiradas="{{ soma_retiradas}}" data-soma-reforcos="{{ soma_reforcos }}"></canvas>
+                    </p>
+                  </div>
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
-      </div>
 
-      <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 mb-4">
-        <div class="flex items-center">
-          <div class="flex-shrink-0">
-            <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">Resumo De Vendas</span><br><br>
-            {% if total_pedidos %}
-            <h3 class="text-base font-normal text-gray-500" style="color: green;">Total Vendido: R$ {{ total_pedidos|floatformat:2 }}
-            </h3>
-            {% else %}
-            <h3 class="text-base font-normal text-gray-500">Total Vendido: R$ 0</h3>
-            {% endif %}
-
-            {% if soma_devolucoes %}
-            <h3 class="text-base font-normal text-gray-500" style="color: red;">Devoluções: R$ {{ soma_devolucoes|floatformat:2 }}
-            </h3>
-            {% else %}
-            <h3 class="text-base font-normal text-gray-500">Devoluções: R$ 0</h3>
-            {% endif %}
-
+        <br>
+        <div class="bg-white shadow rounded-lg mb-4 p-4 sm:p-6 h-full">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xl font-bold leading-none text-gray-900">Resumo Geral</h3>
+          </div>
+          <div class="flow-root">
+            <ul role="list" class="divide-y divide-gray-200">
+              <li class="py-3 sm:py-4">
+                <div class="flex items-center space-x-4">
+                  <div class="flex-1 min-w-0">
+                    <p class="text-sm font-medium text-gray-900 truncate" style="color: blue;">
+                      Qtd. Vendas: {{ quantidade_aprovados }}
+                    </p>
+                    {% if total_pedidos %}
+                    <p class="text-sm font-medium text-gray-900 truncate" style="color: green;">
+                      Valor Total: R$
+                      {{ total_pedidos|floatformat:2 }}
+                    </p>
+                    {% else %}
+                    <p class="text-sm font-medium text-gray-900 truncate">
+                      Valor Total: R$ 0 </p>
+                    {% endif %}
+                    {% if valor_medio_vendas %}
+                    <p class="text-sm font-medium text-gray-900 truncate" style="color: blue;">
+                      Valor Médio das Vendas: R$
+                      {{ valor_medio_vendas|floatformat:2 }}</p>
+                    {% else %}
+                    <p class="text-sm font-medium text-gray-900 truncate">
+                      Valor Médio das Vendas: R$ 0 </p>
+                    {% endif %}
+                  </div>
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
-      </div>
 
-      <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 mb-4">
-        <div class="flex items-center">
-          <div class="flex-shrink-0">
-            <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">Dinheiro</span><br><br>
-            <h3 class="text-base font-normal text-gray-500" style="color: blue;">Quantidade de vendas: {{ quantidade_pedidos_d }}</h3>
-            <h3 class="text-base font-normal text-gray-500" style="color: green;">Total de vendas em Dinheiro: R${{ soma_quantidade_pedidos_d|floatformat:2 }}</h3>
+        <br>
+        <div class="bg-white shadow rounded-lg mb-4 p-4 sm:p-6 h-full">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xl font-bold leading-none text-gray-900">Resumo de Vendas</h3>
+          </div>
+          <div class="flow-root">
+            <ul role="list" class="divide-y divide-gray-200">
+              <li class="py-3 sm:py-4">
+                <div class="flex items-center space-x-4">
+                  <div class="flex-1 min-w-0">
+                    {% if total_pedidos %}
+                    <p class="text-sm font-medium text-gray-900 truncate" style="color: green;">
+                      Total Vendido: R$
+                      {{ total_pedidos|floatformat:2 }}
+                    </p>
+                    {% else %}
+                    <p class="text-sm font-medium text-gray-900 truncate">
+                      Total Vendido: R$ 0 </p>
+                    {% endif %}
+                    {% if soma_devolucoes %}
+                    <p class="text-sm font-medium text-gray-900 truncate" style="color: red;">
+                      Devoluções: R$
+                      {{ soma_devolucoes|floatformat:2 }}</p>
+                    {% else %}
+                    <p class="text-sm font-medium text-gray-900 truncate">
+                      Devoluções: R$ 0</p>
+                    {% endif %}
+                  </div>
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
-      </div>
-      <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 mb-4">
-        <div class="flex items-center">
-          <div class="flex-shrink-0">
-            <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">Cartão</span><br><br>
-            <h3 class="text-base font-normal text-gray-500" style="color: blue;">Quantidade de vendas: {{ quantidade_pedidos_c }}</h3>
-            <h3 class="text-base font-normal text-gray-500" style="color: green;">Total de vendas em Cartão: R${{ soma_quantidade_pedidos_c|floatformat:2 }}</h3>
+
+
+        <br>
+        <div class="bg-white shadow rounded-lg mb-4 p-4 sm:p-6 h-full">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xl font-bold leading-none text-gray-900">Dinheiro</h3>
+          </div>
+          <div class="flow-root">
+            <ul role="list" class="divide-y divide-gray-200">
+              <li class="py-3 sm:py-4">
+                <div class="flex items-center space-x-4">
+                  <div class="flex-1 min-w-0">
+                    <p class="text-sm font-medium text-gray-900 truncate" style="color: blue;">
+                      Qtd. Vendas: {{ quantidade_pedidos_d }}
+                    </p>
+                    <p class="text-sm font-medium text-gray-900 truncate" style="color: green;">
+                      Total em Dinheiro: R$
+                      {{ soma_quantidade_pedidos_d|floatformat:2 }}
+                    </p>
+                  </div>
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
-      </div>
-    </div>
 
-      <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 mb-4">
-        <div class="flex items-center">
-          <div class="flex-shrink-0">
-            <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">Movimentações do
-              Caixa</span><br><br>
-            <h3 class="text-base font-normal text-gray-500" style="color: green;">Valor Inicial do Caixa (+):
-              R$ {{ caixa.valor|floatformat:2 }}</h3>
-            {% if total_pedidos %}
-            <h3 class="text-base font-normal text-gray-500" style="color: green;">Total de Vendas (+): R$
-              {{ total_pedidos|floatformat:2 }}</h3>
-            {% else %}
-            <h3 class="text-base font-normal text-gray-500">Total de Vendas (+): R$ 0</h3>
-            {% endif %}
-            {% if soma_fiados %}
-            <h3 class="text-base font-normal text-gray-500" style="color: green;">Recebimentos (Fiado +): R$
-              {{ soma_fiados|floatformat:2 }}</h3>
-            {% else %}
-            <h3 class="text-base font-normal text-gray-500">Recebimentos (Fiado +): R$ 0</h3>
-            {% endif %}
-            {% if soma_reforcos %}
-            <h3 class="text-base font-normal text-gray-500" style="color: green;">Reforços (+): R${{ soma_reforcos|floatformat:2 }}
-            </h3>
-            {% else %}
-            <h3 class="text-base font-normal text-gray-500">Reforços (+): R$0</h3>
-            {% endif %}
-            {% if soma_retiradas %}
-            <h3 class="text-base font-normal text-gray-500" style="color: red;">Retiradas (-): R${{ soma_retiradas|floatformat:2 }}
-            </h3>
-            {% else %}
-            <h3 class="text-base font-normal text-gray-500">Retiradas (-): R$0</h3>
-            {% endif %}
-            {% if diminuicao_fiados %}
-            <h3 class="text-base font-normal text-gray-500" style="color: red;">Vendas Fiado (-): R$ {{ diminuicao_fiados|floatformat:2 }}</h3>
-            {% else %}
-            <h3 class="text-base font-normal text-gray-500">Vendas Fiado: R$ 0</h3>
-            {% endif %}
-            {% if soma_devolucoes %}
-            <h3 class="text-base font-normal text-gray-500" style="color: red;">Devoluções: R$ {{ soma_devolucoes|floatformat:2 }}
-            </h3>
-            {% else %}
-            <h3 class="text-base font-normal text-gray-500">Devoluções: R$ 0</h3>
-            {% endif %}            
-            {% if saldo %}
-                {% if saldo < 0 %}
-                    <h3 class="text-base font-normal text-red-500">Saldo: R$ {{ saldo|floatformat:2 }}</h3>
-                {% else %}
-                    <h3 class="text-base font-normal text-green-500">Saldo: R$ {{ saldo|floatformat:2 }}</h3>
-                {% endif %}
-            {% else %}
-                <h3 class="text-base font-normal text-green-500">Saldo: R$ {{ caixa.valor|floatformat:2 }}</h3>
-            {% endif %}          
 
+        <br>
+        <div class="bg-white shadow rounded-lg mb-4 p-4 sm:p-6 h-full">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xl font-bold leading-none text-gray-900">Cartão</h3>
+          </div>
+          <div class="flow-root">
+            <ul role="list" class="divide-y divide-gray-200">
+              <li class="py-3 sm:py-4">
+                <div class="flex items-center space-x-4">
+                  <div class="flex-1 min-w-0">
+                    <p class="text-sm font-medium text-gray-900 truncate" style="color: blue;">
+                      Qtd. Vendas:
+                      {{ quantidade_pedidos_c }}
+                    </p>
+                    <p class="text-sm font-medium text-gray-900 truncate" style="color: green;">
+                      Total em Cartão: R$
+                      {{ soma_quantidade_pedidos_c|floatformat:2 }}
+                    </p>
+                  </div>
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
+
+
+        <br>
+        <div class="bg-white shadow rounded-lg mb-4 p-4 sm:p-6 h-full">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xl font-bold leading-none text-gray-900">Movimentações do
+              Caixa</h3>
+          </div>
+          <div class="flow-root">
+            <ul role="list" class="divide-y divide-gray-200">
+              <li class="py-3 sm:py-4">
+                <div class="flex items-center space-x-4">
+                  <div class="flex-1 min-w-0">
+                    <p class="text-sm font-medium text-gray-900 truncate" style="color: green;">
+                      Valor Inicial do Caixa (+):
+                      R$ {{ caixa.valor|floatformat:2 }}
+                    </p>
+                    {% if total_pedidos %}
+                    <p class="text-sm font-medium text-gray-900 truncate" style="color: green;">
+                      Total de Vendas (+): R$
+                      {{ total_pedidos|floatformat:2 }}
+                    </p>
+                    {% else %}
+                    <p class="text-sm font-medium text-gray-900 truncate">
+                      Total de Vendas (+): R$ 0</p>
+                    {% endif %}
+                    {% if soma_fiados %}
+                    <p class="text-sm font-medium text-gray-900 truncate" style="color: green;">
+                      Recebimentos (Fiado +): R$
+                      {{ soma_fiados|floatformat:2 }}</p>
+                    {% else %}
+                    <p class="text-sm font-medium text-gray-900 truncate">
+                      Recebimentos (Fiado +): R$ 0</p>
+                    {% endif %}
+                    {% if soma_reforcos %}
+                    <p class="text-sm font-medium text-gray-900 truncate" style="color: green;">
+                      Reforços (+): R$
+                      {{ soma_reforcos|floatformat:2 }}</p>
+                    {% else %}
+                    <p class="text-sm font-medium text-gray-900 truncate">
+                      Reforços (+): R$0</p>
+                    {% endif %}
+                    {% if soma_retiradas %}
+                    <p class="text-sm font-medium text-gray-900 truncate" style="color: red;">
+                      Retiradas (-): R$
+                      {{ soma_retiradas|floatformat:2 }}</p>
+                    {% else %}
+                    <p class="text-sm font-medium text-gray-900 truncate">
+                      Retiradas (-): R$0</p>
+                    {% endif %}
+                    {% if diminuicao_fiados %}
+                    <p class="text-sm font-medium text-gray-900 truncate" style="color: red;">
+                      Vendas Fiado (-): R$
+                      {{ diminuicao_fiados|floatformat:2 }}
+                      {% else %}
+                    <p class="text-sm font-medium text-gray-900 truncate">
+                      Vendas Fiado: R$ 0</p>
+                    {% endif %}
+                    {% if soma_devolucoes %}
+                    <p class="text-sm font-medium text-gray-900 truncate" style="color: red;">
+                      Devoluções: R$
+                      {{ soma_devolucoes|floatformat:2 }}
+                      {% else %}
+                    <p class="text-sm font-medium text-gray-900 truncate">
+                      Devoluções: R$ 0</p>
+                    {% endif %}
+                    {% if saldo %}
+                    {% if saldo < 0 %} <p class="text-sm font-medium text-gray-900 truncate" style="color: red;">
+                      Saldo: R$ {{ saldo|floatformat:2 }}
+                      {% else %}
+                      <p class="text-sm font-medium text-gray-900 truncate" style="color: green;">
+                        Saldo: R$ {{ saldo|floatformat:2 }}</p>
+                      {% endif %}
+                      {% else %}
+                      <p class="text-sm font-medium text-gray-900 truncate">
+                        Saldo: R$ {{ caixa.valor|floatformat:2 }}</p>
+                      {% endif %}
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
       </div>
+  </main>
 
-      
 
-  </div>
+  <!-- Inclua o script do Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+
+  <!-- Script para criar o gráfico de barras -->
+  <script>
+    // Obtém os dados necessários do elemento canvas
+    var canvas = document.getElementById('grafico-barras');
+    var totalPedidos = parseFloat(canvas.getAttribute('data-total-pedidos'));
+    var valorMedioVendas = parseFloat(canvas.getAttribute('data-valor-medio-vendas'));
+    var quantidadeDevolucoes = parseFloat(canvas.getAttribute('data-quantidade-devolucoes'));
+    var somaFiados = parseFloat(canvas.getAttribute('data-soma-fiados'));
+    var diminuicaoFiados = parseFloat(canvas.getAttribute('data-diminuicao-fiados'));
+    var saldo = parseFloat(canvas.getAttribute('data-saldo'));
+    var somaRetiradas = parseFloat(canvas.getAttribute('data-soma-retiradas'));
+    var somaReforcos = parseFloat(canvas.getAttribute('data-soma-reforcos'));
+
+    // Cria o gráfico de barras
+    var ctx = canvas.getContext('2d');
+    var myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Total de vendas', 'Valor Médio de Vendas', 'Devoluções', 'Fiados Pagos', 'Fiados Vendidos', 'Reforços', 'Retiradas', 'Saldo'],
+        datasets: [
+          {
+            label: 'Valores',
+            data: [totalPedidos, valorMedioVendas, quantidadeDevolucoes, somaFiados, diminuicaoFiados, somaReforcos, somaRetiradas, saldo,],
+            backgroundColor: [
+              'rgba(0, 100, 0, 0.5)',        // Total de Pedidos (verde escuro)
+              'rgba(144, 238, 144, 0.5)',    // Valor Médio de Vendas (verde claro)
+              'rgba(255, 0, 0, 0.5)',         // Devoluções (vermelho escuro)
+              'rgba(255, 206, 86, 0.5)',     // Fiados Pagos (mantém)
+              'rgba(255, 0, 0, 0.5)',      // Fiados Vendidos (mantém)
+              'rgba(0, 100, 0, 0.5)',        // Saldo (verde escuro)
+              'rgba(255, 0, 0, 0.5)',        // Soma Retiradas (vermelho)
+              'rgba(0, 255, 0, 0.5)'         // Soma Reforços (verde)
+            ],
+            borderColor: [
+              'rgba(0, 100, 0, 1)',          // Total de Pedidos (verde escuro)
+              'rgba(144, 238, 144, 1)',      // Valor Médio de Vendas (verde claro)
+              'rgba(139, 0, 0, 1)',          // Devoluções (vermelho escuro)
+              'rgba(255, 206, 86, 1)',       // Fiados Pagos (mantém)
+              'rgba(153, 102, 255, 1)',      // Fiados Vendidos (mantém)
+              'rgba(0, 100, 0, 1)',          // Saldo (verde escuro)
+              'rgba(255, 0, 0, 1)',          // Soma Retiradas (vermelho)
+              'rgba(0, 255, 0, 1)'           // Soma Reforços (verde)
+            ],
+            borderWidth: 1
+          }
+        ]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltips: {
+            callbacks: {
+              label: function (context) {
+                var label = context.dataset.label || '';
+                if (label) {
+                  label += ': ';
+                }
+                label += context.parsed.y.toLocaleString();
+                return label;
+              }
+            }
+          }
+        }
+      }
+    });
+  </script>
 </div>
 
 

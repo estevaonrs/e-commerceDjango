@@ -9,7 +9,7 @@
 
  <div class="flex items-center justify-between mb-4">
   <div class="flex-shrink-0"><br><br><br>
-   <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">Contas a receber!</span><br><br>
+   <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">Fornecedores</span><br><br>
   </div>
 
  </div>
@@ -19,51 +19,44 @@
    <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
     <tr>
      <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-      Data
+      Nome
      </th>
      <th scope="col" class="px-6 py-3">
-      Cliente
+      Cnpj
      </th>
      <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-      Valor a receber
+      E-mail
      </th>
      <th scope="col" class="px-6 py-3">
-      Tipo de pagamento
+      Endereço
      </th>
      <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-      Status
-     </th>
-     <th scope="col" class="px-6 py-4">
       Ações
      </th>
-
     </tr>
    </thead>
    <tbody>
-    {% for conta in contasreceber %}
+    {% for fornecedor in fornecedores %}
     <tr class="border-b border-gray-200 dark:border-gray-700">
      <th scope="row"
       class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
-      {{ conta.data }}
+      {{ fornecedor.nome }}
      </th>
      <td class="px-6 py-4">
-      {{ conta.cliente }}
+      {{ fornecedor.cnpj }}
      </td>
      <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
-      {{ conta.valor|floatformat:2 }}
+      {{ fornecedor.email }}
      </td>
      <td class="px-6 py-4">
-      {{ conta.pagamento }}
+      {{ fornecedor.endereco }}, {{ fornecedor.numero }}, {{ fornecedor.complemento }},<br> {{ fornecedor.bairro }},
+      {{ fornecedor.cep }}, {{ fornecedor.cidade }}, {{ fornecedor.estado }}
      </td>
-     <td
-      class="px-6 py-4 bg-gray-50 dark:bg-gray-800 {% if conta.status == 'D' %}text-red-500{% elif conta.status == 'P' %}text-green-500{% endif %}">
-      {{ conta.get_status_display }}
-     </td>
-     <td class="px-6 py-4">
-      <a href="{% url 'cliente:conta_receber_edit' conta.id %}">
+     <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
+      <a href="{% url 'produto:fornecedor_edit' fornecedor.id %}">
        <i class="fa-solid fa-pen-to-square fa-xl" style="color:mediumblue"></i>
       </a>
-      <a href="{% url 'cliente:conta_receber_delete' conta.id %}">
+      <a href="{% url 'produto:fornecedor_delete' fornecedor.id %}">
        <i class="fa-solid fa-trash fa-xl" style="color: red;"></i>
       </a>
      </td>

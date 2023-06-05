@@ -5,9 +5,7 @@ from . import views
 app_name = 'gestao'
 
 urlpatterns = [
-    path('gestao/', views.GestaoView.as_view(), name='gestao'),
-
-
+    path('relatorio/', views.RelatorioView.as_view(), name='relatorio'),
     path('dashboard/', views.Dashboard.as_view(),
          name='dashboard'),
     path('caixa/', views.Caixa.as_view(),

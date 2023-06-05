@@ -9,7 +9,7 @@
 
  <div class="flex items-center justify-between mb-4">
   <div class="flex-shrink-0"><br><br><br>
-   <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">Contas a receber!</span><br><br>
+   <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">Revendedores</span><br><br>
   </div>
 
  </div>
@@ -19,51 +19,38 @@
    <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
     <tr>
      <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-      Data
+      Nome
      </th>
      <th scope="col" class="px-6 py-3">
-      Cliente
+      Código
      </th>
      <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-      Valor a receber
+      Endereço
      </th>
      <th scope="col" class="px-6 py-3">
-      Tipo de pagamento
-     </th>
-     <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-      Status
-     </th>
-     <th scope="col" class="px-6 py-4">
       Ações
      </th>
-
     </tr>
    </thead>
    <tbody>
-    {% for conta in contasreceber %}
+    {% for cliente in clientes %}
     <tr class="border-b border-gray-200 dark:border-gray-700">
      <th scope="row"
       class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
-      {{ conta.data }}
+      {{ cliente.nome }}
      </th>
      <td class="px-6 py-4">
-      {{ conta.cliente }}
+      {{ cliente.codigo }}
      </td>
      <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
-      {{ conta.valor|floatformat:2 }}
+      {{ cliente.endereco }}, {{ cliente.numero }}, {{ cliente.complemento }},<br> {{ cliente.bairro }},
+      {{ cliente.cep }}, {{ cliente.cidade }}, {{ cliente.estado }}
      </td>
      <td class="px-6 py-4">
-      {{ conta.pagamento }}
-     </td>
-     <td
-      class="px-6 py-4 bg-gray-50 dark:bg-gray-800 {% if conta.status == 'D' %}text-red-500{% elif conta.status == 'P' %}text-green-500{% endif %}">
-      {{ conta.get_status_display }}
-     </td>
-     <td class="px-6 py-4">
-      <a href="{% url 'cliente:conta_receber_edit' conta.id %}">
+      <a href="{% url 'cliente:cliente_edit' cliente.id %}">
        <i class="fa-solid fa-pen-to-square fa-xl" style="color:mediumblue"></i>
       </a>
-      <a href="{% url 'cliente:conta_receber_delete' conta.id %}">
+      <a href="{% url 'cliente:cliente_delete' cliente.id %}">
        <i class="fa-solid fa-trash fa-xl" style="color: red;"></i>
       </a>
      </td>

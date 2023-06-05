@@ -14,8 +14,8 @@ from datetime import date
 from django.db.models import Sum, Avg
 
 
-class GestaoView(TemplateView):
-    template_name = 'gestao.html'
+class RelatorioView(TemplateView):
+    template_name = 'relatorio.html'
 
 
 class DetalheCaixa(TemplateView):
@@ -48,7 +48,7 @@ class CaixaAbertoDetail(DetailView):
         soma_quantidade_pedidos_d = pedidos_d.aggregate(soma=Sum('total'))[
             'soma'] or 0
 
-        fiados = Fiado.objects.filter(data=data_caixa, status='P')
+        fiados = Fiado.objects.filter(data_p=data_caixa, status='P')
         soma_fiados = fiados.aggregate(soma=Sum('valor'))['soma'] or 0
 
         fiados_d = Fiado.objects.filter(data=data_caixa, status='D')

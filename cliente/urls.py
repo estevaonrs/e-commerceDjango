@@ -1,7 +1,7 @@
 from django.urls import path
 
 from cliente.models import ContasReceber
-from .views import ClienteCreateView, ContasReceberDeleteView,\
+from .views import ClienteCreateView, ClienteDeleteView, ClienteListView, ClienteUpdateView, ContasReceberDeleteView,\
     ContasReceberListView, ContasReceberUpdateView, FiadoCreateView, \
     lista_fiado, ContasReceberCreateView, codigo_acesso, FiadoUpdateView, \
     FiadoDeleteView
@@ -26,4 +26,10 @@ urlpatterns = [
          FiadoUpdateView.as_view(), name='fiado_edit'),
     path('fiado_delete/<int:pk>/',
          FiadoDeleteView.as_view(), name='fiado_delete'),
+    path('lista_clientes/', ClienteListView.as_view(),
+         name='lista_clientes'),
+    path('cliente_edit/<int:pk>/',
+         ClienteUpdateView.as_view(), name='cliente_edit'),
+    path('cliente_delete/<int:pk>/',
+         ClienteDeleteView.as_view(), name='cliente_delete'),
 ]

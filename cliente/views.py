@@ -48,6 +48,37 @@ class ClienteCreateView(CreateView):
         return context
 
 
+class ClienteListView(ListView):
+    model = Cliente
+    context_object_name = 'clientes'
+    template_name = 'cliente/lista_clientes.html'
+    paginate_by = 10
+    ordering = ['-id']
+
+
+class ClienteUpdateView(UpdateView):
+    model = Cliente
+    form_class = ClienteForm
+    template_name = 'cliente_create.html'
+    success_url = reverse_lazy('cliente:lista_clientes')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Editar Revendedor'
+        return context
+
+
+class ClienteDeleteView(DeleteView):
+    model = ContasReceber
+    template_name = 'cliente_delete.html'
+    success_url = reverse_lazy('cliente:lista_clientes')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Excluir Revendedor'
+        return context
+
+
 class ContasReceberCreateView(CreateView):
     model = ContasReceber
     form_class = ContasReceberForm

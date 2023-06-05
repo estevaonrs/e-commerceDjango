@@ -11,7 +11,7 @@ from produto.models import Variacao
 from utils import utils
 from produto import models
 from .models import Devolucao, ItemPedido, Pedido
-from pedido.forms import DevolucaoForm
+from pedido.forms import DevolucaoForm, PedidoForm
 from django.views.generic.edit import CreateView
 from django.db.models import Prefetch
 from .models import ItemPedido
@@ -328,6 +328,18 @@ def excluir_pedido(request, pk):
         return redirect('pedido:lista_admin')
 
     return render(request, 'pedido/excluir_pedido.html', {'pedido': pedido})
+
+
+class PedidoUpdateView(UpdateView):
+    model = Pedido
+    form_class = PedidoForm
+    template_name = 'pedido/pedido_status_create.html'
+    success_url = reverse_lazy('pedido:lista_admin')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Editar Pedido'
+        return context
 
 
 class Lista(DispatchLoginRequiredMixin, ListView):

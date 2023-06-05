@@ -25,6 +25,8 @@ urlpatterns = [
          views.DevolucaoUpdateView.as_view(), name='devolucao_edit'),
     path('devolucao_delete/<int:pk>/',
          views.DevolucaoDeleteView.as_view(), name='devolucao_delete'),
+    path('pedido_edit/<int:pk>/',
+         views.PedidoUpdateView.as_view(), name='pedido_edit'),
 
 
 

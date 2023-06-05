@@ -1,7 +1,10 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
-from .views import ContasPagarDeleteView, ContasPagarUpdateView, categoria_delete, produto_delete, EstoqueVariacaoView, CadastrosView, FornecedorCreateView, GestaoEstoqueVariacao, ContasView, ContasPagarCreateView
+from .views import ContasPagarDeleteView, ContasPagarUpdateView, FornecedorDeleteView, FornecedorUpdateView, \
+    categoria_delete, produto_delete, EstoqueVariacaoView, CadastrosView, \
+    FornecedorCreateView, GestaoEstoqueVariacao, ContasView, \
+    ContasPagarCreateView, FornecedorListView
 from . import views
 
 app_name = 'produto'
@@ -54,26 +57,12 @@ urlpatterns = [
          ContasPagarUpdateView.as_view(), name='conta_pagar_edit'),
     path('conta_pagar_delete/<int:pk>/',
          ContasPagarDeleteView.as_view(), name='conta_pagar_delete'),
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    path('lista_fornecedores/', FornecedorListView.as_view(),
+         name='lista_fornecedores'),
+    path('fornecedor_edit/<int:pk>/',
+         FornecedorUpdateView.as_view(), name='fornecedor_edit'),
+    path('fornecedor_delete/<int:pk>/',
+         FornecedorDeleteView.as_view(), name='fornecedor_delete'),
 
 
 ]

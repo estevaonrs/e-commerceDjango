@@ -73,7 +73,7 @@
                                     {{ produto.preco_marketing_promocional|formata_preco }}
                                 </span>
                                 <span id="variation-preco" class="product-old-price text-muted mb-2">
-                                    {{ produto.preco_marketing|formata_preco }}
+                                    <s>{{ produto.preco_marketing|formata_preco }}</s>
                                 </span>
                                 {% else %}
                                 <span id="variation-preco" class="product-price mb-2">

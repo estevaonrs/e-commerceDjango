@@ -6,16 +6,50 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import TemplateView, CreateView
 from . models import CaixaAberto, Retirada, Reforço
 from . forms import CaixaAbertoForm, ReforçoForm, RetiradaForm
-from pedido.models import Devolucao, Pedido
+from pedido.models import Devolucao, Pedido, ItemPedido
 from cliente.models import Fiado
-
+from produto.models import Produto
 from django.views.generic.detail import DetailView
-from datetime import date
-from django.db.models import Sum, Avg
+from datetime import date, datetime
+from django.db.models import Sum, Avg, Count
+from django.db.models import Q
 
 
 class RelatorioView(TemplateView):
     template_name = 'relatorio.html'
+
+
+def TopProdutosView(request):
+    data_inicio = request.GET.get('data_inicio')
+    data_fim = request.GET.get('data_fim')
+
+    # Converter as datas para o formato correto (dd/mm/yyyy)
+    data_inicio = datetime.strptime(
+        data_inicio, '%d/%m/%Y').date() if data_inicio else None
+    data_fim = datetime.strptime(
+        data_fim, '%d/%m/%Y').date() if data_fim else None
+
+    itens_aprovados = ItemPedido.objects.filter(pedido__status='A')
+
+    # Aplicar filtro de datas, se fornecidas
+    if data_inicio and data_fim:
+        itens_aprovados = itens_aprovados.filter(
+            pedido__data__range=(data_inicio, data_fim))
+
+    produtos_quantidades = (
+        itens_aprovados
+        .values('produto', 'produto_id')
+        .annotate(quantidade=Sum('quantidade'))
+        .order_by('-quantidade')[:10]
+    )
+
+    context = {
+        'produtos_quantidades': produtos_quantidades,
+        'data_inicio': data_inicio,
+        'data_fim': data_fim,
+    }
+
+    return render(request, 'gestao/produtos_mais_vendidos.html', context)
 
 
 class DetalheCaixa(TemplateView):

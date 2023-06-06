@@ -8,6 +8,8 @@ urlpatterns = [
     path('relatorio/', views.RelatorioView.as_view(), name='relatorio'),
     path('dashboard/', views.Dashboard.as_view(),
          name='dashboard'),
+    path('produtos_mais_vendidos/', views.TopProdutosView,
+         name='produtos_mais_vendidos'),
     path('caixa/', views.Caixa.as_view(),
          name='caixa'),
     path('lista_caixa/', views.CaixaAberto.as_view(),

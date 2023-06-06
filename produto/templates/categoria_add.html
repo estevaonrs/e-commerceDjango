@@ -37,11 +37,11 @@
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     {{ categoria.nome }}
                     <div class="btn-group">
-                        <button type="submit" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#editarCategoriaModal{{categoria.id}}">
-                        Editar
+                        <button type="submit" class="btn btn-secondary mr-2" data-bs-toggle="modal" data-bs-target="#editarCategoriaModal{{categoria.id}}">
+                            <i class="fa-solid fa-pen-to-square fa-xl" style="color:white"></i>
                         </button>
                         <button type="submit" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#excluirCategoriaModal{{categoria.id}}">
-                        Excluir
+                            <i class="fa-solid fa-trash fa-xl" style="color: white;"></i>
                         </button>
                     </div>
                 </li>      
@@ -135,12 +135,12 @@
                         <a href="{% url 'produto:detalhe' produto.slug %}">
                           <img class="card-img-top" src="{{ produto.imagem.url }}" alt="{{ produto.nome }}">
                         </a>
-                        {% endif %}
+                        {% endif %}<br>
                         <div class="btn_main">
-                          <a href="{% url 'produto:produto_edit' produto.id %}" class="btn btn-dark">Editar</a>
-                          <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmar-exclusao-{{ produto.pk }}">Excluir</button> 
+                            <a href="{% url 'produto:produto_edit' produto.id %}" class="btn btn-dark mr-2"><i class="fa-solid fa-pen-to-square fa-xl" style="color:white"></i></a>
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmar-exclusao-{{ produto.pk }}"><i class="fa-solid fa-trash fa-xl" style="color: white;"></i></button> 
+                          </div>
                           
-                        </div>
                       </div>
                     </div>
                     {% endfor %}

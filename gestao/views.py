@@ -1,3 +1,4 @@
+from perfil.models import Perfil
 from .models import CaixaAberto
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
@@ -50,6 +51,34 @@ def TopProdutosView(request):
     }
 
     return render(request, 'gestao/produtos_mais_vendidos.html', context)
+
+
+def TopPerfisView(request):
+    data_inicio = request.GET.get('data_inicio')
+    data_fim = request.GET.get('data_fim')
+
+    # Converter as datas para o formato correto (dd/mm/yyyy)
+    data_inicio = datetime.strptime(
+        data_inicio, '%d/%m/%Y').date() if data_inicio else None
+    data_fim = datetime.strptime(
+        data_fim, '%d/%m/%Y').date() if data_fim else None
+
+    pedidos_aprovados = Pedido.objects.filter(status='A')
+    # Aplicar filtro de datas, se fornecidas
+    if data_inicio and data_fim:
+        pedidos_aprovados = pedidos_aprovados.filter(
+            data__range=(data_inicio, data_fim))
+
+    perfis_pedidos_aprovados = Perfil.objects.annotate(num_pedidos_aprovados=Count('usuario__pedido', filter=Q(
+        usuario__pedido__status='A', usuario__pedido__data__range=(data_inicio, data_fim)))).order_by('-num_pedidos_aprovados')[:10]
+
+    context = {
+        'perfis_pedidos_aprovados': perfis_pedidos_aprovados,
+        'data_inicio': data_inicio,
+        'data_fim': data_fim
+    }
+
+    return render(request, 'gestao/clientes_que_mais_compram.html', context)
 
 
 class DetalheCaixa(TemplateView):

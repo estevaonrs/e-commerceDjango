@@ -10,6 +10,8 @@ urlpatterns = [
          name='dashboard'),
     path('produtos_mais_vendidos/', views.TopProdutosView,
          name='produtos_mais_vendidos'),
+    path('clientes_mais_compram/', views.TopPerfisView,
+         name='clientes_mais_compram'),
     path('caixa/', views.Caixa.as_view(),
          name='caixa'),
     path('lista_caixa/', views.CaixaAberto.as_view(),

@@ -5,7 +5,9 @@ from . import views
 app_name = 'pedido'
 
 urlpatterns = [
-    path('pagar/<int:pk>', views.Pagar.as_view(), name='pagar'),
+    path('pagar/<int:id>', views.pagar, name='pagar'),
+    path('pedido_sucesso/', views.SucessoView.as_view(), name='pedido_sucesso'),
+
     path('salvarpedido/', views.SalvarPedido.as_view(), name='salvarpedido'),
     path('salvarpedido_admin/', views.SalvarPedidoAdmin.as_view(),
          name='salvarpedido_admin'),
@@ -27,6 +29,7 @@ urlpatterns = [
          views.DevolucaoDeleteView.as_view(), name='devolucao_delete'),
     path('pedido_edit/<int:pk>/',
          views.PedidoUpdateView.as_view(), name='pedido_edit'),
+
 
 
 

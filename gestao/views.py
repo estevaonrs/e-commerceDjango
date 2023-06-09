@@ -12,8 +12,10 @@ from cliente.models import Fiado
 from produto.models import Produto
 from django.views.generic.detail import DetailView
 from datetime import date, datetime
-from django.db.models import Sum, Avg, Count
+from django.db.models import Sum, Avg, Count, F
 from django.db.models import Q
+
+from vendas.models import Vendedor
 
 
 class RelatorioView(TemplateView):
@@ -53,6 +55,23 @@ def TopProdutosView(request):
     return render(request, 'gestao/produtos_mais_vendidos.html', context)
 
 
+def TopTodosProdutosView(request):
+    itens_aprovados = ItemPedido.objects.filter(pedido__status='A')
+
+    produtos_quantidades = (
+        itens_aprovados
+        .values('produto', 'produto_id')
+        .annotate(quantidade=Sum('quantidade'))
+        .order_by('-quantidade')
+    )
+
+    context = {
+        'produtos_quantidades': produtos_quantidades,
+    }
+
+    return render(request, 'gestao/todos_os_produtos_vendas.html', context)
+
+
 def TopPerfisView(request):
     data_inicio = request.GET.get('data_inicio')
     data_fim = request.GET.get('data_fim')
@@ -79,6 +98,74 @@ def TopPerfisView(request):
     }
 
     return render(request, 'gestao/clientes_que_mais_compram.html', context)
+
+
+def TopVendedorView(request):
+    data_inicio = request.GET.get('data_inicio')
+    data_fim = request.GET.get('data_fim')
+
+    # Converter as datas para o formato correto (dd/mm/yyyy)
+    data_inicio = datetime.strptime(
+        data_inicio, '%d/%m/%Y').date() if data_inicio else None
+    data_fim = datetime.strptime(
+        data_fim, '%d/%m/%Y').date() if data_fim else None
+
+    pedidos_aprovados = Pedido.objects.filter(status='A')
+    # Aplicar filtro de datas, se fornecidas
+    if data_inicio and data_fim:
+        pedidos_aprovados = pedidos_aprovados.filter(
+            data__range=(data_inicio, data_fim))
+
+    vendedores_pedidos_aprovados = Vendedor.objects.annotate(num_pedidos_aprovados=Count('pedido', filter=Q(
+        pedido__status='A', pedido__data__range=(data_inicio, data_fim)))).order_by('-num_pedidos_aprovados')[:10]
+
+    context = {
+        'vendedores_pedidos_aprovados': vendedores_pedidos_aprovados,
+        'data_inicio': data_inicio,
+        'data_fim': data_fim
+    }
+
+    return render(request, 'gestao/vendedores_que_mais_vendem.html', context)
+
+
+def VendasGeraisView(request):
+    data_inicio = request.GET.get('data_inicio')
+    data_fim = request.GET.get('data_fim')
+
+    # Converter as datas para o formato correto (dd/mm/yyyy)
+    data_inicio = datetime.strptime(
+        data_inicio, '%d/%m/%Y').date() if data_inicio else None
+    data_fim = datetime.strptime(
+        data_fim, '%d/%m/%Y').date() if data_fim else None
+
+    pedidos_aprovados = Pedido.objects.filter(status='A')
+    devolucoes = Devolucao.objects.all()
+
+    # Aplicar filtro de datas, se fornecidas
+    if data_inicio and data_fim:
+        pedidos_aprovados = pedidos_aprovados.filter(
+            data__range=(data_inicio, data_fim))
+
+    quantidade_aprovados = pedidos_aprovados.count()
+    quantidade_itens_aprovados = pedidos_aprovados.aggregate(
+        total_itens=Sum('qtd_total'))['total_itens'] or 0
+    total_pedidos = pedidos_aprovados.aggregate(total_pedidos=Sum('total'))[
+        'total_pedidos'] or 0
+    quantidade_devolucoes = devolucoes.count()
+    soma_devolucoes = devolucoes.aggregate(total_devolucoes=Sum('pedido__total'))[
+        'total_devolucoes'] or 0
+
+    context = {
+        'quantidade_aprovados': quantidade_aprovados,
+        'quantidade_itens_aprovados': quantidade_itens_aprovados,
+        'total_pedidos': total_pedidos,
+        'data_inicio': data_inicio,
+        'data_fim': data_fim,
+        'quantidade_devolucoes': quantidade_devolucoes,
+        'soma_devolucoes': soma_devolucoes,
+    }
+
+    return render(request, 'gestao/vendas_gerais.html', context)
 
 
 class DetalheCaixa(TemplateView):

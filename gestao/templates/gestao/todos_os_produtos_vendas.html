@@ -1,0 +1,59 @@
+{% extends "includes/base_dashboard.html" %}
+{% load omfilters %}
+
+{% block titulo %}Pedidos{% endblock %}
+
+{% block content %}
+<main>
+
+
+ <div class="pt-6 px-4">
+  <div class="grid grid-cols-1 2xl:grid-cols-2 xl:gap-4 my-4">
+   <!-- Sessions by device Card -->
+   <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
+
+    <!-- Card Title -->
+    <h3 class="text-xl leading-none font-bold text-gray-900 mb-10">Quantidade de vendas de todos os produtos</h3>
+
+    <!-- Tabela de produtos mais vendidos -->
+    <div class="block w-full overflow-x-auto">
+
+     <table class="items-center w-full bg-transparent border-collapse">
+      <!-- Cabeçalho da tabela -->
+      <thead>
+       <tr>
+        <th
+         class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">
+         Produto</th>
+        <th
+         class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">
+         Quantidade</th>
+
+       </tr>
+      </thead>
+      <!-- Linhas da tabela -->
+      <tbody class="divide-y divide-gray-100">
+       {% for produto in produtos_quantidades %}
+       <tr class="text-gray-500">
+        <th class="border-t-0 px-4 align-middle text-sm font-normal whitespace-nowrap p-4 text-left">
+         {{ produto.produto }}</th>
+        <td class="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
+         {{ produto.quantidade }}</td>
+       </tr>
+       {% empty %}
+       <tr>
+        <td colspan="2">Nenhum produto encontrado.</td>
+       </tr>
+       {% endfor %}
+      </tbody>
+     </table>
+    </div>
+
+   </div>
+
+  </div>
+ </div>
+
+
+</main>
+{% endblock %}

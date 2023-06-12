@@ -10,7 +10,8 @@ from . forms import CaixaAbertoForm, ReforçoForm, RetiradaForm
 from pedido.models import Devolucao, Pedido, ItemPedido
 from cliente.models import Fiado
 from produto.models import Produto
-from django.views.generic.detail import DetailView
+from django.views.generic import DetailView, ListView, TemplateView, UpdateView, DeleteView
+
 from datetime import date, datetime
 from django.db.models import Sum, Avg, Count, F
 from django.db.models import Q
@@ -292,7 +293,7 @@ class Caixa(CreateView):
     model = CaixaAberto
     form_class = CaixaAbertoForm
     template_name = 'gestao/caixa_create.html'
-    success_url = reverse_lazy('gestao:dashboard')
+    success_url = reverse_lazy('gestao:lista_caixa')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -300,9 +301,32 @@ class Caixa(CreateView):
         return context
 
 
-class CaixaAberto(ListView):
+class CaixaAbertoListView(ListView):
     model = CaixaAberto
     context_object_name = 'caixas'
     template_name = 'gestao/lista_caixa.html'
     paginate_by = 10
     ordering = ['-id']
+
+
+class CaixaUpdateView(UpdateView):
+    model = CaixaAberto
+    form_class = CaixaAbertoForm
+    template_name = 'gestao/caixa_create.html'
+    success_url = reverse_lazy('gestao:lista_caixa')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Editar Caixa'
+        return context
+
+
+class CaixaDeleteView(DeleteView):
+    model = CaixaAberto
+    template_name = 'caixa_delete.html'
+    success_url = reverse_lazy('gestao:lista_caixa')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Excluir Caixa?'
+        return context

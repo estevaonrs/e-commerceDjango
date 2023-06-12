@@ -14,7 +14,12 @@
 @import url(nice-select.css);
 
 /*--------------------------------------------------------------------- skeleton ---------------------------------------------------------------------*/
-
+.grid {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-gap: 8px;
+    align-items: center;
+  }
 * {
     box-sizing: border-box !important;
     transition: ease all 0.5s;

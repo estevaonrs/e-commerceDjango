@@ -21,7 +21,7 @@ urlpatterns = [
          name='clientes_mais_compram'),
     path('caixa/', views.Caixa.as_view(),
          name='caixa'),
-    path('lista_caixa/', views.CaixaAberto.as_view(),
+    path('lista_caixa/', views.CaixaAbertoListView.as_view(),
          name='lista_caixa'),
     path('caixas/<int:pk>/', views.CaixaAbertoDetail.as_view(),
          name='caixa_aberto_detail'),
@@ -29,6 +29,10 @@ urlpatterns = [
          views.reforco_caixa, name='reforco_caixa'),
     path('caixa_aberto/<int:pk>/retirada/',
          views.retirada_caixa, name='retirada_caixa'),
+    path('caixa_edit/<int:pk>/',
+         views.CaixaUpdateView.as_view(), name='caixa_edit'),
+    path('caixa_delete/<int:pk>/',
+         views.CaixaDeleteView.as_view(), name='caixa_delete'),
 
 
 

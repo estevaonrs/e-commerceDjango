@@ -33,6 +33,9 @@
           <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
             Detalhe
           </th>
+          <th scope="col" class="px-6 py-3">
+            Ações
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -56,6 +59,14 @@
           <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
             <a href="{% url 'gestao:caixa_aberto_detail' caixa.id %}"><i class="fa-solid fa-magnifying-glass-plus fa-xl"
                 style="color: #028a00;"></i></a>
+          </td>
+          <td class="px-6 py-4">
+            <a href="{% url 'gestao:caixa_edit' caixa.id %}">
+              <i class="fa-solid fa-pen-to-square fa-xl" style="color:mediumblue"></i>
+            </a>
+            <a href="{% url 'gestao:caixa_delete' caixa.id %}">
+              <i class="fa-solid fa-trash fa-xl" style="color: red;"></i>
+            </a>
           </td>
         </tr>
         {% endfor %}

@@ -1,0 +1,65 @@
+{% extends 'includes/base_dashboard.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load omfilters %}
+
+{% block content %}
+<div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 2xl:col-span-2">
+    <div class="row">
+        <div class="col-lg-12">
+            <br><br>
+            <h1 class="fashion_taital">Editar Produto</h1>
+            <hr>
+        </div>
+    </div>
+
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form|crispy }}
+
+            <div>
+                <label for="id_imagem">Imagem:</label>
+                {{ imagem_formset.management_form }}
+                {% for form in imagem_formset %}
+                    <div>{{ form.imagem }}</div><br>
+                {% endfor %}
+                <button type="button" id="add_imagem">Adicionar imagem</button>
+            </div>
+            <br>
+
+            <div>
+                <label>Variações:</label>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Preço</th>
+                            <th>Preço promocional</th>
+                            <th>Estoque</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="variacoes">
+                     {% for variacao in variacoes %}
+                         <tr>
+                             <td><input type="text" name="nome_variacao-{{ forloop.counter0 }}-" value="{{ variacao.nome }}" required></td>
+                             <td><input type="number" name="preco_variacao-{{ forloop.counter0 }}-" min="0" step="0.01" value="{{ variacao.preco }}" required></td>
+                             <td><input type="number" name="preco_promocional_variacao-{{ forloop.counter0 }}-" min="0" step="0.01" value="{{ variacao.preco_promocional }}"></td>
+                             <td><input type="number" name="estoque_variacao-{{ forloop.counter0 }}-" min="0" value="{{ variacao.estoque }}" required></td>
+                             <td>
+                                 <input type="hidden" name="variacao_id[]" value="{{ variacao.id }}">
+                                 <button type="button" class="btn btn-danger" onclick="removerVariacao(this)">Remover</button>
+                             </td>
+                         </tr>
+                     {% endfor %}
+                 </tbody>
+                </table>
+                <button type="button" id="add_variacao">Adicionar variação</button>
+            </div>
+
+            <button type="submit">Salvar</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

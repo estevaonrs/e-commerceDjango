@@ -13,10 +13,9 @@
         <div class="container-fluid">
             <nav class="m-0" aria-label="breadcrumb">
                 <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item breadcrumb-light"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item breadcrumb-light"><a href="#">T-Shirts</a></li>
-                    <li class="breadcrumb-item  breadcrumb-light active" aria-current="page">Osaka Japan Mens
-                        T-Shirt</li>
+                    <li class="breadcrumb-item breadcrumb-light"><a>Início</a></li>
+                    <li class="breadcrumb-item breadcrumb-light"><a>Minha conta</a></li>
+                    <li class="breadcrumb-item  breadcrumb-light active" aria-current="page">Pedidos</li>
                 </ol>
             </nav>
         </div>
@@ -50,7 +49,7 @@
                             <td>{{ pedido.get_status_display }}</td>
                             <td>
                                 <a href="{% url 'pedido:detalhe' pedido.id %}">
-                                    Ver <i class="fa fa-search-plus ml-2"></i>
+                                    <i class="fa fa-search-plus ml-2"></i>
                                 </a>
                             </td>
                         </tr>

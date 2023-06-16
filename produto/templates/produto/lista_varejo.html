@@ -305,24 +305,35 @@
                 <h1 class="fw-bold fs-3 mb-2">CATÁLOGO</h1>
                 <p class="m-0 text-muted small">Mostrando 10 produtos por página</p>
             </div>
-            <div class="d-flex justify-content-end align-items-center mt-4 mt-lg-0 flex-column flex-md-row">
+            <div class="d-flex justify-content-end mt-4 mt-lg-0 flex-column flex-md-row">
 
-                <!-- Filter Trigger-->
-                <button
-                    class="btn bg-light p-3 me-md-3 d-flex align-items-center fs-7 lh-1 w-100 mb-2 mb-md-0 w-md-auto "
-                    type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilters"
-                    aria-controls="offcanvasFilters">
-                    <i class="ri-equalizer-line me-2"></i> Filtro
-                </button>
-                <!-- / Filter Trigger-->
+                <div class="dropdown">
+                    <button class="btn dropdown-toggle form-select-sm border-0 bg-light p-3 pe-5 lh-1 fs-7"
+                        type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        Organizado por
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        {% for categoria in categorias %}
+                        <li><a class="dropdown-item" href="{% url 'produto:lista_por_categoria' categoria.slug %}"
+                                value="1">{{categoria.nome}}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <!-- / Sort Options-->
+                <br>
+                <div class="dropdown">
+                    <button class="btn dropdown-toggle form-select-sm border-0 bg-light p-3 pe-5 lh-1 fs-7"
+                        type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                        Filtrar por
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        {% for categoria in categorias %}
+                        <li><a class="dropdown-item" href="{% url 'produto:lista_por_categoria' categoria.slug %}"
+                                value="1">{{categoria.nome}}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
 
-                <!-- Sort Options-->
-                <select class="form-select form-select-sm border-0 bg-light p-3 pe-5 lh-1 fs-7">
-                    <option selected>Organizado por</option>
-                    <option value="1">Maior valor</option>
-                    <option value="2">Menor valor</option>
-                    <option value="3">Nome</option>
-                </select>
                 <!-- / Sort Options-->
             </div>
         </div> <!-- /Category Toolbar-->
@@ -332,7 +343,7 @@
 
 
             {% for produto in produtos %}
-            <div class="col-12 col-sm-6 col-lg-3">
+            <div class="col-6 col-md-6 col-lg-3">
                 <!-- Card Product-->
                 <div class="card border border-transparent position-relative overflow-hidden h-100 transparent">
                     <div class="card-img position-relative">
@@ -358,7 +369,7 @@
                     <div class="card-body px-0">
                         <a class="text-decoration-none link-cover" href="{% url 'produto:detalhe' produto.slug %}">
                             {{ produto.nome }}</a>
-                        <small class="text-muted d-block">3 cores, 4 tamanhos</small>
+
                         {% if produto.preco_marketing_promocional %}
                         <h1 class="mt-2 mb-0 small">
                             </p><del>{{ produto.preco_marketing|formata_preco }}</del></h1>
@@ -451,7 +462,7 @@
                     <div class="swiper-slide align-self-stretch bg-transparent h-auto">
                         <div class="me-xl-n4 me-xxl-n5" data-aos="fade-up" data-aos-delay="000">
                             <picture class="d-block mb-4 img-clip-shape-one">
-                                <img class="w-100" title="" src="{% static 'images/products/a.jpeg'%}"
+                                <img class="w-100" title="" src="{% static 'images/categories/category-1.jpg' %}"
                                     alt="HTML Bootstrap Template by Pixel Rocket">
                             </picture>
                             <p class="title-small mb-2 text-muted">Mais vendidos</p>
@@ -462,7 +473,7 @@
                     <div class="swiper-slide align-self-stretch bg-transparent h-auto">
                         <div class="me-xl-n4 me-xxl-n5" data-aos="fade-up" data-aos-delay="100">
                             <picture class="d-block mb-4 img-clip-shape-one">
-                                <img class="w-100" title="" src="{% static 'images/products/c.jpeg'%}"
+                                <img class="w-100" title="" src="{% static 'images/categories/category-2.jpg' %}"
                                     alt="HTML Bootstrap Template by Pixel Rocket">
                             </picture>
                             <p class="title-small mb-2 text-muted">Curated Selection</p>
@@ -473,7 +484,7 @@
                     <div class="swiper-slide align-self-stretch bg-transparent h-auto">
                         <div class="me-xl-n4 me-xxl-n5" data-aos="fade-up" data-aos-delay="200">
                             <picture class="d-block mb-4 img-clip-shape-one">
-                                <img class="w-100" title="" src="{% static 'images/products/d.jpeg'%}"
+                                <img class="w-100" title="" src="{% static 'images/categories/category-3.jpg' %}"
                                     alt="HTML Bootstrap Template by Pixel Rocket">
                             </picture>
                             <p class="title-small mb-2 text-muted">Streetwear Basics</p>
@@ -484,7 +495,7 @@
                     <div class="swiper-slide align-self-stretch bg-transparent h-auto">
                         <div class="me-xl-n4 me-xxl-n5" data-aos="fade-up" data-aos-delay="300">
                             <picture class="d-block mb-4 img-clip-shape-one">
-                                <img class="w-100" title="" src="{% static 'images/products/e.jpeg'%}"
+                                <img class="w-100" title="" src="{% static 'images/categories/category-4.jpg' %}"
                                     alt="HTML Bootstrap Template by Pixel Rocket">
                             </picture>
                             <p class="title-small mb-2 text-muted">Waterproof &amp; Lightweight</p>
@@ -495,7 +506,7 @@
                     <div class="swiper-slide align-self-stretch bg-transparent h-auto">
                         <div class="me-xl-n4 me-xxl-n5" data-aos="fade-up" data-aos-delay="400">
                             <picture class="d-block mb-4 img-clip-shape-one">
-                                <img class="w-100" title="" src="{% static 'images/products/f.jpeg'%}"
+                                <img class="w-100" title="" src="{% static 'images/categories/category-5.jpg' %}"
                                     alt="HTML Bootstrap Template by Pixel Rocket">
                             </picture>
                             <p class="title-small mb-2 text-muted">Keep Warm</p>
@@ -506,7 +517,7 @@
                     <div class="swiper-slide align-self-stretch bg-transparent h-auto">
                         <div class="me-xl-n4 me-xxl-n5" data-aos="fade-up" data-aos-delay="500">
                             <picture class="d-block mb-4 img-clip-shape-one">
-                                <img class="w-100" title="" src="{% static 'images/products/g.jpeg'%}"
+                                <img class="w-100" title="" src="{% static 'images/categories/category-6.jpg' %}"
                                     alt="HTML Bootstrap Template by Pixel Rocket">
                             </picture>
                             <p class="title-small mb-2 text-muted">20% Off</p>
@@ -517,7 +528,7 @@
                     <div class="swiper-slide align-self-stretch bg-transparent h-auto">
                         <div class="me-xl-n4 me-xxl-n5" data-aos="fade-up" data-aos-delay="600">
                             <picture class="d-block mb-4 img-clip-shape-one">
-                                <img class="w-100" title="" src="{% static 'images/products/h.jpeg'%}"
+                                <img class="w-100" title="" src="{% static 'images/categories/category-7.jpg' %}"
                                     alt="HTML Bootstrap Template by Pixel Rocket">
                             </picture>
                             <p class="title-small mb-2 text-muted">Just Arrived</p>
@@ -529,7 +540,7 @@
                     <div class="swiper-slide align-self-stretch bg-transparent h-auto">
                         <div class="me-xl-n4 me-xxl-n5" data-aos="fade-up" data-aos-delay="700">
                             <picture class="d-block mb-4 img-clip-shape-one">
-                                <img class="w-100" title="" src="{% static 'images/products/i.jpeg'%}"
+                                <img class="w-100" title="" src="{% static 'images/categories/category-8.jpg' %}"
                                     alt="HTML Bootstrap Template by Pixel Rocket">
                             </picture>
                             <p class="title-small mb-2 text-muted">Accessories</p>

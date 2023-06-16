@@ -2,9 +2,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
 from .views import ContasPagarDeleteView, ContasPagarUpdateView, FornecedorDeleteView, FornecedorUpdateView, \
-    categoria_delete, produto_delete, EstoqueVariacaoView, CadastrosView, \
+    categoria_delete, produto_delete, EstoqueVariacaoView, \
     FornecedorCreateView, GestaoEstoqueVariacao, ContasView, \
-    ContasPagarCreateView, FornecedorListView
+    ContasPagarCreateView, FornecedorListView, VariacaoDeleteView
 from . import views
 
 app_name = 'produto'
@@ -38,12 +38,14 @@ urlpatterns = [
          name='categoria_delete'),
     path('produto/<slug:slug>/excluir/', produto_delete.as_view(),
          name='produto_delete'),
-    path('produto_edit/<int:id>/', views.produto_edit, name='produto_edit'),
+    path('produto_edit/<int:pk>/',
+         views.ProdutoUpdateView.as_view(), name='produto_edit'),
     path('<int:produto_id>/estoque_variacao/',
          EstoqueVariacaoView.as_view(), name='estoque_variacao'),
     path('variacao/<int:id>/edit/', views.variacao_edit, name='variacao_edit'),
     path('variacao_add/', views.variacao_add, name='variacao_add'),
-    path('cadastros/', CadastrosView.as_view(), name='cadastros'),
+    path('variacao_delete/<int:pk>/',
+         VariacaoDeleteView.as_view(), name='variacao_delete'),
     path('contas/', ContasView.as_view(), name='contas'),
     path('novo_fornecedor/', FornecedorCreateView.as_view(),
          name='fornecedor_create'),
@@ -63,6 +65,7 @@ urlpatterns = [
          FornecedorUpdateView.as_view(), name='fornecedor_edit'),
     path('fornecedor_delete/<int:pk>/',
          FornecedorDeleteView.as_view(), name='fornecedor_delete'),
+
 
 
 ]

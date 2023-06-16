@@ -107,7 +107,7 @@ class Produto(models.Model):
     tipo = models.CharField(default='V', max_length=1, choices=(
         ('V', 'Variável'), ('S', 'Simples')))
     categoria = models.ForeignKey(
-        Categoria, on_delete=models.PROTECT, default=None, blank=True, null=True)
+        Categoria, on_delete=models.SET_NULL, default=None, blank=True, null=True)
     fornecedor = models.ForeignKey(
         Fornecedor, on_delete=models.PROTECT, default=None, blank=True, null=True)
 
@@ -160,10 +160,20 @@ class ImagemProduto(models.Model):
         return self.produto.nome
 
 
+class Cor(models.Model):
+    nome = models.CharField(blank=True,
+                            null=True, max_length=50)
+
+    def __str__(self):
+        return self.nome
+
+
 class Variacao(models.Model):
     produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
     nome = models.CharField(max_length=50, blank=True,
                             null=True, verbose_name='Nome da variação')
+    cores = models.ManyToManyField(Cor, verbose_name='Cores da variação')
+
     preco = models.FloatField(verbose_name='Preço da variação')
     preco_promocional = models.FloatField(
         default=0, verbose_name='Preço promo da variação')

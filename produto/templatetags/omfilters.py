@@ -18,3 +18,8 @@ def cart_total_qtd(carrinho):
 @register.filter
 def cart_totals(carrinho):
     return utils.cart_totals(carrinho)
+
+
+@register.filter
+def get_value(dictionary, key):
+    return dictionary.get(key, None)

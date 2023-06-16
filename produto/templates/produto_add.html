@@ -1,136 +1,111 @@
-{% extends 'base.html' %}
+{% extends 'includes/base_dashboard.html' %}
+{% load static %}
 {% load crispy_forms_tags %}
+{% load omfilters %}
 
-{% block conteudo %}
-<div class="fashion_section">
-    <div id="main_slider" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <div class="container">
-                    <h1 class="fashion_taital">Cadastro de Produto</h1>
-                    <form method="POST" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <div>
-                            <label for="id_nome">Nome:</label>
-                            <input type="text" name="nome" id="id_nome" required>
-                        </div>
-                        <div>
-                            <label for="id_descricao_curta">Descrição curta:</label>
-                            <textarea name="descricao_curta" id="id_descricao_curta" required style="height: 100px; width: 500px;"></textarea>
-                        </div>
-                        <div>
-                            <label for="id_descricao_longa">Descrição longa:</label>
-                            <textarea name="descricao_longa" id="id_descricao_longa" required style="height: 200px; width: 900px;"></textarea>
-                        </div>
-                        <div>
-                            <label for="id_imagem">Imagem:</label>
-                            <input type="file" name="imagem" id="id_imagem">
-                        </div>
-                        {% for form in formset %}
-                            <div class="formset_row">
-                                <div class="form-group">
-                                {{ form.imagem.label_tag }}
-                                {{ form.imagem }}
-                                </div>
-                                <div class="form-group">
-                                {{ form.legenda.label_tag }}
-                                {{ form.legenda }}
-                                </div>
-                            </div>
-                        {% endfor %}
-                        <div>
-                            <label for="id_preco_marketing">Preço:</label>
-                            <input type="number" name="preco_marketing" id="id_preco_marketing" required>
-                        </div>
-                        <div>
-                            <label for="id_preco_marketing_promocional">Preço promocional:</label>
-                            <input type="number" name="preco_marketing_promocional" id="id_preco_marketing_promocional">
-                        </div>
-                        <div>
-                            <label for="id_imagem">Imagem:</label>
-                            {{ imagem_formset.management_form }}
-                            {% for form in imagem_formset %}
-                                <div>{{ form.imagem }}</div>
-                            {% endfor %}
-                            <button type="button" id="add_imagem">Adicionar imagem</button>
-                        </div>
-                        
-                        <div class="categoria-field">
+{% block content %}
 
-                            {{ form.tipo|as_crispy_field }}
-                        </div>
-                        <div class="categoria-field">
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 
-                          {{ form.categoria|as_crispy_field }}
-                        </div>
-                        <div>
-                            <label>Variações:</label>
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Nome</th>
-                                            <th>Preço</th>
-                                            <th>Preço promocional</th>
-                                            <th>Estoque</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="variacoes">
-                                        <tr>
-                                            <td><input type="text" name="nome_variacao[]" required></td>
-                                            <td><input type="number" name="preco_variacao[]" required></td>
-                                            <td><input type="number" name="preco_promocional_variacao[]"></td>
-                                            <td><input type="number" name="estoque_variacao[]" required></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <button type="button" id="add_variacao">Adicionar variação</button>                
-                        </div>
-                        <button type="submit">Salvar</button>
-                    </form>                                          
-                </div>
-            </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/js/bootstrap.bundle.min.js"></script>
+
+
+
+<div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8  2xl:col-span-2">
+    <div class="row">
+        <div class="col-lg-12">
+            <br><br>
+            <h1 class="fashion_taital">Cadastro de Produto</h1>
+            </a>
+            <hr>
         </div>
     </div>
+ 
+  <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form|crispy }}
+        
+        <div>
+            <label for="id_imagem">Imagem:</label>
+            {{ imagem_formset.management_form }}
+            {% for form in imagem_formset %}
+                <div>{{ form.imagem }}</div><br>
+            {% endfor %}
+            <button type="button" id="add_imagem">Adicionar imagem</button>
+        </div>
+        <br>
+        
+        <div>
+            <label>Variações:</label>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Preço</th>
+                            <th>Preço promocional</th>
+                            <th>Estoque</th>
+                        </tr>
+                    </thead>
+                    <tbody id="variacoes">
+                        <tr>
+                            <td><input type="text" name="nome_variacao[]" required></td>
+                            <td><input type="number" name="preco_variacao[]" required></td>
+                            <td><input type="number" name="preco_promocional_variacao[]"></td>
+                            <td><input type="number" name="estoque_variacao[]" required></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="button" id="add_variacao">Adicionar variação</button>                
+        </div>
+        <button type="submit">Salvar</button>
+    </form>             
+  </div>
 </div>
 
-<!-- template.html -->
+  
 
-                  <script>
-                    document.getElementById('add_variacao').addEventListener('click', function() {
-                        var tabela_variacoes = document.getElementById('variacoes');
-                        var linha = document.createElement('tr');
-                        linha.innerHTML = `
-                            <td><input type="text" name="nome_variacao[]" required></td>
-                            <td><input type="number" name="preco_variacao[]" min="0" step="0.01" required></td>
-                            <td><input type="number" name="preco_promocional_variacao[]" min="0" step="0.01"></td>
-                            <td><input type="number" name="estoque_variacao[]" min="0" required></td>
-                            <td><button type="button" class="btn btn-danger" onclick="removerVariacao(this)">Remover</button></td>
-                            `;
-                        // adiciona a nova linha na tabela
-                        tabela_variacoes.appendChild(linha);
-                    });
-                  
-                    function removerVariacao(botao) {
-                        var linha = botao.closest('tr');
-                        linha.remove();
-                    }
-                  
-                    // intercepta o envio do formulário
-                    document.querySelector('form').addEventListener('submit', function(event) {
-                        // previne o comportamento padrão do formulário
-                        event.preventDefault();
-                  
-                        // obtém os dados do formulário
-                        var form = new FormData(event.target);
-                  
-                        // envia os dados para o servidor utilizando o AJAX
-                        fetch('/api/produtos/', {
-                            method: 'POST',
-                            body: form,
-                        })
-                        .then(response => response.json())
-                        .then(data => console.log(data))
-                        .catch(error => console.error(error));
-                    });
-                  </script>
-                  {% endblock %}
+
+<script>
+    document.getElementById('add_variacao').addEventListener('click', function() {
+        var tabela_variacoes = document.getElementById('variacoes');
+        var linha = document.createElement('tr');
+        linha.innerHTML = `
+            <td><input type="text" name="nome_variacao[]" required></td>
+            <td><input type="number" name="preco_variacao[]" min="0" step="0.01" required></td>
+            <td><input type="number" name="preco_promocional_variacao[]" min="0" step="0.01"></td>
+            <td><input type="number" name="estoque_variacao[]" min="0" required></td>
+            <td><button type="button" class="btn btn-danger" onclick="removerVariacao(this)">Remover</button></td>
+            `;
+        // adiciona a nova linha na tabela
+        tabela_variacoes.appendChild(linha);
+    });
+
+    function removerVariacao(botao) {
+        var linha = botao.closest('tr');
+        linha.remove();
+    }
+
+    // intercepta o envio do formulário
+    document.querySelector('form').addEventListener('submit', function(event) {
+        // previne o comportamento padrão do formulário
+        event.preventDefault();
+
+        // obtém os dados do formulário
+        var form = new FormData(event.target);
+
+        // envia os dados para o servidor utilizando o AJAX
+        fetch('/api/produtos/', {
+            method: 'POST',
+            body: form,
+        })
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.error(error));
+    });
+</script>
+{% endblock %}

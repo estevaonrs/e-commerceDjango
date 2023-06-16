@@ -24,7 +24,7 @@ class DevolucaoCreateView(CreateView):
     model = Devolucao
     form_class = DevolucaoForm
     template_name = 'devolucao_create.html'
-    success_url = reverse_lazy('gestao:lista_devolucao')
+    success_url = reverse_lazy('pedido:lista_devolucao')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -159,16 +159,17 @@ def pagar(request, id):
             else:
                 mensagem = "Falha no processamento do pagamento. Por favor, tente novamente."
 
-            return render(request, 'pedido/pedido_sucesso.html', {'form': form, 'mensagem': mensagem})
+            # Redirecionamento para a página de sucesso (PRG pattern)
+            return redirect(reverse('pedido:pedido_sucesso') + f'?mensagem={mensagem}')
 
     else:
         form = PagamentoForm()
 
-    return render(request, 'pedido/pagar.html', {'form': form, 'pedido': pedido, })
+    return render(request, 'pedido/pagar.html', {'form': form, 'pedido': pedido})
 
 
 class SucessoView(TemplateView):
-    template_name = 'pedido/pagamento_sucesso.html'
+    template_name = 'pedido/pedido_sucesso.html'
 
 
 class SalvarPedido(View):

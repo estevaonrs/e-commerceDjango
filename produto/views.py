@@ -25,7 +25,7 @@ class FornecedorCreateView(CreateView):
     model = Fornecedor
     form_class = FornecedorForm
     template_name = 'fornecedor_create.html'
-    success_url = reverse_lazy('produto:cadastros')
+    success_url = reverse_lazy('produto:lista_fornecedores')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -56,16 +56,12 @@ class FornecedorUpdateView(UpdateView):
 class FornecedorDeleteView(DeleteView):
     model = Fornecedor
     template_name = 'fornecedor_delete.html'
-    success_url = reverse_lazy('produto:lista_fornecedor')
+    success_url = reverse_lazy('produto:lista_fornecedores')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Excluir Fornecedor'
         return context
-
-
-class CadastrosView(TemplateView):
-    template_name = 'cadastros.html'
 
 
 class ContasView(TemplateView):
@@ -195,6 +191,71 @@ class produto_add(CreateView):
         return context
 
 
+class ProdutoUpdateView(UpdateView):
+    model = Produto
+    form_class = ProdutoForm
+    template_name = 'produto_update.html'
+    success_url = reverse_lazy('produto:categoria_add')
+    ImagemProdutoFormSet = inlineformset_factory(
+        Produto, ImagemProduto, fields=('imagem',), extra=3)
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        produto = form.save(commit=False)
+        produto.save()
+
+        imagem_formset = self.ImagemProdutoFormSet(
+            self.request.POST, self.request.FILES, instance=produto)
+
+        if imagem_formset.is_valid():
+            imagem_formset.save()
+
+        nome_variacao = self.request.POST.getlist('nome_variacao[]')
+        preco_variacao = self.request.POST.getlist('preco_variacao[]')
+        preco_promocional_variacao = self.request.POST.getlist(
+            'preco_promocional_variacao[]')
+        estoque_variacao = self.request.POST.getlist('estoque_variacao[]')
+        excluir_variacao_ids = self.request.POST.getlist(
+            'excluir_variacao_id[]')
+
+        for i in range(len(nome_variacao)):
+            variacao_id = self.request.POST.getlist('variacao_id[]')[i]
+
+            if variacao_id in excluir_variacao_ids:
+                Variacao.objects.filter(id=variacao_id).delete()
+                continue
+
+            if variacao_id:
+                variacao = Variacao.objects.get(id=variacao_id)
+                variacao.nome = nome_variacao[i]
+                variacao.preco = preco_variacao[i]
+                variacao.preco_promocional = (
+                    preco_promocional_variacao[i] or None)
+                variacao.estoque = estoque_variacao[i]
+                variacao.save()
+            else:
+                variacao = Variacao.objects.create(
+                    produto=produto,
+                    nome=nome_variacao[i],
+                    preco=preco_variacao[i],
+                    preco_promocional=preco_promocional_variacao[i] or None,
+                    estoque=estoque_variacao[i],
+                )
+
+        return redirect(self.get_success_url())
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categorias'] = Categoria.objects.all()
+        context['imagem_formset'] = self.ImagemProdutoFormSet(
+            queryset=ImagemProduto.objects.none())
+
+        produto = self.get_object()
+        context['variacoes'] = Variacao.objects.filter(produto=produto)
+
+        return context
+
+
 class EstoqueVariacaoView(View):
     def get(self, request, *args, **kwargs):
         produto_id = kwargs.get('produto_id')
@@ -249,18 +310,15 @@ def variacao_edit(request, id):
     return render(request, 'variacao_add.html', context)
 
 
-def produto_edit(request, id):
-    produto = get_object_or_404(Produto, id=id)
-    form = ProdutoForm(request.POST or None, instance=produto)
-    if form.is_valid():
-        form.save()
-        return redirect('produto:categoria_add')
-    context = {
-        'form': form,
-        'produto': produto,
-    }
+class VariacaoDeleteView(DeleteView):
+    model = Variacao
+    template_name = 'variacao_delete.html'
+    success_url = reverse_lazy('produto:gestao_estoque')
 
-    return render(request, 'categoria_add.html', context)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Excluir Variação'
+        return context
 
 
 class produto_delete(DeleteView):
@@ -281,7 +339,9 @@ class DetalheProduto(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['categorias'] = models.Categoria.objects.all()
+        context['cor_variacao'] = {}
+        for variacao in context['produto'].variacao_set.all():
+            context['cor_variacao'][variacao.id] = variacao.cores.all()
         return context
 
 
@@ -343,7 +403,8 @@ class categoria_delete(DeleteView):
 
 class Busca(ListaProdutos):
     def get_queryset(self, *args, **kwargs):
-        termo = self.request.GET.get('termo') or self.request.session['termo ']
+        termo = self.request.GET.get(
+            'termo') or self.request.session.get('termo')
         qs = super().get_queryset(*args, **kwargs)
 
         if not termo:

@@ -40,7 +40,7 @@ class ClienteCreateView(CreateView):
     model = Cliente
     form_class = ClienteForm
     template_name = 'cliente_create.html'
-    success_url = reverse_lazy('produto:cadastros')
+    success_url = reverse_lazy('cliente:lista_clientes')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -126,7 +126,7 @@ class FiadoCreateView(CreateView):
     model = Fiado
     form_class = FiadoForm
     template_name = 'fiado_create.html'
-    success_url = reverse_lazy('gestao:gestao')
+    success_url = reverse_lazy('cliente:lista_fiado')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

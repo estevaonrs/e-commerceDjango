@@ -44,12 +44,15 @@
                                         <div class="col-9 offset-1">
                                             <div>
                                                 <h6 class="justify-content-between d-flex align-items-start mb-2">
-                                                    {{ linha.produto_nome }}  
-                                                    <a style="text-decoration:none;" href="{% url 'produto:removerdocarrinho' %}?vid={{ linha.variacao_id }}"><i class="ri-close-line ms-3"></i></a>
+                                                    {{ linha.produto_nome }}
+                                                    <a style="text-decoration:none;"
+                                                        href="{% url 'produto:removerdocarrinho' %}?vid={{ linha.variacao_id }}"><i
+                                                            class="ri-close-line ms-3"></i></a>
                                                 </h6>
                                                 <span class="d-block text-muted fw-bolder text-uppercase fs-9">
                                                     Tamanho: {{ linha.variacao_nome }}<br>
-                                                    Quantidade: {{ linha.quantidade }}<a style="text-decoration:none;" href="{% url 'produto:adicionaraocarrinho' %}?vid={{linha.variacao_id}}">
+                                                    Quantidade: {{ linha.quantidade }}<a style="text-decoration:none;"
+                                                        href="{% url 'produto:adicionaraocarrinho' %}?vid={{linha.variacao_id}}">
                                                         <i class="fa-solid fa-plus"></i>
                                                     </a>
                                                 </span>
@@ -102,7 +105,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- /Page Content -->
 </section>
 <!-- / Main Section-->
@@ -117,7 +120,7 @@
         <div class="row g-0 vh-lg-100">
             <div class="col-12 col-lg-7 pt-5 pt-lg-10">
                 <div class="pe-lg-5">
-                  
+
                     <nav class="d-none d-md-block">
                         <ul class="list-unstyled d-flex justify-content-start mt-4 align-items-center fw-bolder small">
                             <li class="me-4"><a class="nav-link-checkout active" href="./cart.html">Seu Carrinho</a>
@@ -132,14 +135,14 @@
                     </nav>
                     <div class="mt-5">
                         <h3 class="fs-5 fw-bolder mb-0 border-bottom pb-4">Não há produtos no seu carrinho!</h3>
-                        
+
                     </div>
                 </div>
             </div>
-            
+
         </div>
     </div>
-    
+
     <!-- /Page Content -->
 </section>
 

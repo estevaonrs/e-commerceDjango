@@ -422,6 +422,16 @@ class Busca(ListaProdutos):
         return qs
 
 
+def buscar_produto(request):
+    query = request.GET.get('q')
+    resultados = None
+
+    if query:
+        resultados = Produto.objects.filter(Q(nome__icontains=query))
+
+    return render(request, 'gestao_estoque.html', {'produtos': resultados})
+
+
 class AdicionarAoCarrinho(View):
     def get(self, *args, **kwargs):
         http_referer = self.request.META.get(

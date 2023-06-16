@@ -53,7 +53,7 @@
 
                 <!-- /Navbar Cart Icon-->
                 {% if request.user.is_authenticated %}
-                <li class="ms-1 d-lg-none position-relative dropdown-cart">
+                <li class="ms-1 d-inline-block position-relative dropdown-cart">
                     <button class="nav-link me-0 disable-child-pointer border-0 p-0 bg-transparent text-body"
                         type="button">
                         Minha conta
@@ -71,6 +71,7 @@
                                 role="button">Atualizar meus dados</a>
                             <a href="{% url 'perfil:logout' %}" class="btn btn-dark w-100 text-center mt-2"
                                 role="button">Sair</a>
+
                         </div>
                     </div>
                 </li>

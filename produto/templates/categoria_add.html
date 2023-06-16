@@ -31,6 +31,8 @@
       </form>
     </div>
     <div class="col-md-6">
+            <br>
+
       <h1>Lista de Categorias</h1>
         <ul class="list-group">
             {% for categoria in categorias %}
@@ -124,13 +126,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-6">
+                    <div class="col-lg-4 col-sm-4">
                       <div class="box_main">
                         <h4 class="shirt_text">{{ produto.nome }}</h4>
-                        <a href="{% url 'produto:estoque_variacao' produto.id %}"> Ver estoque</a>
-                        
-                        
-
                         {% if produto.imagem %}
                         <a href="{% url 'produto:detalhe' produto.slug %}">
                           <img class="card-img-top" src="{{ produto.imagem.url }}" alt="{{ produto.nome }}">

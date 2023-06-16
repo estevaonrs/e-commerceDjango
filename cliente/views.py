@@ -8,7 +8,7 @@ from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Cliente, Fiado, ContasReceber
 from .forms import ClienteForm, FiadoForm, ContasReceberForm
-from produto.models import Produto
+from produto.models import Categoria, Produto
 
 
 from django.contrib.auth.decorators import login_required
@@ -26,8 +26,10 @@ def codigo_acesso(request):
 
         if codigo_digitado == perfil.codigo:
             produtos = Produto.objects.all()
+            categorias = Categoria.objects.all()
+
             context = {
-                'produtos': produtos, }
+                'produtos': produtos, 'categorias': categorias}
             return render(request, 'produto/lista_atacado.html', context)
 
         else:

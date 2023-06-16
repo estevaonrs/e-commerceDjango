@@ -330,3 +330,13 @@ class CaixaDeleteView(DeleteView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Excluir Caixa?'
         return context
+
+
+def buscar_caixa_aberto(request):
+    query = request.GET.get('q')
+    resultados = None
+
+    if query:
+        resultados = CaixaAberto.objects.filter(Q(nome__icontains=query))
+
+    return render(request, 'gestao/lista_caixa.html', {'caixas': resultados})

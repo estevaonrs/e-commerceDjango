@@ -18,6 +18,7 @@ from .models import ItemPedido
 from asaas.payments import CreditCard, CreditCardHolderInfo, BillingType
 from datetime import date
 from asaas import Asaas, Customer
+from django.db.models import Q
 
 
 class DevolucaoCreateView(CreateView):
@@ -462,3 +463,13 @@ class criar_novo_pedido(TemplateView):
         context = super().get_context_data(**kwargs)
         context['produtos'] = models.Produto.objects.all()
         return context
+
+
+def buscar_pedido(request):
+    query = request.GET.get('q')
+    resultados = None
+
+    if query:
+        resultados = Pedido.objects.filter(Q(id__icontains=query))
+
+    return render(request, 'pedido/lista_admin.html', {'pedidosadmin': resultados})

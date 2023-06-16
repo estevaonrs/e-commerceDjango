@@ -21,7 +21,26 @@
     </div>
 </div>
 
+
+
 <div class="container">
+  
+  <div class="row">
+    <div class="col-lg-4 col-sm-4">
+        <div class="d-flex justify-content-center">
+            <form class="input-group" action="{% url 'produto:buscar_produto' %}" method="GET">
+                <input type="text" class="form-control" placeholder="Pesquisar" name="q" aria-label="Pesquisar">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-primary" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+  </div>
+
+
     
     <div class="fashion_section">
         <div id="main_slider" class="carousel slide" data-ride="carousel">
@@ -31,7 +50,7 @@
                 <div class="fashion_section_2">
                   <div class="row">
                     {% for produto in produtos %}
-                    <div class="col-lg-4 col-6">
+                    <div class="col-lg-4 col-sm-4">
                       <div class="box_main">
                         <h4 class="shirt_text">{{ produto.nome }}</h4>
                         {% if produto.imagem %}

@@ -1,10 +1,10 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
-from .views import ContasPagarDeleteView, ContasPagarUpdateView, FornecedorDeleteView, FornecedorUpdateView, buscar_produto, \
+from .views import ContasPagarDeleteView, ContasPagarUpdateView, FornecedorDeleteView, FornecedorUpdateView, TipoCreateView, buscar_conta_pagar, buscar_fornecedores, buscar_produto, \
     categoria_delete, produto_delete, EstoqueVariacaoView, \
     FornecedorCreateView, GestaoEstoqueVariacao, ContasView, \
-    ContasPagarCreateView, FornecedorListView, VariacaoDeleteView
+    ContasPagarCreateView, FornecedorListView, VariacaoDeleteView, TipoUpdateView, TipoDeleteView
 from . import views
 
 app_name = 'produto'
@@ -31,6 +31,8 @@ urlpatterns = [
     path('produto_add/', views.produto_add.as_view(), name="produto_add"),
     path('categoria/<slug:categoria_slug>/',
          views.ListaProdutosPorCategoria.as_view(), name='lista_por_categoria'),
+    path('tipo/<slug:tipo_slug>/',
+         views.ListaProdutosPorTipo.as_view(), name='lista_por_tipo'),
     path('categoria_add/', views.categoria_add, name='categoria_add'),
     path('categoria/list/', views.categoria_list, name='categoria_list'),
     path('categoria_edit/<int:id>/', views.categoria_edit, name='categoria_edit'),
@@ -65,7 +67,18 @@ urlpatterns = [
          FornecedorUpdateView.as_view(), name='fornecedor_edit'),
     path('fornecedor_delete/<int:pk>/',
          FornecedorDeleteView.as_view(), name='fornecedor_delete'),
-    path('buscar_produto', buscar_produto, name='buscar_produto'),
+    path('buscar_produto/', buscar_produto, name='buscar_produto'),
+    path('tipo/', TipoCreateView.as_view(),
+         name='tipo_create'),
+    path('tipo_edit/<int:pk>/',
+         TipoUpdateView.as_view(), name='tipo_edit'),
+    path('tipo_delete/<int:pk>/',
+         TipoDeleteView.as_view(), name='tipo_delete'),
+    path('buscar_conta_pagar/', buscar_conta_pagar,
+         name='buscar_conta_pagar'),
+    path('buscar_fornecedores/', buscar_fornecedores,
+         name='buscar_fornecedores'),
+
 
 
 

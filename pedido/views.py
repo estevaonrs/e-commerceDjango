@@ -473,3 +473,14 @@ def buscar_pedido(request):
         resultados = Pedido.objects.filter(Q(id__icontains=query))
 
     return render(request, 'pedido/lista_admin.html', {'pedidosadmin': resultados})
+
+
+def buscar_devolucao(request):
+    query = request.GET.get('q')
+    resultados = None
+
+    if query:
+        resultados = Devolucao.objects.filter(
+            Q(itens__pedido__id__icontains=query))
+
+    return render(request, 'pedido/lista_devolucao.html', {'devolucoes': resultados})

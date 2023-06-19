@@ -42,13 +42,13 @@ class ContasPagarAdmin(admin.ModelAdmin):
                     'valor', 'pagamento']
 
 
-class Cor(admin.ModelAdmin):
+class Tipo(admin.ModelAdmin):
     list_display = ['nome']
 
 
 admin.site.register(models.Produto, ProdutoAdmin)
 admin.site.register(models.Variacao)
-admin.site.register(models.Cor)
+admin.site.register(models.Tipo)
 
 admin.site.register(models.ImagemProduto)
 admin.site.register(models.Categoria)

@@ -14,11 +14,11 @@ from django.db.models import Q
 from django.views.generic.edit import DeleteView, CreateView, UpdateView
 from django.forms.models import modelformset_factory
 
-from produto.forms import CategoriaForm, ProdutoForm, VariacaoForm, FornecedorForm, ContasPagarForm
+from produto.forms import CategoriaForm, ProdutoForm, TipoForm, VariacaoForm, FornecedorForm, ContasPagarForm
 from django.views.generic import TemplateView
 from . import models
 from perfil.models import Perfil
-from .models import Categoria, Variacao, ImagemProduto, Produto, Fornecedor, ContasPagar
+from .models import Categoria, Variacao, ImagemProduto, Produto, Fornecedor, ContasPagar, Tipo
 
 
 class FornecedorCreateView(CreateView):
@@ -121,6 +121,30 @@ class ListaProdutos(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categorias'] = models.Categoria.objects.all()
+        context['tipos'] = models.Tipo.objects.all()
+        return context
+
+
+class ListaProdutosPorTipo(ListView):
+    model = models.Produto
+    template_name = 'produto/lista_por_tipo.html'
+    context_object_name = 'produtos'
+    paginate_by = 10
+    ordering = ['-id']
+
+    def get_queryset(self):
+        tipo_slug = self.kwargs['tipo_slug']
+        tipo = get_object_or_404(models.Tipo, slug=tipo_slug)
+        return models.Produto.objects.filter(tipo=tipo)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tipo_slug = self.kwargs['tipo_slug']
+        tipo = get_object_or_404(models.Tipo, slug=tipo_slug)
+        context['tipo'] = tipo
+        context['tipos'] = models.Tipo.objects.all()
+        context['categorias'] = models.Categoria.objects.all()
+
         return context
 
 
@@ -141,7 +165,47 @@ class ListaProdutosPorCategoria(ListView):
         categoria_slug = self.kwargs['categoria_slug']
         categoria = get_object_or_404(models.Categoria, slug=categoria_slug)
         context['categoria'] = categoria
+        context['tipos'] = models.Tipo.objects.all()
+
         context['categorias'] = models.Categoria.objects.all()
+        return context
+
+
+class TipoCreateView(CreateView):
+    model = Tipo
+    form_class = TipoForm
+    template_name = 'tipo_create.html'
+    success_url = reverse_lazy('produto:categoria_add')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Tipo do Produto'
+        # Adiciona o form de cadastro de tipos ao contexto
+        context['tipo_form'] = self.form_class()
+
+        return context
+
+
+class TipoUpdateView(UpdateView):
+    model = Tipo
+    form_class = TipoForm
+    template_name = 'tipo_create.html'
+    success_url = reverse_lazy('produto:categoria_add')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Editar Tipo'
+        return context
+
+
+class TipoDeleteView(DeleteView):
+    model = Tipo
+    template_name = 'tipo_delete.html'
+    success_url = reverse_lazy('produto:categoria_add')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Excluir Tipo'
         return context
 
 
@@ -337,13 +401,6 @@ class DetalheProduto(DetailView):
     context_object_name = 'produto'
     slug_url_kwarg = 'slug'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['cor_variacao'] = {}
-        for variacao in context['produto'].variacao_set.all():
-            context['cor_variacao'][variacao.id] = variacao.cores.all()
-        return context
-
 
 class DetalheProduto2(DetailView):
     model = models.Produto
@@ -366,6 +423,7 @@ def categoria_list(request):
 def categoria_add(request):
     produtos = Produto.objects.all()
     categorias = Categoria.objects.all()
+    tipos = Tipo.objects.all()
 
     form = CategoriaForm(request.POST or None)
     if request.POST:
@@ -373,7 +431,7 @@ def categoria_add(request):
             form.save()
             return redirect('produto:categoria_add')
     context = {'form': form, 'categorias': categorias,
-               'produtos': produtos, }
+               'produtos': produtos, 'tipos': tipos}
     return render(request, 'categoria_add.html', context)
 
 
@@ -430,6 +488,28 @@ def buscar_produto(request):
         resultados = Produto.objects.filter(Q(nome__icontains=query))
 
     return render(request, 'gestao_estoque.html', {'produtos': resultados})
+
+
+def buscar_conta_pagar(request):
+    query = request.GET.get('q')
+    resultados = None
+
+    if query:
+        resultados = ContasPagar.objects.filter(
+            Q(fornecedor__nome__icontains=query))
+
+    return render(request, 'produto/lista_contaspagar.html', {'contaspagar': resultados})
+
+
+def buscar_fornecedores(request):
+    query = request.GET.get('q')
+    resultados = None
+
+    if query:
+        resultados = Fornecedor.objects.filter(
+            Q(nome__icontains=query))
+
+    return render(request, 'produto/lista_fornecedores.html', {'fornecedores': resultados})
 
 
 class AdicionarAoCarrinho(View):

@@ -291,9 +291,9 @@
             Organizado por
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            {% for categoria in categorias %}
-            <li><a class="dropdown-item" href="{% url 'produto:lista_por_categoria' categoria.slug %}"
-                value="1">{{categoria.nome}}</a></li>
+            {% for tipo in tipos %}
+            <li><a class="dropdown-item" href="{% url 'produto:lista_por_tipo' tipo.slug %}" value="1">{{tipo.nome}}</a>
+            </li>
             {% endfor %}
           </ul>
         </div>
@@ -302,7 +302,7 @@
         <div class="dropdown">
           <button class="btn dropdown-toggle form-select-sm border-0 bg-light p-3 pe-5 lh-1 fs-7" type="button"
             id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-            Filtrar por
+            Coleções
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             {% for categoria in categorias %}

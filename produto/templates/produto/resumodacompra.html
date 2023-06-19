@@ -15,12 +15,12 @@
 
                     <nav class="d-none d-md-block">
                         <ul class="list-unstyled d-flex justify-content-start mt-4 align-items-center fw-bolder small">
-                            <li class="me-4"><a class="nav-link-checkout " href="./cart.html">Your Cart</a></li>
-                            <li class="me-4"><a class="nav-link-checkout active" href="./checkout.html">Information</a>
+                            <li class="me-4"><a class="nav-link-checkout " href="">Seu carrinho</a></li>
+                            <li class="me-4"><a class="nav-link-checkout active" href="">Informações</a>
                             </li>
-                            <li class="me-4"><a class="nav-link-checkout " href="./checkout-shipping.html">Shipping</a>
+                            <li class="me-4"><a class="nav-link-checkout " href="">Envio</a>
                             </li>
-                            <li><a class="nav-link-checkout nav-link-last " href="./checkout-payment.html">Payment</a>
+                            <li><a class="nav-link-checkout nav-link-last " href="">Pagamento</a>
                             </li>
                         </ul>
                     </nav>
@@ -72,8 +72,9 @@
                         </div>
                     </div>
                     <div class="pt-5 mt-5 pb-5 border-top d-flex justify-content-md-end align-items-center">
-                        <a href="{% url 'pedido:salvarpedido' %}" class="btn btn-dark w-100 w-md-auto" role="button">Continuar</a>
-                    </div> 
+                        <a href="{% url 'pedido:salvarpedido' %}" class="btn btn-dark w-100 w-md-auto"
+                            role="button">Continuar</a>
+                    </div>
                 </div>
             </div>
             <div class="col-12 col-lg-5 bg-light pt-lg-10 aside-checkout pb-5 pb-lg-0 my-5 my-lg-0">
@@ -93,14 +94,15 @@
                             <div class="col-9 offset-1">
                                 <div>
                                     <h6 class="justify-content-between d-flex align-items-start mb-2">
-                                        {{ linha.produto_nome }}  
-                                       
+                                        {{ linha.produto_nome }}
+
 
                                     </h6>
                                     Tamanho: {{ linha.variacao_nome }}<br>
                                     Quantidade: {{ linha.quantidade }}
                                 </div>
-                                <p class="fw-bolder text-end text-muted m-0">{% if linha.preco_quantitativo_promocional %}
+                                <p class="fw-bolder text-end text-muted m-0">
+                                    {% if linha.preco_quantitativo_promocional %}
                                     {{ linha.preco_quantitativo_promocional|formata_preco }}
                                     {% else %}
                                     {{ linha.preco_quantitativo|formata_preco }}
@@ -110,30 +112,25 @@
                         {% endfor %}
                     </div>
                     <div class="py-4 border-bottom">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
+                        <!---<div class="d-flex justify-content-between align-items-center mb-2">
                             <p class="m-0 fw-bolder fs-6">Subtotal</p>
                             <p class="m-0 fs-6 fw-bolder">{{ carrinho|cart_totals|formata_preco }}</p>
                         </div>
                         <div class="d-flex justify-content-between align-items-center ">
                             <p class="m-0 fw-bolder fs-6">Frete</p>
                             <p class="m-0 fs-6 fw-bolder">R$8.95</p>
-                        </div>
+                        </div> !-->
                     </div>
                     <div class="py-4 border-bottom">
                         <div class="d-flex justify-content-between">
                             <div>
                                 <p class="m-0 fw-bold fs-5">Total</p>
-                                <span class="text-muted small">Produto + Frete</span>
+                                <!--- <span class="text-muted small">Produto + Frete</span> !-->
                             </div>
-                            <p class="m-0 fs-5 fw-bold">$422.99</p>
+                            <p class="m-0 fs-5 fw-bold">{{ carrinho|cart_totals|formata_preco }}</p>
                         </div>
                     </div>
-                    <div class="py-4">
-                        <div class="input-group mb-0">
-                            <input type="text" class="form-control" placeholder="Insira seu cupom">
-                            <button class="btn btn-dark btn-sm px-4">Aplicar</button>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </div>

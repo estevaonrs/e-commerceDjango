@@ -1,6 +1,6 @@
 from django.forms.models import BaseInlineFormSet
 from django import forms
-from .models import Produto, Variacao, ImagemProduto, Categoria, Fornecedor, ContasPagar
+from .models import Produto, Variacao, ImagemProduto, Categoria, Fornecedor, ContasPagar, Tipo
 
 
 class FornecedorForm(forms.ModelForm):
@@ -12,6 +12,12 @@ class FornecedorForm(forms.ModelForm):
 class CategoriaForm(forms.ModelForm):
     class Meta:
         model = Categoria
+        fields = ('nome',)
+
+
+class TipoForm(forms.ModelForm):
+    class Meta:
+        model = Tipo
         fields = ('nome',)
 
 

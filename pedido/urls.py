@@ -7,7 +7,6 @@ app_name = 'pedido'
 urlpatterns = [
     path('pagar/<int:id>', views.pagar, name='pagar'),
     path('pedido_sucesso/', views.SucessoView.as_view(), name='pedido_sucesso'),
-
     path('salvarpedido/', views.SalvarPedido.as_view(), name='salvarpedido'),
     path('salvarpedido_admin/', views.SalvarPedidoAdmin.as_view(),
          name='salvarpedido_admin'),
@@ -31,6 +30,8 @@ urlpatterns = [
          views.PedidoUpdateView.as_view(), name='pedido_edit'),
     path('buscar_pedido', views.buscar_pedido,
          name='buscar_pedido'),
+    path('buscar_devolucao', views.buscar_devolucao,
+         name='buscar_devolucao'),
 
 
 

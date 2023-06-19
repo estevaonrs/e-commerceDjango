@@ -1,7 +1,9 @@
 from django.utils import timezone
 import re
+from django.utils.text import slugify
 
 from django.contrib.auth.models import User
+from django.utils.html import format_html
 
 from django.db import models
 from django.forms import ValidationError
@@ -9,12 +11,12 @@ from utils.validacpf import valida_cpf
 
 
 class Cliente(models.Model):
-    codigo = models.CharField(max_length=4,
-                              verbose_name='Código', blank=True, null=True)
-    usuario = models.OneToOneField(User, on_delete=models.CASCADE,
-                                   verbose_name='Usuário')
-    nome = models.CharField(max_length=100,
-                            verbose_name='Nome completo', blank=True, null=True)
+    codigo = models.CharField(
+        max_length=4, verbose_name='Código', blank=True, null=True)
+    usuario = models.OneToOneField(
+        User, on_delete=models.CASCADE, verbose_name='Usuário')
+    nome = models.CharField(
+        max_length=100, verbose_name='Nome completo', blank=True, null=True)
     idade = models.PositiveIntegerField()
     data_nascimento = models.DateField()
     cpf = models.CharField(max_length=11)
@@ -65,6 +67,39 @@ class Cliente(models.Model):
     def clean(self):
         error_messages = {}
 
+        # Remover espaços em branco
+        self.bairro = self.bairro.strip()
+        self.cidade = self.cidade.strip()
+
+        # Converter para maiúsculas
+        self.bairro = self.bairro.upper()
+        self.cidade = self.cidade.upper()
+
+        # Remover acentuação
+        self.bairro = slugify(self.bairro, allow_unicode=True)
+        self.cidade = slugify(self.cidade, allow_unicode=True)
+
+        # Verificar se o campo está vazio após as transformações
+        if not self.bairro:
+            error_messages['bairro'] = 'O campo Bairro é obrigatório.'
+
+        if not self.cidade:
+            error_messages['cidade'] = 'O campo Cidade é obrigatório.'
+
+        # Verificar se já existem 2 clientes com mesma cidade e bairro
+        clientes_mesma_cidade_bairro = Cliente.objects.filter(
+            cidade=self.cidade, bairro=self.bairro)
+        if self.pk:
+            # Excluir o cliente atual da contagem
+            clientes_mesma_cidade_bairro = clientes_mesma_cidade_bairro.exclude(
+                pk=self.pk)
+        if clientes_mesma_cidade_bairro.count() >= 2:
+            error_messages['bairro'] = format_html('Já existem 2 clientes para esse mesmo Bairro: {}',
+                                                   self.bairro)
+
+        if error_messages:
+            raise ValidationError(error_messages)
+
         cpf_enviado = self.cpf or None
         cpf_salvo = None
         perfil = Cliente.objects.filter(cpf=cpf_enviado).first()
@@ -79,7 +114,7 @@ class Cliente(models.Model):
             error_messages['cpf'] = 'Digite um CPF válido'
 
         if re.search(r'[^0-9]', self.cep) or len(self.cep) < 8:
-            error_messages['cep'] = 'CEP inválido, digite os 8 digitos do CEP.'
+            error_messages['cep'] = 'CEP inválido, digite os 8 dígitos do CEP.'
 
         if error_messages:
             raise ValidationError(error_messages)

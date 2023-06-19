@@ -8,8 +8,9 @@ from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Cliente, Fiado, ContasReceber
 from .forms import ClienteForm, FiadoForm, ContasReceberForm
-from produto.models import Categoria, Produto
+from produto.models import Categoria, Produto, Tipo
 
+from django.db.models import Q
 
 from django.contrib.auth.decorators import login_required
 
@@ -27,9 +28,10 @@ def codigo_acesso(request):
         if codigo_digitado == perfil.codigo:
             produtos = Produto.objects.all()
             categorias = Categoria.objects.all()
+            tipos = Tipo.objects.all()
 
             context = {
-                'produtos': produtos, 'categorias': categorias}
+                'produtos': produtos, 'categorias': categorias, 'tipos': tipos}
             return render(request, 'produto/lista_atacado.html', context)
 
         else:
@@ -170,3 +172,34 @@ class FiadoDeleteView(DeleteView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Excluir Fiado?'
         return context
+
+
+def buscar_fiado(request):
+    query = request.GET.get('q')
+    resultados = None
+
+    if query:
+        resultados = Fiado.objects.filter(Q(cliente__nome__icontains=query))
+
+    return render(request, 'cliente/lista_fiado.html', {'fiados': resultados})
+
+
+def buscar_conta_receber(request):
+    query = request.GET.get('q')
+    resultados = None
+
+    if query:
+        resultados = ContasReceber.objects.filter(
+            Q(cliente__nome__icontains=query))
+
+    return render(request, 'cliente/lista_contasreceber.html', {'contasreceber': resultados})
+
+
+def buscar_revendedor(request):
+    query = request.GET.get('q')
+    resultados = None
+
+    if query:
+        resultados = Cliente.objects.filter(Q(nome__icontains=query))
+
+    return render(request, 'cliente/lista_clientes.html', {'clientes': resultados})

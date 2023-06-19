@@ -1,4 +1,5 @@
 import os
+import random
 import re
 
 from django.conf import settings
@@ -18,6 +19,23 @@ class Categoria(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.nome)
+            while Categoria.objects.filter(slug=self.slug).exists():
+                self.slug = f"{slugify(self.nome)}-{random.randint(1, 1000)}"
+        super().save(*args, **kwargs)
+
+
+class Tipo(models.Model):
+    nome = models.CharField(max_length=255)
+    slug = models.SlugField(unique=True, blank=True, null=True)
+
+    def __str__(self):
+        return self.nome
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.nome)
+            while Tipo.objects.filter(slug=self.slug).exists():
+                self.slug = f"{slugify(self.nome)}-{random.randint(1, 1000)}"
         super().save(*args, **kwargs)
 
 
@@ -104,8 +122,8 @@ class Produto(models.Model):
     preco_marketing = models.FloatField(verbose_name='Preço')
     preco_marketing_promocional = models.FloatField(
         default=0, verbose_name='Preço Promo.')
-    tipo = models.CharField(default='V', max_length=1, choices=(
-        ('V', 'Variável'), ('S', 'Simples')))
+    tipo = models.ForeignKey(
+        Tipo, on_delete=models.SET_NULL, default=None, blank=True, null=True)
     categoria = models.ForeignKey(
         Categoria, on_delete=models.SET_NULL, default=None, blank=True, null=True)
     fornecedor = models.ForeignKey(
@@ -160,20 +178,10 @@ class ImagemProduto(models.Model):
         return self.produto.nome
 
 
-class Cor(models.Model):
-    nome = models.CharField(blank=True,
-                            null=True, max_length=50)
-
-    def __str__(self):
-        return self.nome
-
-
 class Variacao(models.Model):
     produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
     nome = models.CharField(max_length=50, blank=True,
                             null=True, verbose_name='Nome da variação')
-    cores = models.ManyToManyField(Cor, verbose_name='Cores da variação')
-
     preco = models.FloatField(verbose_name='Preço da variação')
     preco_promocional = models.FloatField(
         default=0, verbose_name='Preço promo da variação')

@@ -5,6 +5,7 @@ from django.utils import timezone
 import os
 import random
 import re
+import string
 
 from django.conf import settings
 from django.db import models
@@ -118,6 +119,7 @@ class ContasPagar(models.Model):
 
 class Produto(models.Model):
     nome = models.CharField(max_length=255)
+    cor = models.CharField(max_length=255, blank=True, null=True)
     modalidade = models.CharField(
         default="A",
         max_length=1,
@@ -140,6 +142,9 @@ class Produto(models.Model):
         Categoria, on_delete=models.SET_NULL, default=None, blank=True, null=True)
     fornecedor = models.ForeignKey(
         Fornecedor, on_delete=models.PROTECT, default=None, blank=True, null=True)
+
+    is_primary = models.BooleanField(
+        default=False, verbose_name="Mostrar no template?")
 
     def get_preco_formatado(self):
         return utils.formata_preco(self.preco_marketing)
@@ -165,8 +170,15 @@ class Produto(models.Model):
         new_img.save(img_full_path, optimize=True, quality=50)
 
     def save(self, *args, **kwargs):
+        if not self.id:
+            existing_products = Produto.objects.filter(nome=self.nome)
+            if not existing_products.exists():
+                self.is_primary = True
         if not self.slug:
-            slug = f'{slugify(self.nome)}'
+            # Gerar 6 caracteres numéricos aleatórios
+            random_chars = ''.join(random.choices(string.digits, k=6))
+            # Adicionar os caracteres aleatórios ao slug
+            slug = f'{slugify(self.nome)}-{random_chars}'
             self.slug = slug
 
         super().save(*args, **kwargs)

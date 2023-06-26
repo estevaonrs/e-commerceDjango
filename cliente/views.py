@@ -27,14 +27,19 @@ def codigo_acesso(request):
         codigo_digitado = request.POST.get('codigo', '')
 
         if codigo_digitado == perfil.codigo:
-            produtos = Produto.objects.all()
+            nomes_produtos = Produto.objects.values_list(
+                'nome', flat=True).distinct()
+            produtos = Produto.objects.filter(
+                nome__in=nomes_produtos, is_primary=True)
             categorias = Categoria.objects.all()
             tipos = Tipo.objects.all()
 
             context = {
-                'produtos': produtos, 'categorias': categorias, 'tipos': tipos}
+                'produtos': produtos,
+                'categorias': categorias,
+                'tipos': tipos
+            }
             return render(request, 'produto/lista_atacado.html', context)
-
         else:
             return render(request, 'codigo_acesso.html', {'erro': 'Código inválido.'})
 
@@ -62,7 +67,7 @@ class ClienteCreateView(LoginRequiredMixin, CreateView):
 
     def dispatch(self, request, *args, **kwargs):
         # Inicie uma nova thread para chamar a função reset_codigo_cliente após 1 minuto
-        t = threading.Timer(60, reset_codigo_cliente)
+        t = threading.Timer(172800, reset_codigo_cliente)
         t.start()
         return super().dispatch(request, *args, **kwargs)
 

@@ -116,11 +116,18 @@ class ContasPagarDeleteView(LoginRequiredMixin, DeleteView):
 
 
 class ListaProdutos(ListView):
-    model = models.Produto
+    model = Produto
     template_name = 'produto/lista_varejo.html'
     context_object_name = 'produtos'
     paginate_by = 12
     ordering = ['-id']
+
+    def get_queryset(self):
+        nomes_produtos = Produto.objects.values_list(
+            'nome', flat=True).distinct()
+        queryset = Produto.objects.filter(
+            nome__in=nomes_produtos, is_primary=True)
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -403,10 +410,18 @@ class produto_delete(LoginRequiredMixin, DeleteView):
 
 
 class DetalheProduto(DetailView):
-    model = models.Produto
+    model = Produto
     template_name = 'produto/detalhe.html'
     context_object_name = 'produto'
     slug_url_kwarg = 'slug'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        produto = self.get_object()
+        produtos_iguais = Produto.objects.filter(
+            nome=produto.nome)
+        context['produtos_iguais'] = produtos_iguais
+        return context
 
 
 class DetalheProduto2(DetailView):

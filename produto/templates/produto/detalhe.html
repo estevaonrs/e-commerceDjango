@@ -160,38 +160,34 @@
                         <!-- Color Options -->
                         <div class="mt-5">
                             <h3 class="mb-3">Cores Disponíveis</h3>
-                            <ul class="list-inline">
-                                <li class="list-inline-item">
-                                    <a href="link-cor-vermelha">
-                                        <div class="cor-vermelha"
-                                            style="display: inline-block; width: 20px; height: 20px; background-color: red; border-radius: 50%;">
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <a href="link-cor-azul">
-                                        <div class="cor-azul"
-                                            style="display: inline-block; width: 20px; height: 20px; background-color: blue; border-radius: 50%;">
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <a href="link-cor-amarela">
-                                        <div class="cor-amarela"
-                                            style="display: inline-block; width: 20px; height: 20px; background-color: yellow; border-radius: 50%;">
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <a href="link-cor-verde">
-                                        <div class="cor-verde"
-                                            style="display: inline-block; width: 20px; height: 20px; background-color: green; border-radius: 50%;">
-                                        </div>
-                                    </a>
-                                </li>
-                            </ul>
+                            <div class="color-options">
+                                {% for produto_igual in produtos_iguais %}
+                                {% if produto_igual.imagem %}
+                                <a href="{% url 'produto:detalhe' produto_igual.slug %}">
+                                    <div class="color-option"
+                                        style="background-image: url('{{ produto_igual.imagem.url }}');"></div>
+                                </a>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
                         </div>
                         <!-- / Color Options -->
+
+                        <style>
+                            .color-options {
+                                display: flex;
+                                flex-wrap: wrap;
+                                gap: 10px;
+                            }
+
+                            .color-option {
+                                width: 100px;
+                                height: 100px;
+                                background-size: cover;
+                                background-position: center;
+                                background-repeat: no-repeat;
+                            }
+                        </style>
 
                     </div>
                 </div>

@@ -1,10 +1,16 @@
-from .models import Devolucao, Pedido
+from .models import Cupom, Devolucao, Pedido
 from django import forms
 
 
 class DevolucaoForm(forms.ModelForm):
     class Meta:
         model = Devolucao
+        fields = '__all__'
+
+
+class CupomForm(forms.ModelForm):
+    class Meta:
+        model = Cupom
         fields = '__all__'
 
 

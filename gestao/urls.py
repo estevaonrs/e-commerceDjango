@@ -14,7 +14,8 @@ urlpatterns = [
          name='todos_produtos_mais_vendidos'),
     path('venas_gerais/', views.VendasGeraisView,
          name='vendas_gerais'),
-
+    path('relatorio_financeiro/', views.RelatorioFinanceiroView,
+         name='relatorio_financeiro'),
     path('vendedores_que_mais_vendem/', views.TopVendedorView,
          name='vendedores_mais_vendem'),
     path('clientes_mais_compram/', views.TopPerfisView,

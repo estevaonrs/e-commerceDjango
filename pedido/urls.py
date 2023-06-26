@@ -32,6 +32,15 @@ urlpatterns = [
          name='buscar_pedido'),
     path('buscar_devolucao', views.buscar_devolucao,
          name='buscar_devolucao'),
+    path('novo_cupom/', views.CupomCreateView.as_view(),
+         name='cupom_create'),
+    path('lista_cupom/', views.CupomListView.as_view(),
+         name='lista_cupom'),
+    path('cupom_edit/<int:pk>/',
+         views.CupomUpdateView.as_view(), name='cupom_edit'),
+    path('cupom_delete/<int:pk>/',
+         views.CupomDeleteView.as_view(), name='cupom_delete'),
+
 
 
 

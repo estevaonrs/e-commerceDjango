@@ -21,6 +21,12 @@ class DevolucaoAdmin(admin.ModelAdmin):
                     'pagamento', 'observacoes']
 
 
+class CupomAdmin(admin.ModelAdmin):
+    list_display = ['nome', 'valor']
+
+
 admin.site.register(models.Pedido, PedidoAdmin)
 admin.site.register(models.ItemPedido)
+admin.site.register(models.Cupom)
+
 admin.site.register(models.Devolucao, DevolucaoAdmin)

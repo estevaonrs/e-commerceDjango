@@ -9,10 +9,10 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Cliente, Fiado, ContasReceber
 from .forms import ClienteForm, FiadoForm, ContasReceberForm
 from produto.models import Categoria, Produto, Tipo
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.db.models import Q
-
-from django.contrib.auth.decorators import login_required
 
 
 @login_required
@@ -40,7 +40,7 @@ def codigo_acesso(request):
     return render(request, 'codigo_acesso.html')
 
 
-class ClienteCreateView(CreateView):
+class ClienteCreateView(LoginRequiredMixin, CreateView):
     model = Cliente
     form_class = ClienteForm
     template_name = 'cliente_create.html'
@@ -52,7 +52,7 @@ class ClienteCreateView(CreateView):
         return context
 
 
-class ClienteListView(ListView):
+class ClienteListView(LoginRequiredMixin, ListView):
     model = Cliente
     context_object_name = 'clientes'
     template_name = 'cliente/lista_clientes.html'
@@ -60,7 +60,7 @@ class ClienteListView(ListView):
     ordering = ['-id']
 
 
-class ClienteUpdateView(UpdateView):
+class ClienteUpdateView(LoginRequiredMixin, UpdateView):
     model = Cliente
     form_class = ClienteForm
     template_name = 'cliente_create.html'
@@ -72,7 +72,7 @@ class ClienteUpdateView(UpdateView):
         return context
 
 
-class ClienteDeleteView(DeleteView):
+class ClienteDeleteView(LoginRequiredMixin, DeleteView):
     model = ContasReceber
     template_name = 'cliente_delete.html'
     success_url = reverse_lazy('cliente:lista_clientes')
@@ -83,7 +83,7 @@ class ClienteDeleteView(DeleteView):
         return context
 
 
-class ContasReceberCreateView(CreateView):
+class ContasReceberCreateView(LoginRequiredMixin, CreateView):
     model = ContasReceber
     form_class = ContasReceberForm
     template_name = 'contasreceber_create.html'
@@ -95,7 +95,7 @@ class ContasReceberCreateView(CreateView):
         return context
 
 
-class ContasReceberListView(ListView):
+class ContasReceberListView(LoginRequiredMixin, ListView):
     model = ContasReceber
     context_object_name = 'contasreceber'
     template_name = 'cliente/lista_contasreceber.html'
@@ -103,7 +103,7 @@ class ContasReceberListView(ListView):
     ordering = ['-id']
 
 
-class ContasReceberUpdateView(UpdateView):
+class ContasReceberUpdateView(LoginRequiredMixin, UpdateView):
     model = ContasReceber
     form_class = ContasReceberForm
     template_name = 'contasreceber_create.html'
@@ -115,7 +115,7 @@ class ContasReceberUpdateView(UpdateView):
         return context
 
 
-class ContasReceberDeleteView(DeleteView):
+class ContasReceberDeleteView(LoginRequiredMixin, DeleteView):
     model = ContasReceber
     template_name = 'contasreceber_delete.html'
     success_url = reverse_lazy('cliente:lista_contasreceber')
@@ -126,7 +126,7 @@ class ContasReceberDeleteView(DeleteView):
         return context
 
 
-class FiadoCreateView(CreateView):
+class FiadoCreateView(LoginRequiredMixin, CreateView):
     model = Fiado
     form_class = FiadoForm
     template_name = 'fiado_create.html'
@@ -143,7 +143,7 @@ class FiadoCreateView(CreateView):
         return super().form_valid(form)
 
 
-class lista_fiado(ListView):
+class lista_fiado(LoginRequiredMixin, ListView):
     model = Fiado
     context_object_name = 'fiados'
     template_name = 'cliente/lista_fiado.html'
@@ -151,7 +151,7 @@ class lista_fiado(ListView):
     ordering = ['-id']
 
 
-class FiadoUpdateView(UpdateView):
+class FiadoUpdateView(LoginRequiredMixin, UpdateView):
     model = Fiado
     form_class = FiadoForm
     template_name = 'fiado_create.html'
@@ -163,7 +163,7 @@ class FiadoUpdateView(UpdateView):
         return context
 
 
-class FiadoDeleteView(DeleteView):
+class FiadoDeleteView(LoginRequiredMixin, DeleteView):
     model = Fiado
     template_name = 'fiado_delete.html'
     success_url = reverse_lazy('cliente:lista_fiado')

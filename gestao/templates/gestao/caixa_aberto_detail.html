@@ -295,8 +295,11 @@
                     {% if soma_retiradas %}
                     <p class="text-sm font-medium text-gray-900 truncate" style="color: red;">
                       Retiradas (-): R$
-                      {{ soma_retiradas|floatformat:2 }}</p>
-                    {% else %}
+                      {{ soma_retiradas|floatformat:2 }} {% for observacao in obs_retiradas %}
+                      <br>( {{ observacao }} )
+                      {% endfor %}
+
+                      {% else %}
                     <p class="text-sm font-medium text-gray-900 truncate">
                       Retiradas (-): R$0</p>
                     {% endif %}

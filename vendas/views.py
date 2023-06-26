@@ -5,9 +5,10 @@ from pedido.models import Pedido
 from vendas.forms import VendedorForm
 from django.views.generic import UpdateView, CreateView, DeleteView, ListView
 from .models import Vendedor
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-class VendedorCreateView(CreateView):
+class VendedorCreateView(LoginRequiredMixin, CreateView):
     model = Vendedor
     form_class = VendedorForm
     template_name = 'vendedor_create.html'
@@ -19,7 +20,7 @@ class VendedorCreateView(CreateView):
         return context
 
 
-class Vendas(ListView):
+class Vendas(LoginRequiredMixin, ListView):
     model = Pedido
     context_object_name = 'pedidosadmin'
     template_name = 'vendas/lista_vendas.html'
@@ -32,7 +33,7 @@ class Vendas(ListView):
         return context
 
 
-class VendedoresListView(ListView):
+class VendedoresListView(LoginRequiredMixin, ListView):
     model = Vendedor
     context_object_name = 'vendedores'
     template_name = 'vendas/lista_vendedores.html'
@@ -40,7 +41,7 @@ class VendedoresListView(ListView):
     ordering = ['-id']
 
 
-class VendedoresUpdateView(UpdateView):
+class VendedoresUpdateView(LoginRequiredMixin, UpdateView):
     model = Vendedor
     form_class = VendedorForm
     template_name = 'vendedor_create.html'
@@ -52,7 +53,7 @@ class VendedoresUpdateView(UpdateView):
         return context
 
 
-class VendedoresDeleteView(DeleteView):
+class VendedoresDeleteView(LoginRequiredMixin, DeleteView):
     model = Vendedor
     template_name = 'vendedor_delete.html'
     success_url = reverse_lazy('vendas:lista_vendedores')

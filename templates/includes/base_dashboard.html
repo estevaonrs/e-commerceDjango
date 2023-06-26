@@ -60,18 +60,23 @@
 
  {% include "includes/nav_dashboard.html" %}
  <div class="flex overflow-hidden bg-white pt-16">
+  {% if request.user.is_superuser %}
 
   {% include "includes/aside.html" %}
 
   <div class="bg-gray-900 opacity-50 hidden fixed inset-0 z-10" id="sidebarBackdrop"></div>
 
   <div id="main-content" class="h-full w-full bg-gray-50 relative overflow-y-auto lg:ml-64">
-   {% block content %}{% endblock content %}
+
+   {% block content %}
+   {% endblock content %}
    {% include "includes/footer_dashboard.html" %}
+
 
   </div>
 
  </div>
+ {% endif %}
 
  <script async defer src="https://buttons.github.io/buttons.js"></script>
  <script src="{% static 'static2/js/app.bundle.js' %}"></script>

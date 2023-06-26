@@ -42,10 +42,11 @@
 
                 {% if request.session.carrinho %}
                 <!-- Navbar Cart Icon-->
-                <li class="ms-1 d-none d-lg-inline-block">
+                <li class="ms-1 d-inline-block position-relative">
 
                     <a class="nav-link text-body" href="{% url 'produto:carrinho' %}">
-                        Carrinho ({{ request.session.carrinho|cart_total_qtd }}X)
+                        Carrinho <i class="fa-solid fa-cart-shopping"></i>
+                        ({{ request.session.carrinho|cart_total_qtd }}X)
                     </a>
                 </li>
                 {% endif %}
@@ -129,13 +130,7 @@
                         </form>
                     </li>
                     <br>
-                    {% if request.session.carrinho %}
-                    <li class="nav-item dropdown">
-                        <a class="nav-link text-body" href="{% url 'produto:carrinho' %}">
-                            Carrinho ({{ request.session.carrinho|cart_total_qtd }}X)
-                        </a>
-                    </li>
-                    {% endif %}
+
                     {% if request.user.is_authenticated %}
 
                     <li class="nav-item">

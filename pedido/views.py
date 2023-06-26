@@ -10,8 +10,8 @@ from django.db.models.signals import pre_delete
 from produto.models import Variacao
 from utils import utils
 from produto import models
-from .models import Devolucao, ItemPedido, Pedido
-from pedido.forms import DevolucaoForm, PagamentoForm, PedidoForm
+from .models import Cupom, Devolucao, ItemPedido, Pedido
+from pedido.forms import CupomForm, DevolucaoForm, PagamentoForm, PedidoForm
 from django.views.generic.edit import CreateView
 from django.db.models import Prefetch
 from .models import ItemPedido
@@ -19,13 +19,17 @@ from asaas.payments import CreditCard, CreditCardHolderInfo, BillingType
 from datetime import date
 from asaas import Asaas, Customer
 from django.db.models import Q
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 
 
-class DevolucaoCreateView(CreateView):
+class DevolucaoCreateView(LoginRequiredMixin, CreateView):
     model = Devolucao
     form_class = DevolucaoForm
     template_name = 'devolucao_create.html'
     success_url = reverse_lazy('pedido:lista_devolucao')
+    # Substitua 'nome_da_url_de_login' pela URL real da página de login
+    login_url = reverse_lazy('perfil:criar')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -33,7 +37,7 @@ class DevolucaoCreateView(CreateView):
         return context
 
 
-class DevolucaoListView(ListView):
+class DevolucaoListView(LoginRequiredMixin, ListView):
     model = Devolucao
     context_object_name = 'devolucoes'
     template_name = 'pedido/lista_devolucao.html'
@@ -41,7 +45,7 @@ class DevolucaoListView(ListView):
     ordering = ['-id']
 
 
-class DevolucaoUpdateView(UpdateView):
+class DevolucaoUpdateView(LoginRequiredMixin, UpdateView):
     model = Devolucao
     form_class = DevolucaoForm
     template_name = 'devolucao_create.html'
@@ -53,7 +57,7 @@ class DevolucaoUpdateView(UpdateView):
         return context
 
 
-class DevolucaoDeleteView(DeleteView):
+class DevolucaoDeleteView(LoginRequiredMixin, DeleteView):
     model = Devolucao
     template_name = 'devolucao_delete.html'
     success_url = reverse_lazy('pedido:lista_devolucao')
@@ -77,6 +81,7 @@ class DispatchLoginRequiredMixin(View):
         return qs
 
 
+@login_required
 def pagar(request, id):
     pedido = get_object_or_404(Pedido, pk=id)
     if request.method == 'POST':
@@ -169,7 +174,7 @@ def pagar(request, id):
     return render(request, 'pedido/pagar.html', {'form': form, 'pedido': pedido})
 
 
-class SucessoView(TemplateView):
+class SucessoView(LoginRequiredMixin, TemplateView):
     template_name = 'pedido/pedido_sucesso.html'
 
 
@@ -399,6 +404,7 @@ class Detalhe(DispatchLoginRequiredMixin, DetailView):
         return context
 
 
+@login_required
 def detalhe_admin(request, pk):
     pedido = get_object_or_404(Pedido, pk=pk)
 
@@ -409,6 +415,7 @@ def detalhe_admin(request, pk):
     return render(request, 'pedido/detalhe_admin.html', {'pedido': pedido})
 
 
+@login_required
 def excluir_pedido(request, pk):
     pedido = get_object_or_404(Pedido, pk=pk)
     if request.method == 'POST':
@@ -418,7 +425,7 @@ def excluir_pedido(request, pk):
     return render(request, 'pedido/excluir_pedido.html', {'pedido': pedido})
 
 
-class PedidoUpdateView(UpdateView):
+class PedidoUpdateView(LoginRequiredMixin, UpdateView):
     model = Pedido
     form_class = PedidoForm
     template_name = 'pedido/pedido_status_create.html'
@@ -443,7 +450,7 @@ class Lista(DispatchLoginRequiredMixin, ListView):
         return context
 
 
-class lista_admin(ListView):
+class lista_admin(LoginRequiredMixin, ListView):
     model = Pedido
     context_object_name = 'pedidosadmin'
     template_name = 'pedido/lista_admin.html'
@@ -456,7 +463,7 @@ class lista_admin(ListView):
         return context
 
 
-class criar_novo_pedido(TemplateView):
+class criar_novo_pedido(LoginRequiredMixin, TemplateView):
     template_name = 'pedido/pedido_create.html'
 
     def get_context_data(self, **kwargs):
@@ -484,3 +491,46 @@ def buscar_devolucao(request):
             Q(itens__pedido__id__icontains=query))
 
     return render(request, 'pedido/lista_devolucao.html', {'devolucoes': resultados})
+
+
+class CupomCreateView(LoginRequiredMixin, CreateView):
+    model = Cupom
+    form_class = CupomForm
+    template_name = 'cupom_create.html'
+    success_url = reverse_lazy('pedido:lista_cupom')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Nova Devolução'
+        return context
+
+
+class CupomListView(LoginRequiredMixin, ListView):
+    model = Cupom
+    context_object_name = 'cupons'
+    template_name = 'pedido/lista_cupom.html'
+    paginate_by = 10
+    ordering = ['-id']
+
+
+class CupomUpdateView(LoginRequiredMixin, UpdateView):
+    model = Cupom
+    form_class = CupomForm
+    template_name = 'cupom_create.html'
+    success_url = reverse_lazy('pedido:lista_cupom')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Editar Cupom'
+        return context
+
+
+class CupomDeleteView(LoginRequiredMixin, DeleteView):
+    model = Cupom
+    template_name = 'cupom_delete.html'
+    success_url = reverse_lazy('pedido:lista_cupom')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Excluir Cupom?'
+        return context

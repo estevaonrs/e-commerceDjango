@@ -29,5 +29,7 @@ class Reforço(models.Model):
 
 class Retirada(models.Model):
     retirada = models.FloatField(verbose_name='Valor da Retirada')
+    observacao = models.CharField(
+        max_length=100, verbose_name='Observação', blank=True, null=True)
     data = models.DateField(default=timezone.now,
                             verbose_name='Data da retirada')

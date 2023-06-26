@@ -1,3 +1,4 @@
+from decimal import Decimal
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
@@ -74,3 +75,16 @@ class Devolucao(models.Model):
     class Meta:
         verbose_name = 'Devolução do pedido'
         verbose_name_plural = 'Devoluções do pedido'
+
+
+class Cupom(models.Model):
+    codigo = models.CharField(
+        max_length=255, verbose_name="Nome do Cupom")
+    valor = models.DecimalField(max_digits=5, decimal_places=2)
+
+    def calcular_valor_porcentagem(self, total):
+        desconto = Decimal(str(self.valor)) / 100
+        return desconto * Decimal(str(total))
+
+    def __str__(self):
+        return f'{self.valor}%'

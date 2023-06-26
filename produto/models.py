@@ -114,6 +114,14 @@ class ContasPagar(models.Model):
 
 class Produto(models.Model):
     nome = models.CharField(max_length=255)
+    modalidade = models.CharField(
+        default="A",
+        max_length=1,
+        choices=(
+            ('A', 'Atacado'),
+            ('V', 'Varejo'),
+        )
+    )
     descricao_curta = models.TextField(max_length=255)
     descricao_longa = models.TextField()
     imagem = models.ImageField(

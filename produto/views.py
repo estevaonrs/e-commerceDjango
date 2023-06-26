@@ -1,8 +1,12 @@
 from django.forms import inlineformset_factory
 from django.urls import reverse, reverse_lazy
 
+from pedido.models import Cupom
+
 from .models import Produto
 from django.views.generic import DeleteView
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.shortcuts import render, redirect
 from django.shortcuts import render, redirect, get_object_or_404
@@ -21,7 +25,7 @@ from perfil.models import Perfil
 from .models import Categoria, Variacao, ImagemProduto, Produto, Fornecedor, ContasPagar, Tipo
 
 
-class FornecedorCreateView(CreateView):
+class FornecedorCreateView(LoginRequiredMixin, CreateView):
     model = Fornecedor
     form_class = FornecedorForm
     template_name = 'fornecedor_create.html'
@@ -33,7 +37,7 @@ class FornecedorCreateView(CreateView):
         return context
 
 
-class FornecedorListView(ListView):
+class FornecedorListView(LoginRequiredMixin, ListView):
     model = Fornecedor
     context_object_name = 'fornecedores'
     template_name = 'produto/lista_fornecedores.html'
@@ -41,7 +45,7 @@ class FornecedorListView(ListView):
     ordering = ['-id']
 
 
-class FornecedorUpdateView(UpdateView):
+class FornecedorUpdateView(LoginRequiredMixin, UpdateView):
     model = Fornecedor
     form_class = FornecedorForm
     template_name = 'fornecedor_create.html'
@@ -53,7 +57,7 @@ class FornecedorUpdateView(UpdateView):
         return context
 
 
-class FornecedorDeleteView(DeleteView):
+class FornecedorDeleteView(LoginRequiredMixin, DeleteView):
     model = Fornecedor
     template_name = 'fornecedor_delete.html'
     success_url = reverse_lazy('produto:lista_fornecedores')
@@ -64,11 +68,11 @@ class FornecedorDeleteView(DeleteView):
         return context
 
 
-class ContasView(TemplateView):
+class ContasView(LoginRequiredMixin, TemplateView):
     template_name = 'contas.html'
 
 
-class ContasPagarCreateView(CreateView):
+class ContasPagarCreateView(LoginRequiredMixin, CreateView):
     model = ContasPagar
     form_class = ContasPagarForm
     template_name = 'contaspagar_create.html'
@@ -80,7 +84,7 @@ class ContasPagarCreateView(CreateView):
         return context
 
 
-class ContasPagarListView(ListView):
+class ContasPagarListView(LoginRequiredMixin, ListView):
     model = ContasPagar
     context_object_name = 'contaspagar'
     template_name = 'produto/lista_contaspagar.html'
@@ -88,7 +92,7 @@ class ContasPagarListView(ListView):
     ordering = ['-id']
 
 
-class ContasPagarUpdateView(UpdateView):
+class ContasPagarUpdateView(LoginRequiredMixin, UpdateView):
     model = ContasPagar
     form_class = ContasPagarForm
     template_name = 'contaspagar_create.html'
@@ -100,7 +104,7 @@ class ContasPagarUpdateView(UpdateView):
         return context
 
 
-class ContasPagarDeleteView(DeleteView):
+class ContasPagarDeleteView(LoginRequiredMixin, DeleteView):
     model = ContasPagar
     template_name = 'contaspagar_delete.html'
     success_url = reverse_lazy('produto:lista_contaspagar')
@@ -171,7 +175,7 @@ class ListaProdutosPorCategoria(ListView):
         return context
 
 
-class TipoCreateView(CreateView):
+class TipoCreateView(LoginRequiredMixin, CreateView):
     model = Tipo
     form_class = TipoForm
     template_name = 'tipo_create.html'
@@ -186,7 +190,7 @@ class TipoCreateView(CreateView):
         return context
 
 
-class TipoUpdateView(UpdateView):
+class TipoUpdateView(LoginRequiredMixin, UpdateView):
     model = Tipo
     form_class = TipoForm
     template_name = 'tipo_create.html'
@@ -198,7 +202,7 @@ class TipoUpdateView(UpdateView):
         return context
 
 
-class TipoDeleteView(DeleteView):
+class TipoDeleteView(LoginRequiredMixin, DeleteView):
     model = Tipo
     template_name = 'tipo_delete.html'
     success_url = reverse_lazy('produto:categoria_add')
@@ -209,7 +213,7 @@ class TipoDeleteView(DeleteView):
         return context
 
 
-class produto_add(CreateView):
+class produto_add(LoginRequiredMixin, CreateView):
     template_name = 'produto_add.html'
     model = Produto
     form_class = ProdutoForm
@@ -255,7 +259,7 @@ class produto_add(CreateView):
         return context
 
 
-class ProdutoUpdateView(UpdateView):
+class ProdutoUpdateView(LoginRequiredMixin, UpdateView):
     model = Produto
     form_class = ProdutoForm
     template_name = 'produto_update.html'
@@ -320,7 +324,7 @@ class ProdutoUpdateView(UpdateView):
         return context
 
 
-class EstoqueVariacaoView(View):
+class EstoqueVariacaoView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         produto_id = kwargs.get('produto_id')
         produto = Produto.objects.get(id=produto_id)
@@ -332,6 +336,7 @@ class EstoqueVariacaoView(View):
         return render(request, 'estoque_variacao.html', context)
 
 
+@login_required
 def GestaoEstoqueVariacao(request):
     produtos = Produto.objects.all()
     categorias = Categoria.objects.all()
@@ -346,6 +351,7 @@ def GestaoEstoqueVariacao(request):
     return render(request, 'gestao_estoque.html', context)
 
 
+@login_required
 def variacao_add(request):
     produtos = Produto.objects.all()
     categorias = Categoria.objects.all()
@@ -360,6 +366,7 @@ def variacao_add(request):
     return render(request, 'variacao_add.html', context)
 
 
+@login_required
 def variacao_edit(request, id):
     variacao = get_object_or_404(Variacao, id=id)
     form = VariacaoForm(request.POST or None, instance=variacao)
@@ -374,7 +381,7 @@ def variacao_edit(request, id):
     return render(request, 'variacao_add.html', context)
 
 
-class VariacaoDeleteView(DeleteView):
+class VariacaoDeleteView(LoginRequiredMixin, DeleteView):
     model = Variacao
     template_name = 'variacao_delete.html'
     success_url = reverse_lazy('produto:gestao_estoque')
@@ -385,7 +392,7 @@ class VariacaoDeleteView(DeleteView):
         return context
 
 
-class produto_delete(DeleteView):
+class produto_delete(LoginRequiredMixin, DeleteView):
     model = Produto
     success_url = reverse_lazy('produto:categoria_add')
 
@@ -414,12 +421,14 @@ class DetalheProduto2(DetailView):
         return context
 
 
+@login_required
 def categoria_list(request):
     categorias = Categoria.objects.all()
     context = {'categorias': categorias}
     return render(request, 'categoria_add.html', context)
 
 
+@login_required
 def categoria_add(request):
     produtos = Produto.objects.all()
     categorias = Categoria.objects.all()
@@ -435,6 +444,7 @@ def categoria_add(request):
     return render(request, 'categoria_add.html', context)
 
 
+@login_required
 def categoria_edit(request, id):
     categoria = get_object_or_404(Categoria, id=id)
     form = CategoriaForm(request.POST or None, instance=categoria)
@@ -449,7 +459,7 @@ def categoria_edit(request, id):
     return render(request, 'categoria_add.html', context)
 
 
-class categoria_delete(DeleteView):
+class categoria_delete(LoginRequiredMixin, DeleteView):
     model = Categoria
     success_url = reverse_lazy('produto:categoria_add')
 

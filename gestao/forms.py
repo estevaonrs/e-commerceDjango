@@ -17,4 +17,4 @@ class ReforçoForm(forms.ModelForm):
 class RetiradaForm(forms.ModelForm):
     class Meta:
         model = models.Retirada
-        fields = ['retirada']
+        fields = ['retirada', 'observacao']

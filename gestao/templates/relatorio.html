@@ -23,7 +23,7 @@
             <tbody class="divide-y divide-gray-100">
               <tr class="text-gray-500">
                 <th class="border-t-0 px-4 align-middle text-sm font-normal whitespace-nowrap p-4 text-left">
-                  <a href="seu-link-aqui">Financeiro</a>
+                  <a href="{% url 'gestao:relatorio_financeiro' %}">Financeiro</a>
                 </th>
               </tr>
               <tr class="text-gray-500">
@@ -50,6 +50,7 @@
                 <th class="border-t-0 px-4 align-middle text-sm font-normal whitespace-nowrap p-4 text-left">
                   <a href="{% url 'gestao:clientes_mais_compram' %}">Top 10 clientes</a>
                   </th>
+                  
               </tr>
 
               

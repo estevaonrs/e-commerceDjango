@@ -1,3 +1,4 @@
+from datetime import timedelta, timezone
 from django import forms
 from bootstrap_datepicker_plus.widgets import DateTimePickerInput
 
@@ -8,6 +9,9 @@ class ClienteForm(forms.ModelForm):
     class Meta:
         model = models.Cliente
         fields = '__all__'
+        widgets = {
+            'codigo_permanente': forms.CheckboxInput()
+        }
 
 
 class FiadoForm(forms.ModelForm):

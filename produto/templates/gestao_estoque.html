@@ -54,7 +54,7 @@
                       <div class="box_main">
                         <h4 class="shirt_text">{{ produto.nome }}</h4>
                         {% if produto.imagem %}
-                        <a href="{% url 'produto:detalhe' produto.slug %}">
+                        <a href="">
                           <img class="card-img-top" src="{{ produto.imagem.url }}" alt="{{ produto.nome }}">
                         </a>
                         {% endif %}

@@ -13,6 +13,9 @@ from utils.validacpf import valida_cpf
 class Cliente(models.Model):
     codigo = models.CharField(
         max_length=4, verbose_name='Código', blank=True, null=True)
+    codigo_permanente = models.BooleanField(
+        default=False, verbose_name='Código permanente')
+
     usuario = models.OneToOneField(
         User, on_delete=models.CASCADE, verbose_name='Usuário')
     nome = models.CharField(
@@ -60,6 +63,10 @@ class Cliente(models.Model):
             ('TO', 'Tocantins'),
         )
     )
+
+    def tornar_codigo_permanente(self):
+        self.codigo_permanente = True
+        self.save()
 
     def __str__(self):
         return f'{self.nome}'

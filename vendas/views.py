@@ -6,6 +6,7 @@ from vendas.forms import VendedorForm
 from django.views.generic import UpdateView, CreateView, DeleteView, ListView
 from .models import Vendedor
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
 
 
 class VendedorCreateView(LoginRequiredMixin, CreateView):
@@ -62,3 +63,14 @@ class VendedoresDeleteView(LoginRequiredMixin, DeleteView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Excluir Vendedor?'
         return context
+
+
+def buscar_venda(request):
+    query = request.GET.get('q')
+    resultados = None
+
+    if query:
+        resultados = Pedido.objects.filter(
+            Q(vendedor__vendedor__icontains=query))
+
+    return render(request, 'vendas/lista_vendas.html', {'pedidosadmin': resultados})

@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
-from .views import ContasPagarDeleteView, ContasPagarUpdateView, FornecedorDeleteView, FornecedorUpdateView, TipoCreateView, buscar_conta_pagar, buscar_fornecedores, buscar_produto, \
+from .views import ContasPagarDeleteView, ContasPagarUpdateView, FornecedorDeleteView, FornecedorUpdateView, InfluenciadoresCreateView, InfluenciadoresDeleteView, InfluenciadoresUpdateView, TipoCreateView, buscar_conta_pagar, buscar_fornecedores, buscar_produto, \
     categoria_delete, produto_delete, EstoqueVariacaoView, \
     FornecedorCreateView, GestaoEstoqueVariacao, ContasView, \
     ContasPagarCreateView, FornecedorListView, VariacaoDeleteView, TipoUpdateView, TipoDeleteView
@@ -78,7 +78,14 @@ urlpatterns = [
          name='buscar_conta_pagar'),
     path('buscar_fornecedores/', buscar_fornecedores,
          name='buscar_fornecedores'),
-
+    path('influenciadores/', InfluenciadoresCreateView.as_view(),
+         name='influenciadores_create'),
+    path('influenciadores_edit/<int:pk>/',
+         InfluenciadoresUpdateView.as_view(), name='influenciadores_edit'),
+    path('influenciadores_delete/<int:pk>/',
+         InfluenciadoresDeleteView.as_view(), name='influenciadores_delete'),
+    path('lista_influenciadores/', views.InfluenciadoresListView.as_view(),
+         name='lista_influenciadores'),
 
 
 ]

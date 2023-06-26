@@ -1,6 +1,6 @@
 from django.forms.models import BaseInlineFormSet
 from django import forms
-from .models import Produto, Variacao, ImagemProduto, Categoria, Fornecedor, ContasPagar, Tipo
+from .models import Influenciadores, Produto, Variacao, ImagemProduto, Categoria, Fornecedor, ContasPagar, Tipo
 
 
 class FornecedorForm(forms.ModelForm):
@@ -68,3 +68,9 @@ class VariacaoForm(forms.ModelForm):
             'preco_promocional': forms.NumberInput(attrs={'min': 0, 'step': 0.01}),
             'estoque': forms.NumberInput(attrs={'min': 0, 'step': 1}),
         }
+
+
+class InfluenciadoresForm(forms.ModelForm):
+    class Meta:
+        model = Influenciadores
+        fields = '__all__'

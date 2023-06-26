@@ -46,9 +46,14 @@ class Tipo(admin.ModelAdmin):
     list_display = ['nome']
 
 
+class Influenciadores(admin.ModelAdmin):
+    list_display = ['nome']
+
+
 admin.site.register(models.Produto, ProdutoAdmin)
 admin.site.register(models.Variacao)
 admin.site.register(models.Tipo)
+admin.site.register(models.Influenciadores)
 
 admin.site.register(models.ImagemProduto)
 admin.site.register(models.Categoria)

@@ -3,7 +3,7 @@ from django.urls import reverse, reverse_lazy
 
 from pedido.models import Cupom
 
-from .models import Produto
+from .models import Influenciadores, Produto
 from django.views.generic import DeleteView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -18,7 +18,7 @@ from django.db.models import Q
 from django.views.generic.edit import DeleteView, CreateView, UpdateView
 from django.forms.models import modelformset_factory
 
-from produto.forms import CategoriaForm, ProdutoForm, TipoForm, VariacaoForm, FornecedorForm, ContasPagarForm
+from produto.forms import CategoriaForm, InfluenciadoresForm, ProdutoForm, TipoForm, VariacaoForm, FornecedorForm, ContasPagarForm
 from django.views.generic import TemplateView
 from . import models
 from perfil.models import Perfil
@@ -830,3 +830,46 @@ class ResumoDaCompraAdmin(View):
         }
 
         return render(self.request, 'pedido/resumodacompra_admin.html', contexto)
+
+
+class InfluenciadoresCreateView(LoginRequiredMixin, CreateView):
+    model = Influenciadores
+    form_class = InfluenciadoresForm
+    template_name = 'influenciadores_create.html'
+    success_url = reverse_lazy('produto:lista_influenciadores')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Influenciadores'
+        return context
+
+
+class InfluenciadoresListView(LoginRequiredMixin, ListView):
+    model = Influenciadores
+    context_object_name = 'influenciadores'
+    template_name = 'produto/lista_influenciadores.html'
+    paginate_by = 10
+    ordering = ['-id']
+
+
+class InfluenciadoresUpdateView(LoginRequiredMixin, UpdateView):
+    model = Influenciadores
+    form_class = InfluenciadoresForm
+    template_name = 'influenciadores_create.html'
+    success_url = reverse_lazy('produto:lista_influenciadores')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Editar Envio'
+        return context
+
+
+class InfluenciadoresDeleteView(LoginRequiredMixin, DeleteView):
+    model = Influenciadores
+    template_name = 'influenciadores_delete.html'
+    success_url = reverse_lazy('produto:lista_influenciadores')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Excluir Envio'
+        return context

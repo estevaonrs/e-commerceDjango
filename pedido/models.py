@@ -88,3 +88,6 @@ class Cupom(models.Model):
 
     def __str__(self):
         return f'{self.valor}%'
+
+    class Meta:
+        verbose_name_plural = 'Cupons'

@@ -1,3 +1,7 @@
+from django.db.models.signals import post_save, pre_delete
+
+from django.dispatch import receiver
+from django.utils import timezone
 import os
 import random
 import re
@@ -201,3 +205,17 @@ class Variacao(models.Model):
     class Meta:
         verbose_name = 'Variação'
         verbose_name_plural = 'Variações'
+
+
+class Influenciadores(models.Model):
+    nome = models.CharField(max_length=255)
+    data = models.DateField(default=timezone.now,
+                            verbose_name='Data do envio')
+    produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
+    quantidade = models.IntegerField()
+
+    def __str__(self):
+        return self.nome or self.nome
+
+    class Meta:
+        verbose_name_plural = 'Influenciadores'

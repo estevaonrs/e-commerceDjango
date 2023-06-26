@@ -9,23 +9,9 @@
 
  <div class="flex items-center justify-between mb-4">
   <div class="flex-shrink-0"><br><br><br>
-   <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">Todos as vendas</span><br><br>
+   <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">Envios aos Influenciadores</span><br><br>
   </div>
  </div>
- <div class="row">
-  <div class="col-lg-4 col-sm-4">
-   <div class="d-flex justify-content-center">
-    <form class="input-group" action="{% url 'vendas:buscar_venda' %}" method="GET">
-     <input type="text" class="form-control" placeholder="Pesquise por Vendedor" name="q" aria-label="Pesquisar">
-     <div class="input-group-append">
-      <button class="btn btn-outline-primary" type="submit">
-       <i class="fas fa-search"></i>
-      </button>
-     </div>
-    </form>
-   </div>
-  </div>
- </div><br>
 
 
  <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -33,73 +19,54 @@
    <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
     <tr>
      <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-      Pedido
-     </th>
-     <th scope="col" class="px-6 py-3">
-      Usuário
-     </th>
-     <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-      Total
-     </th>
-     <th scope="col" class="px-6 py-3">
-      Qtd. Itens
-     </th>
-     <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-      Status
-     </th>
-     <th scope="col" class="px-6 py-3">
-      Mais detalhes
-     </th>
-     <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
       Data
      </th>
      <th scope="col" class="px-6 py-3">
-      Vendedor
+      Influenciador
      </th>
+     <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
+      Produto
+     </th>
+     <th scope="col" class="px-6 py-3">
+      Quantidade
+     </th>
+     <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
+      Ações
+     </th>
+
     </tr>
    </thead>
    <tbody>
-    {% for pedido in pedidosadmin %}
-    {% if pedido.status == 'A' %}
+    {% for influenciador in influenciadores %}
     <tr class="border-b border-gray-200 dark:border-gray-700">
      <th scope="row"
       class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
-      {{ pedido }}
+      {{ influenciador.data }}
      </th>
      <td class="px-6 py-4">
-      {{ pedido.usuario }}
+      {{ influenciador.nome }}
      </td>
      <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
-      {{ pedido.total|formata_preco }}
+      {{ influenciador.produto }}
      </td>
      <td class="px-6 py-4">
-      {{ pedido.qtd_total }}
+      {{ influenciador.quantidade }}
      </td>
+
      <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
-      {{ pedido.get_status_display }}
-     </td>
-     <td class="px-6 py-4">
-      <a href="{% url 'pedido:detalhe_admin' pedido.id %}">
-       Ver <i class="fa fa-search-plus ml-2"></i>
+      <a href="{% url 'produto:influenciadores_edit' influenciador.id %}">
+       <i class="fa-solid fa-pen-to-square fa-xl" style="color:mediumblue"></i>
+      </a>
+      <a href="{% url 'produto:influenciadores_delete' influenciador.id %}">
+       <i class="fa-solid fa-trash fa-xl" style="color: red;"></i>
       </a>
      </td>
-     <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
-      {{ pedido.data }}
-     </td>
-     <td class="px-6 py-4">
-      {{ pedido.vendedor }}
-
-     </td>
     </tr>
-    {% endif %}
     {% endfor %}
    </tbody>
   </table>
  </div>
-
 </div>
-
-
 
 
 {% include 'parciais/_pagination.html' %}

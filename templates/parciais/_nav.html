@@ -1,169 +1,85 @@
 {% load omfilters %}
 {% load static %}
-<div class="container-fluid">
-    <div class="w-100">
-        <div class="d-flex justify-content-between align-items-center flex-wrap">
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #000; margin-bottom: 10px;">
+    <div class="container-fluid position-relative">
+        <a class="navbar-brand" href="{% url 'produto:lista' %}">
+            <img src="{% static 'images/logos/logoab.png'%}" alt="HTML Bootstrap Template by Pixel Rocket"
+                style="width: 280px; margin-top: 05px;" class="img-fluid">
+        </a>
 
-            <!-- Logo-->
-            <a class="navbar-brand fw-bold fs-3 m-0 p-0 flex-shrink-0 order-0" href="{% url 'produto:lista' %}">
-                <div class="d-flex align-items-center">
-                    <picture class="d-block ">
-                        <img class="img-fluid" src="{% static 'images/logos/logoab.png'%}"
-                            style="width: 200px; margin-top: 05px;" alt="HTML Bootstrap Template by Pixel Rocket">
-                    </picture>
-                </div>
-            </a>
-            <!-- / Logo-->
+        <a class="navbar-toggler" href="{% url 'produto:carrinho' %}"
+            style="background-color: #f5f5f5; position: relative; top: 65%; right: 14px; border-radius: 10%;">
+            <i class="fas fa-shopping-cart" style="color: #000;"></i>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation"
+            style="border-radius: 10%; background-color: #f5f5f5;">
+            <i class="fa-solid fa-sliders" style="color: #000;"></i>
+        </button>
 
-            <!-- Navbar Icons-->
-            <ul class="list-unstyled mb-0 d-flex align-items-center order-1 order-lg-2 nav-sidelinks">
-                <!-- Mobile Nav Toggler-->
-                <li class="d-lg-none">
-                    <span class="nav-link text-body d-flex align-items-center cursor-pointer" data-bs-toggle="collapse"
-                        data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
-                        aria-label="Toggle navigation"><i class="ri-menu-line ri-lg me-1"></i> Menu</span>
-                </li>
-                <!-- /Mobile Nav Toggler-->
-
-                <!-- Navbar Search-->
-                <!-- Navbar Search-->
-                <li class="d-none d-sm-block">
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav ms-auto"> <!-- Adicionada a classe ms-auto -->
+                <li class="nav-item" style="margin-top: 15px;">
                     <form class="input-group" method="GET" action="{% url 'produto:busca' %}">
-                        <input name="termo" value="{{ request.GET.termo }}" class="form-control  border-0"
+                        <input name="termo" value="{{ request.GET.termo }}" class="form-control border-0"
                             placeholder="Pesquisar" style="background-color: #f2f2f2; height: 40px;">
                         <div class="input-group-append">
-                            <button class="btn btn-secondary py-0 " type="submit"
+                            <button class="btn btn-secondary py-0" type="submit"
                                 style="background-color: #333; border-color: #333; height: 40px;">
                                 <i class="fa fa-search"></i>
                             </button>
                         </div>
                     </form>
                 </li>
-
+                <br>
                 {% if request.session.carrinho %}
-                <!-- Navbar Cart Icon-->
-                <li class="ms-1 d-inline-block position-relative">
-
-                    <a class="nav-link text-body" href="{% url 'produto:carrinho' %}">
-                        Carrinho <i class="fa-solid fa-cart-shopping"></i>
-                        ({{ request.session.carrinho|cart_total_qtd }}X)
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'produto:carrinho' %}"
+                        style="font-size: 14px; background-color:  #000;">
+                        Carrinho <i class="fas fa-shopping-cart"></i>({{ request.session.carrinho|cart_total_qtd }}X)
                     </a>
                 </li>
                 {% endif %}
-
-                <!-- /Navbar Cart Icon-->
                 {% if request.user.is_authenticated %}
-                <li class="ms-1 d-inline-block position-relative dropdown-cart">
-                    <button class="nav-link me-0 disable-child-pointer border-0 p-0 bg-transparent text-body"
-                        type="button">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false"
+                        style="font-size: 14px; background-color:  #000;">
                         Minha conta
-                    </button>
-                    <div class="cart-dropdown dropdown-menu">
-                        <div class="d-flex justify-content-between align-items-center border-bottom pt-3 pb-4">
-                            <h6 class="fw-bolder m-0">Minha conta</h6>
-                            <i class="ri-close-circle-line text-muted ri-lg cursor-pointer btn-close-cart"></i>
-                        </div>
-                        <div>
-                            <a href="{% url 'pedido:lista' %}" class="btn btn-dark w-100 text-center mt-2"
-                                role="button">Meus
-                                pedidos</a>
-                            <a href="{% url 'perfil:criar' %}" class="btn btn-dark w-100 text-center mt-2"
-                                role="button">Atualizar meus dados</a>
-                            <a href="{% url 'perfil:logout' %}" class="btn btn-dark w-100 text-center mt-2"
-                                role="button">Sair</a>
-
-                        </div>
-                    </div>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="{% url 'pedido:lista' %}">Meus pedidos</a></li>
+                        <li><a class="dropdown-item" href="{% url 'perfil:criar' %}">Atualizar meus dados</a></li>
+                        <li><a class="dropdown-item" href="{% url 'perfil:logout' %}">Sair</a></li>
+                    </ul>
                 </li>
-
-                <li class="ms-1 d-none d-lg-inline-block">
-                    <a class="nav-link text-body" href="{% url 'cliente:codigo_acesso' %}">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'cliente:codigo_acesso' %}"
+                        style="font-size: 14px; background-color:  #000;">
                         Catálogo de atacado
                     </a>
                 </li>
                 {% if request.user.is_superuser %}
-                <li class="ms-1 d-none d-lg-inline-block">
-                    <a class="nav-link text-body" href="{% url 'gestao:dashboard' %}">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'gestao:dashboard' %}"
+                        style="font-size: 14px; background-color:  #000;">
                         Painel Administrativo
                     </a>
                 </li>
-
                 {% endif %}
                 {% else %}
-
-                <!-- Navbar Login-->
-                <li class="ms-1 d-none d-lg-inline-block">
-                    <a class="nav-link text-body" href="{% url 'perfil:criar' %}">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'perfil:criar' %}">
                         Login
                     </a>
                 </li>
-                <!-- /Navbar Login-->
-
-                <!-- Navbar Cadastro-->
-                <li class="ms-1 d-none d-lg-inline-block">
-                    <a class="nav-link text-body" href="{% url 'perfil:criar' %}">
-                        Criar conta
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'cliente:codigo_acesso' %}">
+                        Catálogo de atacado
                     </a>
                 </li>
                 {% endif %}
-
-
             </ul>
-            <!-- Navbar Icons-->
-
-            <!-- Main Navigation-->
-            <div class="flex-shrink-0 collapse navbar-collapse navbar-collapse-light w-auto flex-grow-1 order-2 order-lg-1"
-                id="navbarNavDropdown">
-
-                <!-- Menu-->
-                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-                    <li class="nav-item dropdown dropdown position-static">
-                        <form class="input-group" method="GET" action="{% url 'produto:busca' %}">
-                            <input name="termo" value="{{ request.GET.termo }}" class="form-control  border-0"
-                                placeholder="Pesquisar" style="background-color: #f2f2f2; height: 40px;">
-                            <div class="input-group-append">
-                                <button class="btn btn-secondary py-0 " type="submit"
-                                    style="background-color: #333; border-color: #333; height: 40px;">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </div>
-                        </form>
-                    </li>
-                    <br>
-
-                    {% if request.user.is_authenticated %}
-
-                    <li class="nav-item">
-                        <a class="nav-link text-body" href="{% url 'cliente:codigo_acesso' %}">
-                            Catálogo de atacado
-                        </a>
-                    </li>
-                    {% if request.user.is_superuser %}
-
-                    <li class="nav-item">
-                        <a class="nav-link text-body" href="{% url 'gestao:dashboard' %}">
-                            Painel Administrativo
-                        </a>
-                    </li>
-                    {% endif %}
-                    {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link text-body" href="{% url 'perfil:criar' %}">
-                            Login
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-body" href="{% url 'perfil:criar' %}">
-                            Criar conta
-                        </a>
-                    </li>
-                    {% endif %}
-
-                </ul> <!-- / Menu-->
-
-            </div>
-            <!-- / Main Navigation-->
-
         </div>
     </div>
-</div>
+</nav>

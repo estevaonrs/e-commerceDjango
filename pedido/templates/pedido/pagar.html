@@ -1,337 +1,116 @@
+{% extends 'base.html' %}
 {% load static %}
+
 {% load omfilters %}
-{% load crispy_forms_tags %}
-<!doctype html>
-<html lang="pt-BR">
+
+{% block titulo %}Produtos | {% endblock %}
+
+{% block conteudo %}
+
+<!-- Main Section-->
+<section class="mt-0  vh-lg-100">
+    <!-- Page Content Goes Here -->
+    <div class="container">
+        <div class="row g-0 vh-lg-100">
+            <div class="col-lg-7 pt-5 pt-lg-10">
+                <div class="pe-lg-5">
+                    <nav class="d-none d-md-block">
+                        <ul class="list-unstyled d-flex justify-content-start mt-4 align-items-center fw-bolder small">
+                            <li class="me-4"><a class="nav-link-checkout " href="./cart.html">Seu carrinho</a></li>
+                            <li class="me-4"><a class="nav-link-checkout " href="./checkout.html">Informação</a>
+                            </li>
+                            <li class="me-4"><a class="nav-link-checkout " href="./checkout-shipping.html">Entrega</a>
+                            </li>
+                            <li><a class="nav-link-checkout nav-link-last active"
+                                    href="./checkout-payment.html">Pagamento</a></li>
+                        </ul>
+                    </nav>
+                    <div class="mt-5">
+                        <!-- Checkout Information Summary -->
+                        <!-- Checkout Panel Information-->
+                        <h3 class="fs-5 fw-bolder mb-4 border-bottom pb-4">Pagamento</h3>
+
+                        <div class="row">
+
+                            <!-- Payment Option-->
+                            <div class="col-12">
+                                <div class="form-check form-group form-check-custom form-radio-custom mb-3">
+                                    <input class="form-check-input" type="radio" name="checkoutPaymentMethod"
+                                        id="checoutPaymentStripe" checked>
+                                    <label class="form-check-label" for="checoutPaymentStripe">
+                                        <span class="d-flex justify-content-between align-items-start">
+                                            <span>
+                                                <span class="mb-0 fw-bolder d-block"><button type="submit"
+                                                        class="btn btn-primary">Ir Para o WhatsApp da
+                                                        Loja</button></span>
 
 
-<head>
+                                            </span>
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
 
-    <!-- basic -->
-    <!-- Page Meta Tags-->
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <meta name="keywords" content="">
 
-    <!-- Custom Google Fonts-->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Roboto:wght@300;400;700&display=auto"
-        rel="stylesheet">
-    <script src="https://kit.fontawesome.com/fc645a0b45.js" crossorigin="anonymous"></script>
-    <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/favicon/apple-touch-icon.png'%}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon/favicon-32x32.png'%}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon/favicon-16x16.png'%}">
-    <link rel="mask-icon" href="{% static 'images/favicon/safari-pinned-tab.svg'%}" color="#5bbad5">
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="theme-color" content="#ffffff">
+                        </div>
 
-    <!-- Vendor CSS -->
-    <link rel="stylesheet" href="{% static 'css/libs.bundle.css'%}" />
 
-    <!-- Main CSS -->
-    <link rel="stylesheet" href="{% static 'css/theme.bundle.css'%}" />
 
-    <!-- Fix for custom scrollbar if JS is disabled-->
-    <noscript>
-        <style>
-            /**
-        * Reinstate scrolling for non-JS clients
-        */
-            .simplebar-content-wrapper {
-                overflow: auto;
-            }
-        </style>
-    </noscript>
-    <title>{% block titulo %}{% endblock %}American Brand |</title>
-</head>
-<div class="container-fluid">
-    <div class="w-100">
-        <div class="d-flex justify-content-between align-items-center flex-wrap">
 
-            <!-- Logo-->
-            <a class="navbar-brand fw-bold fs-3 m-0 p-0 flex-shrink-0 order-0" href="{% url 'produto:lista' %}">
-                <div class="d-flex align-items-center">
-                    <picture class="d-block ">
-                        <img class="img-fluid" src="{% static 'images/logos/logoab.png'%}"
-                            style="width: 200px; margin-top: 05px;" alt="HTML Bootstrap Template by Pixel Rocket">
-                    </picture>
+
+                    </div>
                 </div>
-            </a>
-            <!-- / Logo-->
-
-            <!-- Navbar Icons-->
-            <ul class="list-unstyled mb-0 d-flex align-items-center order-1 order-lg-2 nav-sidelinks">
-
-                <!-- Mobile Nav Toggler-->
-                <li class="d-lg-none">
-                    <span class="nav-link text-body d-flex align-items-center cursor-pointer" data-bs-toggle="collapse"
-                        data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
-                        aria-label="Toggle navigation"><i class="ri-menu-line ri-lg me-1"></i> Menu</span>
-                </li>
-                <!-- /Mobile Nav Toggler-->
-
-                <!-- Navbar Search-->
-                <li class="d-none d-sm-block">
-                    <span class="nav-link text-body search-trigger cursor-pointer">Buscar</span>
-
-                    <!-- Search navbar overlay-->
-                    <div class="navbar-search d-none">
-                        <div class="input-group mb-3 h-100">
-                            <span class="input-group-text px-4 bg-transparent border-0"><i
-                                    class="ri-search-line ri-lg"></i></span>
-                            <input type="text" class="form-control text-body bg-transparent border-0"
-                                placeholder="Procure por produtos...">
-                            <span
-                                class="input-group-text px-4 cursor-pointer disable-child-pointer close-search bg-transparent border-0"><i
-                                    class="ri-close-circle-line ri-lg"></i></span>
-                        </div>
-                    </div>
-                    <div class="search-overlay"></div>
-                    <!-- / Search navbar overlay-->
-
-                </li>
-                <!-- /Navbar Search-->
-
-
-
-                {% if request.session.carrinho %}
-                <!-- Navbar Cart Icon-->
-                <li class="ms-1 d-none d-lg-inline-block">
-
-                    <a class="nav-link text-body" href="{% url 'produto:carrinho' %}">
-                        Carrinho ({{ request.session.carrinho|cart_total_qtd }}X)
-                    </a>
-                </li>
-                {% endif %}
-                <!-- /Navbar Cart Icon-->
-                {% if request.user.is_authenticated %}
-                <li class="ms-1 d-inline-block position-relative dropdown-cart">
-                    <button class="nav-link me-0 disable-child-pointer border-0 p-0 bg-transparent text-body"
-                        type="button">
-                        Minha conta
-                    </button>
-                    <div class="cart-dropdown dropdown-menu">
-                        <div class="d-flex justify-content-between align-items-center border-bottom pt-3 pb-4">
-                            <h6 class="fw-bolder m-0">Minha conta</h6>
-                            <i class="ri-close-circle-line text-muted ri-lg cursor-pointer btn-close-cart"></i>
-                        </div>
-                        <div>
-                            <a href="{% url 'pedido:lista' %}" class="btn btn-dark w-100 text-center mt-2"
-                                role="button">Meus
-                                pedidos</a>
-                            <a href="{% url 'perfil:criar' %}" class="btn btn-dark w-100 text-center mt-2"
-                                role="button">Atualizar meus dados</a>
-                            <a href="{% url 'perfil:logout' %}" class="btn btn-dark w-100 text-center mt-2"
-                                role="button">Sair</a>
-
-                        </div>
-                    </div>
-                </li>
-
-                <li class="ms-1 d-none d-lg-inline-block">
-                    <a class="nav-link text-body" href="{% url 'cliente:codigo_acesso' %}">
-                        Catálogo de atacado
-                    </a>
-                </li>
-                {% if request.user.is_superuser %}
-                <li class="ms-1 d-none d-lg-inline-block">
-                    <a class="nav-link text-body" href="{% url 'gestao:dashboard' %}">
-                        Painel Administrativo
-                    </a>
-                </li>
-
-                {% endif %}
-                {% else %}
-
-                <!-- Navbar Login-->
-                <li class="ms-1 d-none d-lg-inline-block">
-                    <a class="nav-link text-body" href="{% url 'perfil:criar' %}">
-                        Login
-                    </a>
-                </li>
-                <!-- /Navbar Login-->
-
-                <!-- Navbar Cadastro-->
-                <li class="ms-1 d-none d-lg-inline-block">
-                    <a class="nav-link text-body" href="{% url 'perfil:criar' %}">
-                        Criar conta
-                    </a>
-                </li>
-                {% endif %}
-
-
-            </ul>
-            <!-- Navbar Icons-->
-
-            <!-- Main Navigation-->
-            <div class="flex-shrink-0 collapse navbar-collapse navbar-collapse-light w-auto flex-grow-1 order-2 order-lg-1"
-                id="navbarNavDropdown">
-
-                <!-- Menu-->
-                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-                    <li class="nav-item dropdown dropdown position-static">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            Camiseta
-                        </a>
-
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            Short
-                        </a>
-
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./category.html" role="button">
-                            Regata
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./category.html" role="button">
-                            Todos os produtos
-                        </a>
-                    </li>
-
-                </ul> <!-- / Menu-->
-
             </div>
-            <!-- / Main Navigation-->
+            <div class="col-12 col-lg-5 bg-light pt-lg-10 aside-checkout pb-5 pb-lg-0 my-5 my-lg-0">
+                <div class="p-4 py-lg-0 pe-lg-0 ps-lg-5">
+                    <div class="pb-3">
+                        {% for linha in pedido.itempedido_set.all %}
 
+                        <!-- Cart Item-->
+                        <div class="row mx-0 py-4 g-0 border-bottom">
+                            <div class="col-2 position-relative">
+                                <span class="checkout-item-qty">{{ linha.quantidade }}</span>
+                                <picture class="d-block border">
+                                    <img class="img-fluid" src="{% get_media_prefix %}{{ linha.imagem }}"
+                                        alt="HTML Bootstrap Template by Pixel Rocket">
+                                </picture>
+                            </div>
+
+                            <div class="col-9 offset-1">
+                                <div>
+                                    <h6 class="justify-content-between d-flex align-items-start mb-2">
+                                        {{ linha.produto_nome }}
+                                    </h6>
+                                    Tamanho: {{ linha.variacao_nome }}<br>
+                                    Quantidade: {{ linha.quantidade }}
+                                </div>
+                                <p class="fw-bolder text-end text-muted m-0">
+                                    {% if linha.preco_promocional %}
+                                    {{ linha.preco_promocional|formata_preco }}
+                                    {% else %}
+                                    {{ linha.preco|formata_preco }}
+                                    {% endif %}</p>
+                            </div>
+                        </div> <!-- / Cart Item-->
+
+                    </div>
+
+                    {% endfor %}
+
+                    <div class="py-4 border-bottom">
+                        <div class="d-flex justify-content-between" style="margin-left: 20px;">
+                            <div>
+                                <p class="m-0 fw-bold fs-5">Total</p>
+                                <span class="text-muted small">Produto</span>
+                            </div>
+                            <p class="m-0 fs-5 fw-bold">{{pedido.total|formata_preco}}</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
     </div>
-</div>
-
-<body>
-    <!-- Main Section-->
-    <section class="mt-0  vh-lg-100">
-        <!-- Page Content Goes Here -->
-        <div class="container">
-            <div class="row g-0 vh-lg-100">
-                <div class="col-lg-7 pt-5 pt-lg-10">
-                    <div class="pe-lg-5">
-                        <nav class="d-none d-md-block">
-                            <ul
-                                class="list-unstyled d-flex justify-content-start mt-4 align-items-center fw-bolder small">
-                                <li class="me-4"><a class="nav-link-checkout " href="./cart.html">Seu carrinho</a></li>
-                                <li class="me-4"><a class="nav-link-checkout " href="./checkout.html">Informação</a>
-                                </li>
-                                <li class="me-4"><a class="nav-link-checkout "
-                                        href="./checkout-shipping.html">Entrega</a>
-                                </li>
-                                <li><a class="nav-link-checkout nav-link-last active"
-                                        href="./checkout-payment.html">Pagamento</a></li>
-                            </ul>
-                        </nav>
-                        <div class="mt-5">
-                            <!-- Checkout Information Summary -->
-                            <!-- Checkout Panel Information-->
-                            <h3 class="fs-5 fw-bolder mb-4 border-bottom pb-4">Infomação de Pagamento</h3>
-
-                            <div class="row">
-
-                                <!-- Payment Option-->
-                                <div class="col-12">
-                                    <div class="form-check form-group form-check-custom form-radio-custom mb-3">
-                                        <input class="form-check-input" type="radio" name="checkoutPaymentMethod"
-                                            id="checoutPaymentStripe" checked>
-                                        <label class="form-check-label" for="checoutPaymentStripe">
-                                            <span class="d-flex justify-content-between align-items-start">
-                                                <span>
-                                                    <span class="mb-0 fw-bolder d-block">Cartão de crédito</span>
-                                                </span>
-                                                <i class="ri-bank-card-line"></i>
-                                            </span>
-                                        </label>
-                                    </div>
-                                </div>
-
-
-                            </div>
-
-                            <div class="card-details">
-                                <div class="row pt-3">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <form action="" method="post">
-                                                {% csrf_token %}
-
-                                                {{ form|crispy}}
-                                                <br>
-                                                <button type="submit" class="btn btn-primary">Pagar</button>
-                                            </form>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-
-
-
-
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-5 bg-light pt-lg-10 aside-checkout pb-5 pb-lg-0 my-5 my-lg-0">
-                    <div class="p-4 py-lg-0 pe-lg-0 ps-lg-5">
-                        <div class="pb-3">
-                            {% for linha in pedido.itempedido_set.all %}
-
-                            <!-- Cart Item-->
-                            <div class="row mx-0 py-4 g-0 border-bottom">
-                                <div class="col-2 position-relative">
-                                    <span class="checkout-item-qty">{{ linha.quantidade }}</span>
-                                    <picture class="d-block border">
-                                        <img class="img-fluid" src="{% get_media_prefix %}{{ linha.imagem }}"
-                                            alt="HTML Bootstrap Template by Pixel Rocket">
-                                    </picture>
-                                </div>
-
-                                <div class="col-9 offset-1">
-                                    <div>
-                                        <h6 class="justify-content-between d-flex align-items-start mb-2">
-                                            {{ linha.produto_nome }}
-                                        </h6>
-                                        Tamanho: {{ linha.variacao_nome }}<br>
-                                        Quantidade: {{ linha.quantidade }}
-                                    </div>
-                                    <p class="fw-bolder text-end text-muted m-0">
-                                        {% if linha.preco_promocional %}
-                                        {{ linha.preco_promocional|formata_preco }}
-                                        {% else %}
-                                        {{ linha.preco|formata_preco }}
-                                        {% endif %}</p>
-                                </div>
-                            </div> <!-- / Cart Item-->
-
-                        </div>
-
-                        {% endfor %}
-
-                        <div class="py-4 border-bottom">
-                            <div class="d-flex justify-content-between" style="margin-left: 20px;">
-                                <div>
-                                    <p class="m-0 fw-bold fs-5">Total</p>
-                                    <span class="text-muted small">Produto + Frete</span>
-                                </div>
-                                <p class="m-0 fs-5 fw-bold">{{pedido.total|formata_preco}}</p>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- /Page Content -->
-    </section>
-    <!-- / Main Section-->
-
-</body>
-
-</html>
+    <!-- /Page Content -->
+</section>
+{% endblock %}

@@ -288,9 +288,13 @@ class SalvarPedido(View):
     @receiver(pre_delete, sender=Pedido)
     def atualizar_estoque_variacoes(sender, instance, **kwargs):
         for item in instance.itempedido_set.all():
-            variacao = Variacao.objects.get(id=item.variacao_id)
-            variacao.estoque += item.quantidade
-            variacao.save()
+            try:
+                variacao = Variacao.objects.get(id=item.variacao_id)
+                variacao.estoque += item.quantidade
+                variacao.save()
+            except Variacao.DoesNotExist:
+                # Lidar com a variação inexistente aqui (por exemplo, registrar um erro ou ignorar)
+                pass
 
 
 class SalvarPedidoAdmin(View):

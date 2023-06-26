@@ -11,19 +11,7 @@
 <section class="mt-0 ">
     <!-- Page Content Goes Here -->
 
-    <!-- Breadcrumbs-->
-    <div class="bg-dark py-6">
-        <div class="container-fluid">
-            <nav class="m-0" aria-label="breadcrumb">
-                <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item breadcrumb-light"><a>Início</a></li>
-                    <li class="breadcrumb-item breadcrumb-light"><a>Detalhe</a></li>
-                    <li class="breadcrumb-item breadcrumb-light active" aria-current="page">{{ produto.nome }}</li>
-                </ol>
-            </nav>
-        </div>
-    </div>
-    <!-- / Breadcrumbs-->
+
 
     <div class="container-fluid mt-5">
 
@@ -62,56 +50,87 @@
                     <div class="pb-3" data-aos="fade-in">
 
 
-                        <h1 class="mb-1 fs-2 fw-bold">{{ produto.nome }}</h1>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <p class="fs-4 m-0">
-                                {% if produto.preco_marketing_promocional %}
-                                <span id="variation-preco-promocional" class="product-price mb-2">
-                                    {{ produto.preco_marketing_promocional|formata_preco }}
-                                </span>
-                                <span id="variation-preco" class="product-old-price text-muted mb-2">
-                                    <s>{{ produto.preco_marketing|formata_preco }}</s>
-                                </span>
-                                {% else %}
-                                <span id="variation-preco" class="product-price mb-2">
-                                    {{ produto.preco_marketing|formata_preco }}
-                                </span>
-                                {% endif %}
-                            </p>
+                        <div class="pb-3 text-center" data-aos="fade-in">
+                            <h1 class="mb-1 fs-2 fw-bold" style="font-size: 65px;">{{ produto.nome }}</h1><br>
+
+
+                            <div class="d-flex justify-content-center align-items-center text-center">
+                                <p class="fs-4 m-0">
+                                    {% if produto.preco_marketing_promocional %}
+                                    <span id="variation-preco-promocional" class="product-price mb-2"
+                                        style="font-size: 35px;">
+                                        {{ produto.preco_marketing_promocional|formata_preco }}
+                                    </span>
+                                    <span id="variation-preco" class="product-old-price text-muted mb-2"
+                                        style="font-size: 24px;">
+                                        <s>{{ produto.preco_marketing|formata_preco }}</s>
+                                    </span>
+                                    {% else %}
+                                    <span id="variation-preco" class="product-price mb-2" style="font-size: 35px;">
+                                        {{ produto.preco_marketing|formata_preco }}
+                                    </span>
+                                    {% endif %}
+                                </p>
+                            </div>
                         </div>
+                        <p class="text-center" style="font-size: 16px;">Selecione o tamanho</p>
+
                         <form action="{% url 'produto:adicionaraocarrinho' %}" id="form-add-to-cart">
-                            <div class="form-group">
-                                <select id="select-variacoes" name="vid" class="form-control form-control-lg mb-3">
-                                    {% for variacao in produto.variacao_set.all %}
-                                    {% if variacao.preco_promocional %}
-                                    <option data-preco="{{ variacao.preco|formata_preco }}"
-                                        data-preco-promocional="{{ variacao.preco_promocional|formata_preco }}"
-                                        value="{{ variacao.id }}">
+
+                            <div class="form-group d-flex justify-content-center flex-wrap">
+
+                                {% for variacao in produto.variacao_set.all %}
+                                {% if variacao.preco_promocional %}
+                                <div class="form-check form-check-inline p-2">
+                                    <input class="form-check-input" type="radio" name="vid"
+                                        id="variacao-{{ variacao.id }}" value="{{ variacao.id }}">
+                                    <label class="form-check-label rounded-circle" for="variacao-{{ variacao.id }}"
+                                        style="width: 60px; height: 60px; background-color: #f8f9fa; border: 1px solid #dee2e6; display: flex; justify-content: center; align-items: center;">
                                         {% if variacao.nome %}
                                         {{ variacao.nome }}
                                         {% else %}
                                         {{ variacao }}
                                         {% endif %}
-                                    </option>
-                                    {% else %}
-                                    <option data-preco="{{ variacao.preco|formata_preco }}" value="{{ variacao.id }}">
+                                    </label>
+                                </div>
+                                {% else %}
+                                <div class="form-check form-check-inline p-2">
+                                    <input class="form-check-input" type="radio" name="vid"
+                                        id="variacao-{{ variacao.id }}" value="{{ variacao.id }}">
+                                    <label class="form-check-label rounded-circle" for="variacao-{{ variacao.id }}"
+                                        style="width: 60px; height: 60px; background-color: #f8f9fa; border: 1px solid #dee2e6; display: flex; justify-content: center; align-items: center;">
                                         {% if variacao.nome %}
                                         {{ variacao.nome }}
                                         {% endif %}
-                                    </option>
-                                    {% endif %}
-                                    {% endfor %}
-                                </select>
+                                    </label>
+                                </div>
+                                {% endif %}
+                                {% endfor %}
                             </div>
 
-                            <div class="text-left">
-                                <button type="submit" class="btn btn-dark btn-lg btn-block">
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-dark btn-lg">
                                     <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                                     Adicionar ao Carrinho
                                 </button>
                             </div>
-
                         </form>
+
+                        <!-- Color Options -->
+                        <div class="mt-5 text-center">
+                            <h3 class="mb-3">Cores Disponíveis</h3>
+                            <div class="color-options ">
+                                {% for produto_igual in produtos_iguais %}
+                                {% if produto_igual.imagem %}
+                                <a href="{% url 'produto:detalhe' produto_igual.slug %}">
+                                    <div class="color-option"
+                                        style="background-image: url('{{ produto_igual.imagem.url }}');"></div>
+                                </a>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <!-- / Color Options -->
 
                         <!-- Product Highlights-->
                         <div class="my-5">
@@ -157,21 +176,7 @@
                         </div>
                         <!-- / Product Accordion-->
 
-                        <!-- Color Options -->
-                        <div class="mt-5">
-                            <h3 class="mb-3">Cores Disponíveis</h3>
-                            <div class="color-options">
-                                {% for produto_igual in produtos_iguais %}
-                                {% if produto_igual.imagem %}
-                                <a href="{% url 'produto:detalhe' produto_igual.slug %}">
-                                    <div class="color-option"
-                                        style="background-image: url('{{ produto_igual.imagem.url }}');"></div>
-                                </a>
-                                {% endif %}
-                                {% endfor %}
-                            </div>
-                        </div>
-                        <!-- / Color Options -->
+
 
                         <style>
                             .color-options {

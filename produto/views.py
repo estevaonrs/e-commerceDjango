@@ -1,7 +1,10 @@
 from django.forms import inlineformset_factory
 from django.urls import reverse, reverse_lazy
+from pedido.forms import CupomForm
 
 from pedido.models import Cupom
+import utils
+from utils.utils import cart_totals
 
 from .models import Influenciadores, Produto
 from django.views.generic import DeleteView
@@ -773,8 +776,24 @@ class RemoverDoCarrinhoAdmin(View):
 
 class Carrinho(View):
     def get(self, *args, **kwargs):
+        cupom_codigo = self.request.GET.get('cupom', None)
+        cupom = None
+
+        if cupom_codigo:
+            try:
+                cupom = Cupom.objects.get(codigo=cupom_codigo)
+            except Cupom.DoesNotExist:
+                pass
+
+        carrinho = self.request.session.get('carrinho', {})
+        # Passando o cupom para a função cart_totals
+        totals = cart_totals(carrinho, cupom)
+
         contexto = {
-            'carrinho': self.request.session.get('carrinho', {})
+            'carrinho': carrinho,
+            'cupons': Cupom.objects.all(),
+            'cupom_aplicado': cupom,
+            'cart_totals': totals
         }
 
         return render(self.request, 'produto/carrinho.html', contexto)
@@ -783,10 +802,11 @@ class Carrinho(View):
 class CarrinhoAdmin(View):
     def get(self, *args, **kwargs):
         contexto = {
-            'carrinho': self.request.session.get('carrinho', {})
+            'carrinho': self.request.session.get('carrinho', {}),
+            'cupom_form': CupomForm()  # Passa o formulário de cupom para o template
         }
 
-        return render(self.request, 'pedido/carrinho_admin.html', contexto)
+        return render(self.request, 'produto/carrinho.html', contexto)
 
 
 class ResumoDaCompra(View):
@@ -810,9 +830,17 @@ class ResumoDaCompra(View):
             )
             return redirect('produto:lista')
 
+        carrinho = self.request.session.get('carrinho', {})
+        cupom_codigo = self.request.GET.get('cupom', None)
+        cupom = Cupom.objects.get(
+            codigo=cupom_codigo) if cupom_codigo else None
+        # Chamando a função cart_totals com o cupom aplicado
+        totals = cart_totals(carrinho, cupom)
+
         contexto = {
             'usuario': self.request.user,
             'carrinho': self.request.session['carrinho'],
+            'cart_totals': totals
         }
 
         return render(self.request, 'produto/resumodacompra.html', contexto)

@@ -295,9 +295,10 @@
             {% if produto.preco_marketing_promocional %}
             <h1 class="mt-2 mb-0 small">
               </p><del>{{ produto.preco_marketing|formata_preco }}</del></h1>
-            <h1 class="mt-2 mb-0 small">{{ produto.preco_marketing_promocional|formata_preco }}</h1>
+            <h1 class="mt-2 mb-0 small" style="font-weight: bold;">
+              {{ produto.preco_marketing_promocional|formata_preco }}</h1>
             {% else %}
-            <h1 class="mt-2 mb-0 small">
+            <h1 class="mt-2 mb-0 small" style="font-weight: bold;">
               </p>{{ produto.preco_marketing|formata_preco }}</h1>
             {% endif %}
 

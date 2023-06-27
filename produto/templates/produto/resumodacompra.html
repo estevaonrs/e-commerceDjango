@@ -73,7 +73,7 @@
                     </div>
                     <div class="pt-5 mt-5 pb-5 border-top d-flex justify-content-md-end align-items-center">
                         <a href="{% url 'pedido:salvarpedido' %}" class="btn btn-dark w-100 w-md-auto"
-                            role="button">Salvar pedido</a>
+                            role="button">Salvar Pedido</a>
                     </div>
                 </div>
             </div>
@@ -127,7 +127,7 @@
                                 <p class="m-0 fw-bold fs-5">Total</p>
                                 <!--- <span class="text-muted small">Produto + Frete</span> !-->
                             </div>
-                            <p class="m-0 fs-5 fw-bold">{{ carrinho|cart_totals|formata_preco }}</p>
+                            <p class="m-0 fs-5 fw-bold">{{ cart_totals|formata_preco }}</p>
                         </div>
                     </div>
 

@@ -71,11 +71,7 @@
                             </dl>
                         </div>
                     </div>
-                    <div class="pt-5 mt-5 pb-5 border-top d-flex justify-content-md-end align-items-center">
-                        <!-- Adicione essa linha no template onde está renderizando o botão "Salvar Pedido" -->
-                        <a href="{% url 'pedido:salvarpedido'  %}" class="btn btn-dark w-100 w-md-auto"
-                            role="button">Salvar Pedido</a>
-                    </div>
+
                 </div>
             </div>
             <div class="col-12 col-lg-5 bg-light pt-lg-10 aside-checkout pb-5 pb-lg-0 my-5 my-lg-0">
@@ -112,22 +108,14 @@
                         </div> <!-- / Cart Item-->
                         {% endfor %}
                     </div>
-                    <div class="py-4 border-bottom">
-                        <!---<div class="d-flex justify-content-between align-items-center mb-2">
-                            <p class="m-0 fw-bolder fs-6">Subtotal</p>
-                            <p class="m-0 fs-6 fw-bolder">{{ carrinho|cart_totals|formata_preco }}</p>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center ">
-                            <p class="m-0 fw-bolder fs-6">Frete</p>
-                            <p class="m-0 fs-6 fw-bolder">R$8.95</p>
-                        </div> !-->
-                    </div>
+
                     <div class="py-4">
                         <div class="input-group mb-0">
                             <input type="text" class="form-control" id="cupom-input" placeholder="Insira seu cupom">
                             <button class="btn btn-secondary btn-sm px-4" onclick="aplicarCupom()">Aplicar</button>
                         </div>
                     </div>
+
 
                     <script>
                         function aplicarCupom() {
@@ -152,6 +140,11 @@
                                 {% endif %}
                             </p>
                         </div>
+                    </div>
+                    <div class="pt-5  pb-5 border-top d-flex justify-content-md-end align-items-center">
+                        <!-- Adicione essa linha no template onde está renderizando o botão "Salvar Pedido" -->
+                        <a href="{% url 'pedido:salvarpedido'  %}" class="btn btn-dark w-100 w-md-auto"
+                            role="button">Salvar Pedido</a>
                     </div>
 
                 </div>

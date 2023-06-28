@@ -11,7 +11,7 @@ class DevolucaoForm(forms.ModelForm):
 class CupomForm(forms.ModelForm):
     class Meta:
         model = Cupom
-        fields = ['codigo']
+        fields = ['codigo', 'valor']
 
 
 class PedidoForm(forms.ModelForm):

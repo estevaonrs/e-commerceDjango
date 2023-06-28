@@ -836,6 +836,8 @@ class ResumoDaCompra(View):
             codigo=cupom_codigo) if cupom_codigo else None
         # Chamando a função cart_totals com o cupom aplicado
         totals = cart_totals(carrinho, cupom)
+        self.request.session['totals'] = totals
+        self.request.session.modified = True
 
         contexto = {
             'usuario': self.request.user,

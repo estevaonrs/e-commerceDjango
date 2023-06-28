@@ -182,6 +182,8 @@ class SalvarPedido(View):
     template_name = 'pedido/pagar.html'
 
     def get(self, *args, **kwargs):
+        totals = self.request.session.get('totals')
+
         if not self.request.user.is_authenticated:
             messages.error(
                 self.request,
@@ -234,7 +236,7 @@ class SalvarPedido(View):
                 return redirect('produto:carrinho')
 
         qtd_total_carrinho = utils.cart_total_qtd(carrinho)
-        valor_total_carrinho = utils.cart_totals(carrinho)
+        valor_total_carrinho = totals  # Utiliza o valor de totals armazenado na sessão
 
         pedido = Pedido(
             usuario=self.request.user,
@@ -243,7 +245,18 @@ class SalvarPedido(View):
             status='C',
         )
 
+        # Adicione o código abaixo para salvar o cupom junto com o pedido
+        cupom_codigo = self.request.GET.get('cupom')
+        try:
+            cupom = Cupom.objects.get(codigo=cupom_codigo)
+        except Cupom.DoesNotExist:
+            cupom = None
+
+        if cupom:
+            pedido.cupom = cupom
+
         pedido.save()
+        # Fim do trecho adicionado
 
         for variacao in bd_variacoes:
             vid = str(variacao.id)

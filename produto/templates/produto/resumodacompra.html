@@ -72,7 +72,8 @@
                         </div>
                     </div>
                     <div class="pt-5 mt-5 pb-5 border-top d-flex justify-content-md-end align-items-center">
-                        <a href="{% url 'pedido:salvarpedido' %}" class="btn btn-dark w-100 w-md-auto"
+                        <!-- Adicione essa linha no template onde está renderizando o botão "Salvar Pedido" -->
+                        <a href="{% url 'pedido:salvarpedido'  %}" class="btn btn-dark w-100 w-md-auto"
                             role="button">Salvar Pedido</a>
                     </div>
                 </div>
@@ -121,13 +122,35 @@
                             <p class="m-0 fs-6 fw-bolder">R$8.95</p>
                         </div> !-->
                     </div>
-                    <div class="py-4 border-bottom">
-                        <div class="d-flex justify-content-between">
+                    <div class="py-4">
+                        <div class="input-group mb-0">
+                            <input type="text" class="form-control" id="cupom-input" placeholder="Insira seu cupom">
+                            <button class="btn btn-secondary btn-sm px-4" onclick="aplicarCupom()">Aplicar</button>
+                        </div>
+                    </div>
+
+                    <script>
+                        function aplicarCupom() {
+                            var cupomCodigo = document.getElementById("cupom-input").value;
+                            var url = "{% url 'produto:resumodacompra' %}?cupom=" + cupomCodigo;
+                            window.location.href = url;
+                        }
+                    </script>
+
+                    <!-- ... -->
+
+                    <div class="pb-4 border-bottom">
+                        <div class="d-flex flex-column flex-md-row justify-content-md-between mb-4 mb-md-2">
                             <div>
                                 <p class="m-0 fw-bold fs-5">Total</p>
-                                <!--- <span class="text-muted small">Produto + Frete</span> !-->
                             </div>
-                            <p class="m-0 fs-5 fw-bold">{{ cart_totals|formata_preco }}</p>
+                            <p class="m-0 fs-5 fw-bold">
+                                {% if cupom_aplicado %}
+                                {{ cart_totals|formata_preco }}
+                                {% else %}
+                                {{ cart_totals|formata_preco }}
+                                {% endif %}
+                            </p>
                         </div>
                     </div>
 

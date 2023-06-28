@@ -75,39 +75,14 @@
             </div>
             <div class="col-12 col-lg-5 bg-light pt-lg-10 aside-checkout pb-5 pb-lg-0 my-5 my-lg-0">
                 <div class="p-4 py-lg-0 pe-lg-0 ps-lg-5">
-                    <div class="py-4">
-                        <div class="input-group mb-0">
-                            <input type="text" class="form-control" id="cupom-input" placeholder="Insira seu cupom">
-                            <button class="btn btn-secondary btn-sm px-4" onclick="aplicarCupom()">Aplicar</button>
-                        </div>
-                    </div>
-
-                    <script>
-                        function aplicarCupom() {
-                            var cupomCodigo = document.getElementById("cupom-input").value;
-                            var url = "{% url 'produto:carrinho' %}?cupom=" + cupomCodigo;
-                            window.location.href = url;
-                        }
-                    </script>
-
-                    <!-- ... -->
-
                     <div class="pb-4 border-bottom">
                         <div class="d-flex flex-column flex-md-row justify-content-md-between mb-4 mb-md-2">
                             <div>
                                 <p class="m-0 fw-bold fs-5">Total</p>
                             </div>
-                            <p class="m-0 fs-5 fw-bold">
-                                {% if cupom_aplicado %}
-                                {{ cart_totals|formata_preco }}
-                                {% else %}
-                                {{ cart_totals|formata_preco }}
-                                {% endif %}
-                            </p>
+                            <p class="m-0 fs-5 fw-bold">{{ carrinho|cart_totals|formata_preco }}</p>
                         </div>
                     </div>
-
-
 
                     <div class="col-lg mt-auto">
 

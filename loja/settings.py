@@ -154,6 +154,7 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     os.path.join('templates/static')
 ]
+STATIC_ROOT = ''
 
 
 MEDIA_URL = '/media/'

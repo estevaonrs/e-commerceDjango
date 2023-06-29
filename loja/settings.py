@@ -104,7 +104,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'american_data_base',
-        'USER': 'postgres',
+        'USER': 'american_brand_postgres',
         'PASSWORD': 'teste1234@rt',
         'HOST': 'localhost',
         'PORT': '5432',

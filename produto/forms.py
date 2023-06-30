@@ -54,6 +54,7 @@ class ImagemProdutoForm(forms.ModelForm):
 
     class Meta:
         model = ImagemProduto
+        fields = '__all__'
 
 
 class VariacaoForm(forms.ModelForm):

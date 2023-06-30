@@ -50,8 +50,7 @@ class ProdutoForm(forms.ModelForm):
 
 
 class ImagemProdutoForm(forms.ModelForm):
-    imagens = forms.FileField(widget=forms.ClearableFileInput(
-        attrs={'multiple': True}), required=False)
+    imagens = forms.FileField(widget=forms.FileInput, required=False)
 
     class Meta:
         model = ImagemProduto

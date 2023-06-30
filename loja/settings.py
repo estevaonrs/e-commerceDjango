@@ -98,12 +98,12 @@ WSGI_APPLICATION = 'loja.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'american_data_base',
-        'USER': 'american_brand_postgres',
-        'PASSWORD': 'teste1234@rt',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'DBNAME',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+        'USER': 'DBUSER',
+        'PASSWORD': 'DBPASSWORD',
     }
 }
 

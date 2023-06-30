@@ -126,8 +126,11 @@ class ListaProdutos(ListView):
     ordering = ['-id']
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-        return queryset.order_by('nome')
+        nomes_produtos = Produto.objects.values_list(
+            'nome', flat=True).distinct()
+        queryset = Produto.objects.filter(
+            nome__in=nomes_produtos, is_primary=True)
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

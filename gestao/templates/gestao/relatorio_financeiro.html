@@ -1,302 +1,304 @@
-{% extends "includes/base_dashboard.html" %}
+{% extends "parciais/base_dashboard.html" %}
 {% load omfilters %}
 
 {% block titulo %}Relatório Financeiro{% endblock %}
 
 {% block content %}
 <main>
- <div class="pt-6 px-4 h-screen">
-  <div class="grid grid-cols-1 2xl:grid-cols-2 xl:gap-4 my-4 h-full">
-   <!-- Relatório Financeiro Card -->
-   <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 mx-auto h-full">
-    <h3 class="text-xl leading-none font-bold text-gray-900 mb-10">Relatório Financeiro</h3>
-    <form method="GET" action="{% url 'gestao:relatorio_financeiro' %}">
-     <div class="flex mb-4 grid justify-content-start align-items-center">
-      <label for="data_inicio" class="mr-2">Início:</label>
-      <input type="text" name="data_inicio" id="data_inicio" class="px-2 py-1 border rounded datepicker"
-       autocomplete="off">
-      <label for="data_fim" class="ml-4 mr-2">Fim:</label>
-      <input type="text" name="data_fim" id="data_fim" class="px-2 py-1 border rounded datepicker" autocomplete="off">
-      <button type="submit" class="mr-2 px-4 py-1 bg-blue-500 text-black rounded">Filtrar</button>
-      <button type="submit" class="mr-2 px-4 py-1 bg-blue-500 text-black rounded">
-       <a href="{% url 'gestao:relatorio_financeiro' %}">Limpar pesquisa</a>
-      </button>
-     </div>
-    </form>
-    <!-- Tabela de produtos mais vendidos -->
-    <div class="block w-full overflow-x-auto">
-     <table class="items-center w-full bg-transparent border-collapse">
-      <!-- Cabeçalho da tabela -->
-      <thead>
-       <tr>
-        <th
-         class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">
-         Produtos</th>
-        <th
-         class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">
-         Quantidade</th>
-       </tr>
-      </thead>
+  <div class="pt-6 px-4 h-screen">
+    <div class="grid grid-cols-1 2xl:grid-cols-2 xl:gap-4 my-4 h-full">
+      <!-- Relatório Financeiro Card -->
+      <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 mx-auto h-full">
+        <h3 class="text-xl leading-none font-bold text-gray-900 mb-10">Relatório Financeiro</h3>
+        <form method="GET" action="{% url 'gestao:relatorio_financeiro' %}">
+          <div class="flex mb-4 grid justify-content-start align-items-center">
+            <label for="data_inicio" class="mr-2">Início:</label>
+            <input type="text" name="data_inicio" id="data_inicio" class="px-2 py-1 border rounded datepicker"
+              autocomplete="off">
+            <label for="data_fim" class="ml-4 mr-2">Fim:</label>
+            <input type="text" name="data_fim" id="data_fim" class="px-2 py-1 border rounded datepicker"
+              autocomplete="off">
+            <button type="submit" class="mr-2 px-4 py-1 bg-blue-500 text-black rounded">Filtrar</button>
+            <button type="submit" class="mr-2 px-4 py-1 bg-blue-500 text-black rounded">
+              <a href="{% url 'gestao:relatorio_financeiro' %}">Limpar pesquisa</a>
+            </button>
+          </div>
+        </form>
+        <!-- Tabela de produtos mais vendidos -->
+        <div class="block w-full overflow-x-auto">
+          <table class="items-center w-full bg-transparent border-collapse">
+            <!-- Cabeçalho da tabela -->
+            <thead>
+              <tr>
+                <th
+                  class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">
+                  Produtos</th>
+                <th
+                  class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">
+                  Quantidade</th>
+              </tr>
+            </thead>
 
-      <!-- Linhas da tabela -->
-      <tbody class="divide-y divide-gray-100">
-       {% for produto_quantidade in produtos_quantidades %}
-       <tr class="text-gray-500">
-        <td class="border-t-0 px-4 align-middle text-sm font-normal whitespace-nowrap p-4 text-left">
-         {{ produto_quantidade.produto }}</td>
-        <td class="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
-         {{ produto_quantidade.quantidade }}</td>
-       </tr>
-       {% endfor %}
-      </tbody>
-     </table>
-     <canvas id="produtos-chart"></canvas>
+            <!-- Linhas da tabela -->
+            <tbody class="divide-y divide-gray-100">
+              {% for produto_quantidade in produtos_quantidades %}
+              <tr class="text-gray-500">
+                <td class="border-t-0 px-4 align-middle text-sm font-normal whitespace-nowrap p-4 text-left">
+                  {{ produto_quantidade.produto }}</td>
+                <td class="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
+                  {{ produto_quantidade.quantidade }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <canvas id="produtos-chart"></canvas>
 
+        </div>
+
+
+
+
+
+
+        <!-- Tabela de perfis com mais pedidos aprovados -->
+        <div class="block w-full overflow-x-auto">
+          <table class="items-center w-full bg-transparent border-collapse">
+            <!-- Cabeçalho da tabela -->
+            <thead>
+              <tr>
+                <th
+                  class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">
+                  Perfil</th>
+                <th
+                  class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">
+                  Quantidade de Pedidos</th>
+              </tr>
+            </thead>
+            <!-- Linhas da tabela -->
+            <tbody class="divide-y divide-gray-100">
+              {% for perfil in perfis_pedidos_aprovados %}
+              <tr class="text-gray-500">
+                <td class="border-t-0 px-4 align-middle text-sm font-normal whitespace-nowrap p-4 text-left">{{ perfil
+                  }}
+                </td>
+                <td class="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
+                  {{ perfil.num_pedidos_aprovados }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <canvas id="perfis-chart"></canvas>
+
+
+        <!-- Tabela de vendedores com mais pedidos aprovados -->
+        <div class="block w-full overflow-x-auto">
+          <table class="items-center w-full bg-transparent border-collapse">
+            <!-- Cabeçalho da tabela -->
+            <thead>
+              <tr>
+                <th
+                  class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">
+                  Vendedor</th>
+                <th
+                  class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">
+                  Quantidade de Vendas</th>
+              </tr>
+            </thead>
+            <!-- Linhas da tabela -->
+            <tbody class="divide-y divide-gray-100">
+              {% for vendedor in vendedores_pedidos_aprovados %}
+              <tr class="text-gray-500">
+                <td class="border-t-0 px-4 align-middle text-sm font-normal whitespace-nowrap p-4 text-left">
+                  {{ vendedor.vendedor }}
+                </td>
+                <td class="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
+                  {{ vendedor.num_pedidos_aprovados }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <canvas id="vendedores-chart"></canvas>
+
+
+        <!-- Tabela de resumo -->
+        <div class="block w-full overflow-x-auto">
+          <table class="items-center w-full bg-transparent border-collapse">
+            <!-- Cabeçalho da tabela -->
+            <thead>
+              <tr>
+                <th
+                  class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">
+                  Quantidade de Pedidos Aprovados</th>
+                <th
+                  class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">
+                  Quantidade de Itens Aprovados</th>
+                <th
+                  class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">
+                  Total de Pedidos Aprovados</th>
+                <th
+                  class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">
+                  Quantidade de Devoluções</th>
+                <th
+                  class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">
+                  Soma das Devoluções</th>
+              </tr>
+            </thead>
+            <!-- Linha da tabela -->
+            <tbody class="divide-y divide-gray-100">
+              <tr class="text-gray-500">
+                <td class="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
+                  {{ quantidade_aprovados }}</td>
+                <td class="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
+                  {{ quantidade_itens_aprovados }}</td>
+                <td class="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
+                  {{ total_pedidos|formata_preco }}</td>
+                <td class="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
+                  {{ quantidade_devolucoes }}</td>
+                <td class="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
+                  {{ soma_devolucoes|formata_preco }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+
+      </div>
     </div>
-
-
-
-
-
-
-    <!-- Tabela de perfis com mais pedidos aprovados -->
-    <div class="block w-full overflow-x-auto">
-     <table class="items-center w-full bg-transparent border-collapse">
-      <!-- Cabeçalho da tabela -->
-      <thead>
-       <tr>
-        <th
-         class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">
-         Perfil</th>
-        <th
-         class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">
-         Quantidade de Pedidos</th>
-       </tr>
-      </thead>
-      <!-- Linhas da tabela -->
-      <tbody class="divide-y divide-gray-100">
-       {% for perfil in perfis_pedidos_aprovados %}
-       <tr class="text-gray-500">
-        <td class="border-t-0 px-4 align-middle text-sm font-normal whitespace-nowrap p-4 text-left">{{ perfil }}
-        </td>
-        <td class="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
-         {{ perfil.num_pedidos_aprovados }}</td>
-       </tr>
-       {% endfor %}
-      </tbody>
-     </table>
-    </div>
-    <canvas id="perfis-chart"></canvas>
-
-
-    <!-- Tabela de vendedores com mais pedidos aprovados -->
-    <div class="block w-full overflow-x-auto">
-     <table class="items-center w-full bg-transparent border-collapse">
-      <!-- Cabeçalho da tabela -->
-      <thead>
-       <tr>
-        <th
-         class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">
-         Vendedor</th>
-        <th
-         class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">
-         Quantidade de Vendas</th>
-       </tr>
-      </thead>
-      <!-- Linhas da tabela -->
-      <tbody class="divide-y divide-gray-100">
-       {% for vendedor in vendedores_pedidos_aprovados %}
-       <tr class="text-gray-500">
-        <td class="border-t-0 px-4 align-middle text-sm font-normal whitespace-nowrap p-4 text-left">
-         {{ vendedor.vendedor }}
-        </td>
-        <td class="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
-         {{ vendedor.num_pedidos_aprovados }}</td>
-       </tr>
-       {% endfor %}
-      </tbody>
-     </table>
-    </div>
-    <canvas id="vendedores-chart"></canvas>
-
-
-    <!-- Tabela de resumo -->
-    <div class="block w-full overflow-x-auto">
-     <table class="items-center w-full bg-transparent border-collapse">
-      <!-- Cabeçalho da tabela -->
-      <thead>
-       <tr>
-        <th
-         class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">
-         Quantidade de Pedidos Aprovados</th>
-        <th
-         class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">
-         Quantidade de Itens Aprovados</th>
-        <th
-         class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">
-         Total de Pedidos Aprovados</th>
-        <th
-         class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">
-         Quantidade de Devoluções</th>
-        <th
-         class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">
-         Soma das Devoluções</th>
-       </tr>
-      </thead>
-      <!-- Linha da tabela -->
-      <tbody class="divide-y divide-gray-100">
-       <tr class="text-gray-500">
-        <td class="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
-         {{ quantidade_aprovados }}</td>
-        <td class="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
-         {{ quantidade_itens_aprovados }}</td>
-        <td class="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
-         {{ total_pedidos|formata_preco }}</td>
-        <td class="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
-         {{ quantidade_devolucoes }}</td>
-        <td class="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
-         {{ soma_devolucoes|formata_preco }}</td>
-       </tr>
-      </tbody>
-     </table>
-    </div>
-
-
-   </div>
   </div>
- </div>
 
- <!-- Inclua o script do Chart.js -->
- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
- <script src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script>
- <script
-  src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.9.0/dist/locales/bootstrap-datepicker.pt-BR.min.js"></script>
- <script>
-  $(document).ready(function () {
-   $('.datepicker').datepicker({
-    format: 'dd/mm/yyyy',
-    autoclose: true,
-    todayHighlight: true,
-    language: 'pt-BR'
-   });
-  });
- </script>
+  <!-- Inclua o script do Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.9.0/dist/locales/bootstrap-datepicker.pt-BR.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('.datepicker').datepicker({
+        format: 'dd/mm/yyyy',
+        autoclose: true,
+        todayHighlight: true,
+        language: 'pt-BR'
+      });
+    });
+  </script>
 
- <script>
-  // Gráfico de barras para os produtos mais vendidos
-  var produtosQuantidades = [
-   {% for produto_quantidade in produtos_quantidades %}
-  {
-   produto: "{{ produto_quantidade.produto }}",
-    quantidade: "{{ produto_quantidade.quantidade }}"
-  },
-  {% endfor %}
+  <script>
+    // Gráfico de barras para os produtos mais vendidos
+    var produtosQuantidades = [
+      {% for produto_quantidade in produtos_quantidades %}
+    {
+      produto: "{{ produto_quantidade.produto }}",
+        quantidade: "{{ produto_quantidade.quantidade }}"
+    },
+    {% endfor %}
  ];
 
-  var produtosLabels = produtosQuantidades.map(function (item) {
-   return item.produto;
-  });
+    var produtosLabels = produtosQuantidades.map(function (item) {
+      return item.produto;
+    });
 
-  var produtosData = produtosQuantidades.map(function (item) {
-   return item.quantidade;
-  });
+    var produtosData = produtosQuantidades.map(function (item) {
+      return item.quantidade;
+    });
 
-  var produtosChart = new Chart(document.getElementById('produtos-chart'), {
-   type: 'bar',
-   data: {
-    labels: produtosLabels,
-    datasets: [{
-     label: 'Quantidade',
-     data: produtosData,
-     backgroundColor: 'rgba(54, 162, 235, 0.5)',
-     borderColor: 'rgba(54, 162, 235, 1)',
-     borderWidth: 1
-    }]
-   },
-   options: {
-    maintainAspectRatio: false,
-    responsive: false,
-    width: 100, // Defina o tamanho desejado do gráfico
-    height: 50 // Defina o tamanho desejado do gráfico
-   }
-  });
+    var produtosChart = new Chart(document.getElementById('produtos-chart'), {
+      type: 'bar',
+      data: {
+        labels: produtosLabels,
+        datasets: [{
+          label: 'Quantidade',
+          data: produtosData,
+          backgroundColor: 'rgba(54, 162, 235, 0.5)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        maintainAspectRatio: false,
+        responsive: false,
+        width: 100, // Defina o tamanho desejado do gráfico
+        height: 50 // Defina o tamanho desejado do gráfico
+      }
+    });
 
-  // Gráfico de barras para os perfis com mais pedidos aprovados
-  var perfisPedidosAprovados = [
-   {% for perfil in perfis_pedidos_aprovados %}
-  {
-   perfil: "{{ perfil }}",
-    quantidade: "{{ perfil.num_pedidos_aprovados }}"
-  },
-  {% endfor %}
+    // Gráfico de barras para os perfis com mais pedidos aprovados
+    var perfisPedidosAprovados = [
+      {% for perfil in perfis_pedidos_aprovados %}
+    {
+      perfil: "{{ perfil }}",
+        quantidade: "{{ perfil.num_pedidos_aprovados }}"
+    },
+    {% endfor %}
  ];
 
-  var perfisLabels = perfisPedidosAprovados.map(function (item) {
-   return item.perfil;
-  });
+    var perfisLabels = perfisPedidosAprovados.map(function (item) {
+      return item.perfil;
+    });
 
-  var perfisData = perfisPedidosAprovados.map(function (item) {
-   return item.quantidade;
-  });
+    var perfisData = perfisPedidosAprovados.map(function (item) {
+      return item.quantidade;
+    });
 
-  var perfisChart = new Chart(document.getElementById('perfis-chart'), {
-   type: 'bar',
-   data: {
-    labels: perfisLabels,
-    datasets: [{
-     label: 'Quantidade de Pedidos',
-     data: perfisData,
-     backgroundColor: 'rgba(255, 99, 132, 0.5)', // Cor de fundo das barras
-     borderColor: 'rgba(255, 99, 132, 1)', // Cor da borda das barras
-     borderWidth: 1
-    }]
-   },
-   options: {
-    maintainAspectRatio: false,
-    responsive: false,
-    width: 100, // Defina o tamanho desejado do gráfico
-    height: 50 // Defina o tamanho desejado do gráfico
-   }
-  });
+    var perfisChart = new Chart(document.getElementById('perfis-chart'), {
+      type: 'bar',
+      data: {
+        labels: perfisLabels,
+        datasets: [{
+          label: 'Quantidade de Pedidos',
+          data: perfisData,
+          backgroundColor: 'rgba(255, 99, 132, 0.5)', // Cor de fundo das barras
+          borderColor: 'rgba(255, 99, 132, 1)', // Cor da borda das barras
+          borderWidth: 1
+        }]
+      },
+      options: {
+        maintainAspectRatio: false,
+        responsive: false,
+        width: 100, // Defina o tamanho desejado do gráfico
+        height: 50 // Defina o tamanho desejado do gráfico
+      }
+    });
 
-  // Gráfico de barras para os vendedores com mais pedidos aprovados
-  var vendedoresPedidosAprovados = [
-   {% for vendedor in vendedores_pedidos_aprovados %}
-  {
-   vendedor: "{{ vendedor.vendedor }}",
-    quantidade: "{{ vendedor.num_pedidos_aprovados}}"
-  },
-  {% endfor %}
+    // Gráfico de barras para os vendedores com mais pedidos aprovados
+    var vendedoresPedidosAprovados = [
+      {% for vendedor in vendedores_pedidos_aprovados %}
+    {
+      vendedor: "{{ vendedor.vendedor }}",
+        quantidade: "{{ vendedor.num_pedidos_aprovados}}"
+    },
+    {% endfor %}
  ];
 
-  var vendedoresLabels = vendedoresPedidosAprovados.map(function (item) {
-   return item.vendedor;
-  });
+    var vendedoresLabels = vendedoresPedidosAprovados.map(function (item) {
+      return item.vendedor;
+    });
 
-  var vendedoresData = vendedoresPedidosAprovados.map(function (item) {
-   return item.quantidade;
-  });
+    var vendedoresData = vendedoresPedidosAprovados.map(function (item) {
+      return item.quantidade;
+    });
 
-  var vendedoresChart = new Chart(document.getElementById('vendedores-chart'), {
-   type: 'bar',
-   data: {
-    labels: vendedoresLabels,
-    datasets: [{
-     label: 'Quantidade de Pedidos',
-     data: vendedoresData,
-     backgroundColor: 'rgba(75, 192, 192, 0.5)', // Cor de fundo das barras
-     borderColor: 'rgba(75, 192, 192, 1)', // Cor da borda das barras
-     borderWidth: 1
-    }]
-   },
-   options: {
-    maintainAspectRatio: false,
-    responsive: false,
-    width: 100, // Defina o tamanho desejado do gráfico
-    height: 50 // Defina o tamanho desejado do gráfico
-   }
-  });
- </script>
+    var vendedoresChart = new Chart(document.getElementById('vendedores-chart'), {
+      type: 'bar',
+      data: {
+        labels: vendedoresLabels,
+        datasets: [{
+          label: 'Quantidade de Pedidos',
+          data: vendedoresData,
+          backgroundColor: 'rgba(75, 192, 192, 0.5)', // Cor de fundo das barras
+          borderColor: 'rgba(75, 192, 192, 1)', // Cor da borda das barras
+          borderWidth: 1
+        }]
+      },
+      options: {
+        maintainAspectRatio: false,
+        responsive: false,
+        width: 100, // Defina o tamanho desejado do gráfico
+        height: 50 // Defina o tamanho desejado do gráfico
+      }
+    });
+  </script>
 
 </main>
 {% endblock %}

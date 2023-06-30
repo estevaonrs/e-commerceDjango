@@ -23,12 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-jd)252ki6cqtxw0^ctn9+d!w92zzfcysdlsmyuk^o9j8dt3c(^'
+SECRET_KEY = 'dzu@06_f8jtw_i_^62s#7!x(0$5u@@76f&#(0pjs%moswtjb2i'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['54.89.99.217']
 
 # Application definition
 
@@ -98,11 +98,14 @@ WSGI_APPLICATION = 'loja.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'americanbrand',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+        'USER': 'userdjango',
+        'PASSWORD': 'american_brand_password_user',
     }
 }
-
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 

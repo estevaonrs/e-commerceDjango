@@ -1,3 +1,4 @@
+from .models import Produto
 from perfil.models import Perfil
 from .models import CaixaAberto
 from django.shortcuts import redirect
@@ -205,8 +206,18 @@ def RelatorioFinanceiroView(request):
         .order_by('-quantidade')[:10]
     )
 
-    perfis_pedidos_aprovados = Perfil.objects.annotate(num_pedidos_aprovados=Count('usuario__pedido', filter=Q(
-        usuario__pedido__status='A', usuario__pedido__data__range=(data_inicio, data_fim)))).order_by('-num_pedidos_aprovados')[:10]
+    perfis_pedidos_aprovados = Perfil.objects.annotate(
+        num_pedidos_aprovados_atacado=Count(
+            'usuario__pedido',
+            filter=Q(usuario__pedido__status='A', usuario__pedido__data__range=(
+                data_inicio, data_fim), usuario__pedido__produto__modalidade='A')
+        ),
+        num_pedidos_aprovados_varejo=Count(
+            'usuario__pedido',
+            filter=Q(usuario__pedido__status='A', usuario__pedido__data__range=(
+                data_inicio, data_fim), usuario__pedido__produto__modalidade='V')
+        )
+    ).order_by('-num_pedidos_aprovados')[:10]
 
     vendedores_pedidos_aprovados = Vendedor.objects.annotate(num_pedidos_aprovados=Count('pedido', filter=Q(
         pedido__status='A', pedido__data__range=(data_inicio, data_fim)))).order_by('-num_pedidos_aprovados')[:10]

@@ -46,7 +46,7 @@ class VendedoresUpdateView(LoginRequiredMixin, UpdateView):
     model = Vendedor
     form_class = VendedorForm
     template_name = 'vendedor_create.html'
-    success_url = reverse_lazy('c')
+    success_url = reverse_lazy('vendas:lista_vendedores')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

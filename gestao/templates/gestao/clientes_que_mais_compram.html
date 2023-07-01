@@ -53,17 +53,9 @@
               {% for perfil in perfis_pedidos_aprovados %}
               <tr class="text-gray-500">
                 <th class="border-t-0 px-4 align-middle text-sm font-normal whitespace-nowrap p-4 text-left">
-                  {{ perfil }}
-                </th>
+                  {{ perfil }}</th>
                 <td class="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
-                  {{ perfil.num_pedidos_aprovados }}
-                </td>
-                <td class="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
-                  Quantidade de pedidos V: {{ perfil.num_pedidos_v }}
-                </td>
-                <td class="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
-                  Quantidade de pedidos A: {{ perfil.num_pedidos_a }}
-                </td>
+                  {{ perfil.num_pedidos_aprovados }}</td>
               </tr>
               {% endfor %}
             </tbody>

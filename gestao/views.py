@@ -142,30 +142,20 @@ def TopPerfisView(request):
     data_inicio = request.GET.get('data_inicio')
     data_fim = request.GET.get('data_fim')
 
+    # Converter as datas para o formato correto (dd/mm/yyyy)
     data_inicio = datetime.strptime(
         data_inicio, '%d/%m/%Y').date() if data_inicio else None
     data_fim = datetime.strptime(
         data_fim, '%d/%m/%Y').date() if data_fim else None
 
-    # Filtrar os pedidos aprovados, considerando as datas fornecidas
     pedidos_aprovados = Pedido.objects.filter(status='A')
+    # Aplicar filtro de datas, se fornecidas
     if data_inicio and data_fim:
         pedidos_aprovados = pedidos_aprovados.filter(
             data__range=(data_inicio, data_fim))
 
-    # Filtrar os itens de pedido que têm modalidade 'V' ou 'A'
-    itens_pedido_com_modalidade = ItemPedido.objects.filter(
-        produto__modalidade__in=['V', 'A'], pedido__in=pedidos_aprovados)
-
-    # Agregar o número total de pedidos para cada perfil
-    perfis_pedidos_aprovados = Perfil.objects.annotate(
-        num_pedidos_aprovados=Count('usuario__pedido', filter=Q(
-            usuario__pedido__status='A', usuario__pedido__data__range=(data_inicio, data_fim))),
-        num_pedidos_v=Count('usuario__pedido__itempedido', filter=Q(
-            usuario__pedido__status='A', usuario__pedido__data__range=(data_inicio, data_fim), usuario__pedido__itempedido__produto__modalidade='V')),
-        num_pedidos_a=Count('usuario__pedido__itempedido', filter=Q(
-            usuario__pedido__status='A', usuario__pedido__data__range=(data_inicio, data_fim), usuario__pedido__itempedido__produto__modalidade='A'))
-    ).order_by('-num_pedidos_aprovados')[:10]
+    perfis_pedidos_aprovados = Perfil.objects.annotate(num_pedidos_aprovados=Count('usuario__pedido', filter=Q(
+        usuario__pedido__status='A', usuario__pedido__data__range=(data_inicio, data_fim)))).order_by('-num_pedidos_aprovados')[:10]
 
     context = {
         'perfis_pedidos_aprovados': perfis_pedidos_aprovados,

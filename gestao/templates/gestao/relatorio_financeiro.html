@@ -71,7 +71,10 @@
                   Perfil</th>
                 <th
                   class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">
-                  Quantidade de Pedidos</th>
+                  Quantidade de Pedidos V</th>
+                <th
+                  class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">
+                  Quantidade de Pedidos A</th>
               </tr>
             </thead>
             <!-- Linhas da tabela -->
@@ -82,7 +85,13 @@
                   {{ perfil }}
                 </td>
                 <td class="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
-                  {{ perfil.num_pedidos_aprovados }}</td>
+                  {{ perfil.num_pedidos_aprovados }}
+                </td>
+                <td class="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
+                  {% with num_pedidos_v=perfil.num_pedidos_aprovados|get_num_pedidos_modalidade:'V' %}
+                  {{ num_pedidos_v }}
+                  {% endwith %}
+                </td>
               </tr>
               {% endfor %}
             </tbody>

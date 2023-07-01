@@ -1,5 +1,8 @@
 
 
+from django import template
+
+
 def formata_preco(val):
     return f'R$ {val:.2f}'.replace('.', ',')
 
@@ -23,3 +26,11 @@ def cart_totals(carrinho, cupom=None):
         sub_total -= desconto
 
     return sub_total
+
+
+register = template.Library()
+
+
+@register.filter
+def get_num_pedidos_modalidade(value, modalidade):
+    return value.filter(usuario__pedido__itempedido__produto__modalidade=modalidade).count()

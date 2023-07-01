@@ -13,7 +13,7 @@ from produto.models import Produto
 from django.views.generic import DetailView, ListView, TemplateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
-
+from produto.models import Produto
 from datetime import date, datetime
 from django.db.models import Sum, Avg, Count, F
 from django.db.models import Q
@@ -23,6 +23,70 @@ from vendas.models import Vendedor
 
 class RelatorioView(LoginRequiredMixin, TemplateView):
     template_name = 'relatorio.html'
+
+
+@login_required
+def RelatorioFinanceiroView(request):
+    data_inicio = request.GET.get('data_inicio')
+    data_fim = request.GET.get('data_fim')
+
+    # Converter as datas para o formato correto (dd/mm/yyyy)
+    data_inicio = datetime.strptime(
+        data_inicio, '%d/%m/%Y').date() if data_inicio else None
+    data_fim = datetime.strptime(
+        data_fim, '%d/%m/%Y').date() if data_fim else None
+
+    itens_aprovados = ItemPedido.objects.filter(pedido__status='A')
+    pedidos_aprovados = Pedido.objects.filter(status='A')
+    devolucoes = Devolucao.objects.all()
+
+    # Aplicar filtro de datas, se fornecidas
+    if data_inicio and data_fim:
+        itens_aprovados = itens_aprovados.filter(
+            pedido__data__range=(data_inicio, data_fim))
+        pedidos_aprovados = pedidos_aprovados.filter(
+            data__range=(data_inicio, data_fim))
+
+    produtos_quantidades = (
+        itens_aprovados
+        .values('produto', 'produto_id')
+        .annotate(quantidade=Sum('quantidade'))
+        .order_by('-quantidade')[:10]
+    )
+
+    perfis_pedidos_aprovados = Perfil.objects.annotate(num_pedidos_aprovados=Count('usuario__pedido__itempedido', filter=Q(
+        usuario__pedido__itempedido__pedido__status='A',
+        usuario__pedido__itempedido__pedido__data__range=(
+            data_inicio, data_fim),
+        usuario__pedido__itempedido__produto__modalidade__in=['V', 'A']
+    ))).order_by('-num_pedidos_aprovados')[:10]
+
+    vendedores_pedidos_aprovados = Vendedor.objects.annotate(num_pedidos_aprovados=Count('pedido', filter=Q(
+        pedido__status='A', pedido__data__range=(data_inicio, data_fim)))).order_by('-num_pedidos_aprovados')[:10]
+
+    quantidade_aprovados = pedidos_aprovados.count()
+    quantidade_itens_aprovados = pedidos_aprovados.aggregate(
+        total_itens=Sum('qtd_total'))['total_itens'] or 0
+    total_pedidos = pedidos_aprovados.aggregate(total_pedidos=Sum('total'))[
+        'total_pedidos'] or 0
+    quantidade_devolucoes = devolucoes.count()
+    soma_devolucoes = devolucoes.aggregate(total_devolucoes=Sum('pedido__total'))[
+        'total_devolucoes'] or 0
+
+    context = {
+        'produtos_quantidades': produtos_quantidades,
+        'perfis_pedidos_aprovados': perfis_pedidos_aprovados,
+        'vendedores_pedidos_aprovados': vendedores_pedidos_aprovados,
+        'quantidade_aprovados': quantidade_aprovados,
+        'quantidade_itens_aprovados': quantidade_itens_aprovados,
+        'total_pedidos': total_pedidos,
+        'data_inicio': data_inicio,
+        'data_fim': data_fim,
+        'quantidade_devolucoes': quantidade_devolucoes,
+        'soma_devolucoes': soma_devolucoes,
+    }
+
+    return render(request, 'gestao/relatorio_financeiro.html', context)
 
 
 @login_required
@@ -174,66 +238,6 @@ def VendasGeraisView(request):
     }
 
     return render(request, 'gestao/vendas_gerais.html', context)
-
-
-@login_required
-def RelatorioFinanceiroView(request):
-    data_inicio = request.GET.get('data_inicio')
-    data_fim = request.GET.get('data_fim')
-
-    # Converter as datas para o formato correto (dd/mm/yyyy)
-    data_inicio = datetime.strptime(
-        data_inicio, '%d/%m/%Y').date() if data_inicio else None
-    data_fim = datetime.strptime(
-        data_fim, '%d/%m/%Y').date() if data_fim else None
-
-    itens_aprovados = ItemPedido.objects.filter(pedido__status='A')
-    pedidos_aprovados = Pedido.objects.filter(status='A')
-    devolucoes = Devolucao.objects.all()
-
-    # Aplicar filtro de datas, se fornecidas
-    if data_inicio and data_fim:
-        itens_aprovados = itens_aprovados.filter(
-            pedido__data__range=(data_inicio, data_fim))
-        pedidos_aprovados = pedidos_aprovados.filter(
-            data__range=(data_inicio, data_fim))
-
-    produtos_quantidades = (
-        itens_aprovados
-        .values('produto', 'produto_id')
-        .annotate(quantidade=Sum('quantidade'))
-        .order_by('-quantidade')[:10]
-    )
-
-    perfis_pedidos_aprovados = Perfil.objects.annotate(num_pedidos_aprovados=Count('usuario__pedido', filter=Q(
-        usuario__pedido__status='A', usuario__pedido__data__range=(data_inicio, data_fim)))).order_by('-num_pedidos_aprovados')[:10]
-
-    vendedores_pedidos_aprovados = Vendedor.objects.annotate(num_pedidos_aprovados=Count('pedido', filter=Q(
-        pedido__status='A', pedido__data__range=(data_inicio, data_fim)))).order_by('-num_pedidos_aprovados')[:10]
-
-    quantidade_aprovados = pedidos_aprovados.count()
-    quantidade_itens_aprovados = pedidos_aprovados.aggregate(
-        total_itens=Sum('qtd_total'))['total_itens'] or 0
-    total_pedidos = pedidos_aprovados.aggregate(total_pedidos=Sum('total'))[
-        'total_pedidos'] or 0
-    quantidade_devolucoes = devolucoes.count()
-    soma_devolucoes = devolucoes.aggregate(total_devolucoes=Sum('pedido__total'))[
-        'total_devolucoes'] or 0
-
-    context = {
-        'produtos_quantidades': produtos_quantidades,
-        'perfis_pedidos_aprovados': perfis_pedidos_aprovados,
-        'vendedores_pedidos_aprovados': vendedores_pedidos_aprovados,
-        'quantidade_aprovados': quantidade_aprovados,
-        'quantidade_itens_aprovados': quantidade_itens_aprovados,
-        'total_pedidos': total_pedidos,
-        'data_inicio': data_inicio,
-        'data_fim': data_fim,
-        'quantidade_devolucoes': quantidade_devolucoes,
-        'soma_devolucoes': soma_devolucoes,
-    }
-
-    return render(request, 'gestao/relatorio_financeiro.html', context)
 
 
 class DetalheCaixa(LoginRequiredMixin, TemplateView):

@@ -1,21 +1,28 @@
-<!-- dashboard.html -->
 {% extends "parciais/base_dashboard.html" %}
+{% load omfilters %}
+
+{% block titulo %}Pedidos{% endblock %}
 
 {% block content %}
-  <main>
 
-    <div class="pt-6 px-4">
-      <div class="w-full grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-4">
-        <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8  2xl:col-span-2">
 
-          <div class="flex items-center justify-between mb-4">
-            <div class="flex-shrink-0">
-              <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">AQUI VAI TER UM BANNER DA AMERICAN BRAND</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    
+
+<div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8  2xl:col-span-2">
+
+  <div class="flex items-center justify-between mb-4">
+    <div class="flex-shrink-0"><br><br><br>
+      <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">
+        Seja bem-vindo à sua área administrativa! Aqui, você poderá controlar o seu sistema da maneira que preferir!
+      </span><br><br>
     </div>
-  </main>
-{% endblock content %}
+  </div>
+
+  
+</div>
+
+
+
+
+
+
+{% endblock %}

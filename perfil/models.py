@@ -11,6 +11,8 @@ from utils.validacpf import valida_cpf
 class Perfil(models.Model):
     usuario = models.OneToOneField(User, on_delete=models.CASCADE,
                                    verbose_name='Usuário')
+    idade = models.PositiveIntegerField()
+    data_nascimento = models.DateField()
     cpf = models.CharField(max_length=11)
     cnpj = models.CharField(max_length=14, blank=True, null=True)
     endereco = models.CharField(max_length=50)

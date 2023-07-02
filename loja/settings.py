@@ -26,9 +26,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'dzu@06_f8jtw_i_^62s#7!x(0$5u@@76f&#(0pjs%moswtjb2i'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['54.233.202.82', 'americanbrand.store']
 
 # Application definition
 

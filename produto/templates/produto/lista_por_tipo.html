@@ -10,12 +10,12 @@
   <div class="card custom-card w-100 overflow-auto">
     <div class="card-body d-flex justify-content-start border-0">
       <div class="d-flex flex-nowrap">
-        {% for tipo in tipos %}
-        {% if tipo.modalidade == 'V' %}
+        {% for categoria in categorias %}
+        {% if categoria.modalidade == 'V' %}
 
-        <a href="{% url 'produto:lista_por_tipo' tipo.slug %}" class="card-text text-white mx-2 text-decoration-none"
-          style="white-space: nowrap;">
-          | {{ tipo.nome }}
+        <a href="{% url 'produto:lista_por_categoria' categoria.slug %}"
+          class="card-text text-white mx-2 text-decoration-none" style="white-space: nowrap;">
+          | {{ categoria.nome }}
         </a>
         {% endif %}
         {% endfor %}
@@ -243,12 +243,12 @@
       <!-- Collections -->
       <div class="scroll-container">
         <div class="d-flex flex-nowrap gap-2">
-          {% for categoria in categorias %}
-          {% if categoria.modalidade == 'V' %}
+          {% for tipo in tipos %}
+          {% if tipo.modalidade == 'V' %}
 
-          <a href="{% url 'produto:lista_por_categoria' categoria.slug %}"
+          <a href="{% url 'produto:lista_por_tipo' tipo.slug %}"
             class="btn btn-outline-secondary btn-md rounded btn-custom">
-            {{ categoria.nome }}
+            {{ tipo.nome }}
           </a>
           {% endif %}
           {% endfor %}
@@ -514,7 +514,7 @@
     <div data-aos="fade-in">
       <h3 class="title-small text-muted text-center mb-3 mt-5">
         <i class="ri-instagram-line align-bottom"></i>
-        <a href="https://www.instagram.com/AMERICANBRANDBR/" style="text-decoration: none;">AMERICANBRANDBR</a>
+        <a href="https://www.instagram.com/americanbrandbr/">AMERICANBRANDBR</a>
       </h3>
     </div>
     <!-- /Swiper Instagram-->

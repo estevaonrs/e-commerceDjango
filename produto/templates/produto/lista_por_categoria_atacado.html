@@ -14,8 +14,8 @@
         {% if categoria.modalidade == 'A' %}
 
         <a href="{% url 'produto:lista_por_categoria_atacado' categoria.slug %}"
-          class="btn btn-outline-secondary btn-md rounded btn-custom">
-          {{ categoria.nome }}
+          class="card-text text-white mx-2 text-decoration-none" style="white-space: nowrap;">
+          | {{ categoria.nome }}
         </a>
         {% endif %}
         {% endfor %}
@@ -246,8 +246,8 @@
           {% for tipo in tipos %}
           {% if tipo.modalidade == 'A' %}
           <a href="{% url 'produto:lista_por_tipo_atacado' tipo.slug %}"
-            class="card-text text-white mx-2 text-decoration-none" style="white-space: nowrap;">
-            | {{ tipo.nome }}
+            class="btn btn-outline-secondary btn-md rounded btn-custom" style="white-space: nowrap;">
+            {{ tipo.nome }}
           </a>
           {% endif %}
           {% endfor %}

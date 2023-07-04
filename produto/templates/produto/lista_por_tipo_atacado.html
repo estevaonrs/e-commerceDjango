@@ -13,7 +13,7 @@
         {% for tipoatacado in tiposatacados %}
         {% if tipoatacado.modalidade == 'A' %}
 
-        <a href="{% url 'produto:lista_por_tipo_atacado' tipo.slug %}"
+        <a href="{% url 'produto:lista_por_tipo_atacado' tipoatacado.slug %}"
           class="card-text text-white mx-2 text-decoration-none" style="white-space: nowrap;">
           | {{ tipoatacado.nome }}
         </a>

@@ -227,7 +227,7 @@ class ListaProdutosPorCategoriaAtacado(ListView):
         categoria = get_object_or_404(
             models.Categoria, slug=categoriaatacado_slug)
         context['categoriaatacado'] = categoria
-        context['tiposatacados'] = models.Tipo.objects.all()
+        context['tipos'] = models.Tipo.objects.all()
         context['categoriasatacados'] = models.Categoria.objects.all()
         return context
 

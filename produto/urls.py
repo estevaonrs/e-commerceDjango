@@ -31,7 +31,7 @@ urlpatterns = [
     path('produto_add/', views.produto_add.as_view(), name="produto_add"),
     path('categoria/<slug:categoria_slug>/',
          views.ListaProdutosPorCategoria.as_view(), name='lista_por_categoria'),
-    path('categoria_atacado/<slug:categoria_slug>/',
+    path('categoria_atacado/<slug:categoriaatacado_slug>/',
          views.ListaProdutosPorCategoriaAtacado.as_view(), name='lista_por_categoria_atacado'),
     path('tipo/<slug:tipo_slug>/',
          views.ListaProdutosPorTipo.as_view(), name='lista_por_tipo'),

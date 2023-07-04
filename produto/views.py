@@ -216,18 +216,20 @@ class ListaProdutosPorCategoriaAtacado(ListView):
     ordering = ['-id']
 
     def get_queryset(self):
-        categoria_slug = self.kwargs['categoria_slug']
-        categoria = get_object_or_404(models.Categoria, slug=categoria_slug)
-        return models.Produto.objects.filter(categoria=categoria)
+        categoriaatacado_slug = self.kwargs['categoriaatacado_slug']
+        categoriaatacado = get_object_or_404(
+            models.Categoria, slug=categoriaatacado_slug)
+        return models.Produto.objects.filter(categoria=categoriaatacado)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        categoria_slug = self.kwargs['categoria_slug']
-        categoria = get_object_or_404(models.Categoria, slug=categoria_slug)
-        context['categoria'] = categoria
-        context['tipos'] = models.Tipo.objects.all()
+        categoriaatacado_slug = self.kwargs['categoriaatacado_slug']
+        categoria = get_object_or_404(
+            models.Categoria, slug=categoriaatacado_slug)
+        context['categoriaatacado'] = categoria
+        context['tiposatacados'] = models.Tipo.objects.all()
 
-        context['categorias'] = models.Categoria.objects.all()
+        context['categoriasatacados'] = models.Categoria.objects.all()
         return context
 
 

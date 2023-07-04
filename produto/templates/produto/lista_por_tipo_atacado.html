@@ -242,12 +242,12 @@
       <!-- Collections -->
       <div class="scroll-container">
         <div class="d-flex flex-nowrap gap-2">
-          {% for categoria in categorias %}
+          {% for categoriaatacado in categoriasatacados %}
           {% if categoria.modalidade == 'A' %}
 
-          <a href="{% url 'produto:lista_por_categoria' categoria.slug %}"
+          <a href="{% url 'produto:lista_por_categoria_atacado' categoriaatacado.slug %}"
             class="btn btn-outline-secondary btn-md rounded btn-custom">
-            {{ categoria.nome }}
+            {{ categoriaatacado.nome }}
           </a>
           {% endif %}
           {% endfor %}

@@ -15,8 +15,6 @@ import threading
 
 from django.db.models import Q
 
-from django.core.paginator import Paginator
-
 
 @login_required
 def codigo_acesso(request):
@@ -36,13 +34,8 @@ def codigo_acesso(request):
             categorias = Categoria.objects.all()
             tipos = Tipo.objects.all()
 
-            # Set the number of items per page here
-            paginator = Paginator(produtos, 10)
-            page_number = request.GET.get('page')
-            page_obj = paginator.get_page(page_number)
-
             context = {
-                'produtos': page_obj,
+                'produtos': produtos,
                 'categorias': categorias,
                 'tipos': tipos
             }

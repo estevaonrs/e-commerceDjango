@@ -204,6 +204,9 @@ class Produto(models.Model):
         if self.imagem:
             self.resize_image(self.imagem, max_image_size)
 
+    class Meta:
+        ordering = ['-id']
+
     def __str__(self):
         return self.nome
 

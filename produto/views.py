@@ -588,17 +588,17 @@ def buscar_fornecedores(request):
 
 
 class AdicionarAoCarrinho(View):
-    def get(self, *args, **kwargs):
-        http_referer = self.request.META.get(
+    def get(self, request, *args, **kwargs):
+        http_referer = request.META.get(
             'HTTP_REFERER',
             reverse('produto:lista')
         )
-        variacao_id = self.request.GET.get('vid')
-        int(variacao_id)
+        variacao_id = request.GET.get('vid')
+        quantidade = int(request.GET.get('quantidade', 1))
 
         if not variacao_id:
             messages.error(
-                self.request,
+                request,
                 'Produto não existe'
             )
             return redirect(http_referer)
@@ -612,7 +612,7 @@ class AdicionarAoCarrinho(View):
         variacao_nome = variacao.nome or ''
         preco_unitario = variacao.preco
         preco_unitario_promocional = variacao.preco_promocional
-        quantidade = 1
+
         slug = produto.slug
         imagem = produto.imagem
 
@@ -621,37 +621,30 @@ class AdicionarAoCarrinho(View):
         else:
             imagem = ''
 
-        if variacao.estoque < 1:
+        if quantidade > variacao_estoque:
             messages.error(
-                self.request,
-                'Estoque insuficiente'
+                request,
+                f'Estoque insuficiente. A quantidade máxima disponível é {variacao_estoque}.'
             )
             return redirect(http_referer)
 
-        if not self.request.session.get('carrinho'):
-            self.request.session['carrinho'] = {}
-            self.request.session.save()
+        if not request.session.get('carrinho'):
+            request.session['carrinho'] = {}
+            request.session.save()
 
-        carrinho = self.request.session['carrinho']
+        carrinho = request.session['carrinho']
 
         if variacao_id in carrinho:
             quantidade_carrinho = carrinho[variacao_id]['quantidade']
-            quantidade_carrinho += 1
+            quantidade_carrinho += quantidade
 
-            if variacao_estoque < quantidade_carrinho:
-                messages.warning(
-                    self.request,
-                    f'Estoque insuficiente para {quantidade_carrinho}x no '
-                    f'produto "{produto_nome}". Adicionamos {variacao_estoque}x '
-                    f'no seu carrinho.'
-                )
+            if quantidade_carrinho > variacao_estoque:
                 quantidade_carrinho = variacao_estoque
-
-            carrinho[variacao_id]['quantidade'] = quantidade_carrinho
-            carrinho[variacao_id]['preco_quantitativo'] = preco_unitario * \
-                quantidade_carrinho
-            carrinho[variacao_id]['preco_quantitativo_promocional'] = preco_unitario_promocional * \
-                quantidade_carrinho
+                carrinho[variacao_id]['quantidade'] = quantidade_carrinho
+                carrinho[variacao_id]['preco_quantitativo'] = preco_unitario * \
+                    quantidade_carrinho
+                carrinho[variacao_id]['preco_quantitativo_promocional'] = preco_unitario_promocional * \
+                    quantidade_carrinho
         else:
             carrinho[variacao_id] = {
                 'produto_id': produto_id,
@@ -660,22 +653,22 @@ class AdicionarAoCarrinho(View):
                 'variacao_id': variacao_id,
                 'preco_unitario': preco_unitario,
                 'preco_unitario_promocional': preco_unitario_promocional,
-                'preco_quantitativo': preco_unitario,
-                'preco_quantitativo_promocional': preco_unitario_promocional,
-                'quantidade': 1,
+                'preco_quantitativo': preco_unitario * quantidade,
+                'preco_quantitativo_promocional': preco_unitario_promocional * quantidade,
+                'quantidade': quantidade,
                 'slug': slug,
                 'imagem': imagem,
             }
 
-        self.request.session.save()
+            request.session.save()
 
-        messages.success(
-            self.request,
-            f'Produto {produto_nome} {variacao_nome} adicionado ao seu '
-            f'carrinho {carrinho[variacao_id]["quantidade"]}x.'
-        )
+            messages.success(
+                request,
+                f'Produto {produto_nome} {variacao_nome} adicionado ao seu '
+                f'carrinho {carrinho[variacao_id]["quantidade"]}x.'
+            )
 
-        return redirect(http_referer)
+            return redirect(http_referer)
 
 
 class AdicionarAoCarrinhoAdmin(View):

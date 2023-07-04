@@ -10,11 +10,12 @@
   <div class="card custom-card w-100 overflow-auto">
     <div class="card-body d-flex justify-content-start border-0">
       <div class="d-flex flex-nowrap">
-        {% for tipo in tipos %}
-        {% if tipo.modalidade == 'A' %}
-        <a href="{% url 'produto:lista_por_tipo' tipo.slug %}" class="card-text text-white mx-2 text-decoration-none"
-          style="white-space: nowrap;">
-          | {{ tipo.nome }}
+        {% for tipoatacado in tiposatacados %}
+        {% if tipoatacado.modalidade == 'A' %}
+
+        <a href="{% url 'produto:lista_por_tipo_atacado' tipo.slug %}"
+          class="card-text text-white mx-2 text-decoration-none" style="white-space: nowrap;">
+          | {{ tipoatacado.nome }}
         </a>
         {% endif %}
         {% endfor %}
@@ -22,7 +23,6 @@
     </div>
   </div>
 </div>
-
 
 <!-- Main Section-->
 <section class="mt-0 overflow-hidden ">

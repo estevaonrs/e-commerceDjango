@@ -51,9 +51,10 @@
                                                 </h6>
                                                 <span class="d-block text-muted fw-bolder text-uppercase fs-9">
                                                     Tamanho: {{ linha.variacao_nome }}<br>
-                                                    Quantidade: {{ linha.quantidade }}<a style="text-decoration:none;"
-                                                        href="{% url 'produto:adicionaraocarrinho' %}?vid={{linha.variacao_id}}">
-                                                        <i class="fa-solid fa-plus"></i>
+                                                    Quantidade: {{ linha.quantidade }}
+                                                    <a style="text-decoration:none;"
+                                                        href="{% url 'produto:removerdocarrinho' %}?vid={{linha.variacao_id}}">
+                                                        <i class="fa-solid fa-minus" style="color: red;"></i>
                                                     </a>
                                                 </span>
                                             </div>

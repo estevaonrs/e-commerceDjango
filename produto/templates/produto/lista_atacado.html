@@ -13,7 +13,6 @@
       <div class="d-flex flex-nowrap">
         {% for tipo in tipos %}
         {% if tipo.modalidade == 'A' %}
-
         <a href="{% url 'produto:lista_por_tipo_atacado' tipo.slug %}"
           class="card-text text-white mx-2 text-decoration-none" style="white-space: nowrap;">
           | {{ tipo.nome }}

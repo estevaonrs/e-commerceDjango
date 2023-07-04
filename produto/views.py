@@ -162,9 +162,55 @@ class ListaProdutosPorTipo(ListView):
         return context
 
 
+class ListaProdutosPorTipoAtacado(ListView):
+    model = models.Produto
+    template_name = 'produto/lista_por_tipo_atacado.html'
+    context_object_name = 'produtos'
+    paginate_by = 10
+    ordering = ['-id']
+
+    def get_queryset(self):
+        tipo_slug = self.kwargs['tipo_slug']
+        tipo = get_object_or_404(models.Tipo, slug=tipo_slug)
+        return models.Produto.objects.filter(tipo=tipo)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tipo_slug = self.kwargs['tipo_slug']
+        tipo = get_object_or_404(models.Tipo, slug=tipo_slug)
+        context['tipo'] = tipo
+        context['tipos'] = models.Tipo.objects.all()
+        context['categorias'] = models.Categoria.objects.all()
+
+        return context
+
+
 class ListaProdutosPorCategoria(ListView):
     model = models.Produto
     template_name = 'produto/lista_por_categoria.html'
+    context_object_name = 'produtos'
+    paginate_by = 10
+    ordering = ['-id']
+
+    def get_queryset(self):
+        categoria_slug = self.kwargs['categoria_slug']
+        categoria = get_object_or_404(models.Categoria, slug=categoria_slug)
+        return models.Produto.objects.filter(categoria=categoria)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        categoria_slug = self.kwargs['categoria_slug']
+        categoria = get_object_or_404(models.Categoria, slug=categoria_slug)
+        context['categoria'] = categoria
+        context['tipos'] = models.Tipo.objects.all()
+
+        context['categorias'] = models.Categoria.objects.all()
+        return context
+
+
+class ListaProdutosPorCategoriaAtacado(ListView):
+    model = models.Produto
+    template_name = 'produto/lista_por_categoria_atacado.html'
     context_object_name = 'produtos'
     paginate_by = 10
     ordering = ['-id']

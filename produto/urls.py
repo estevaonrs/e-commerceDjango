@@ -35,7 +35,7 @@ urlpatterns = [
          views.ListaProdutosPorCategoriaAtacado.as_view(), name='lista_por_categoria_atacado'),
     path('tipo/<slug:tipo_slug>/',
          views.ListaProdutosPorTipo.as_view(), name='lista_por_tipo'),
-    path('tipo_atacado/<slug:tipo_slug>/',
+    path('tipo_atacado/<slug:tipoatacado_slug>/',
          views.ListaProdutosPorTipoAtacado.as_view(), name='lista_por_tipo_atacado'),
     path('categoria_add/', views.categoria_add, name='categoria_add'),
     path('categoria/list/', views.categoria_list, name='categoria_list'),

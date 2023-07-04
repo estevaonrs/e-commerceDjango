@@ -9,6 +9,9 @@ class PerfilForm(forms.ModelForm):
         model = models.Perfil
         fields = '__all__'
         exclude = ('usuario',)
+        widgets = {
+            'data_nascimento': forms.TextInput(attrs={'placeholder': '00/00/0000'}),
+        }
 
 
 class UserForm(forms.ModelForm):

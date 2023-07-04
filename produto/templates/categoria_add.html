@@ -15,7 +15,7 @@
 <div class="row">
     <div class="col-lg-12">
         <br><br>
-        <h1 class="fashion_taital">Adicionar Categoria</h1>
+        <h1 class="fashion_taital">Adicionar Coleção</h1>
         </a>
         <hr>
     </div>
@@ -23,7 +23,7 @@
 <div class="container">
   <div class="row">
     <div class="col-md-6">
-      <h1>Cadastro de Categoria</h1>
+      <h1>Cadastro de Coleção</h1>
       <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form|crispy }}
@@ -33,7 +33,7 @@
     <div class="col-md-6">
             <br>
 
-      <h1>Lista de Categorias</h1>
+      <h1>Lista de Coleções</h1>
         <ul class="list-group">
             {% for categoria in categorias %}
                 <li class="list-group-item d-flex justify-content-between align-items-center">

@@ -10,12 +10,12 @@
   <div class="card custom-card w-100 overflow-auto">
     <div class="card-body d-flex justify-content-start border-0">
       <div class="d-flex flex-nowrap">
-        {% for categoria in categorias %}
-        {% if categoria.modalidade == 'A' %}
+        {% for categoriaatacado in categoriasatacados %}
+        {% if categoriaatacado.modalidade == 'A' %}
 
-        <a href="{% url 'produto:lista_por_categoria_atacado' categoria.slug %}"
+        <a href="{% url 'produto:lista_por_categoria_atacado' categoriaatacado.slug %}"
           class="card-text text-white mx-2 text-decoration-none" style="white-space: nowrap;">
-          | {{ categoria.nome }}
+          | {{ categoriaatacado.nome }}
         </a>
         {% endif %}
         {% endfor %}
@@ -242,11 +242,11 @@
       <!-- Collections -->
       <div class="scroll-container">
         <div class="d-flex flex-nowrap gap-2">
-          {% for tipo in tipos %}
-          {% if tipo.modalidade == 'A' %}
-          <a href="{% url 'produto:lista_por_tipo_atacado' tipo.slug %}"
+          {% for tipoatacado in tiposatacados %}
+          {% if tipoatacado.modalidade == 'A' %}
+          <a href="{% url 'produto:lista_por_tipo_atacado' tipoatacado.slug %}"
             class="btn btn-outline-secondary btn-md rounded btn-custom" style="white-space: nowrap;">
-            {{ tipo.nome }}
+            {{ tipoatacado.nome }}
           </a>
           {% endif %}
           {% endfor %}

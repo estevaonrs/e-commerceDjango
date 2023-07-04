@@ -17,6 +17,14 @@ from utils import utils
 class Categoria(models.Model):
     nome = models.CharField(max_length=255)
     slug = models.SlugField(unique=True, blank=True, null=True)
+    modalidade = models.CharField(
+        default="A",
+        max_length=1,
+        choices=(
+            ('A', 'Atacado'),
+            ('V', 'Varejo'),
+        )
+    )
 
     def __str__(self):
         return self.nome
@@ -32,6 +40,14 @@ class Categoria(models.Model):
 class Tipo(models.Model):
     nome = models.CharField(max_length=255)
     slug = models.SlugField(unique=True, blank=True, null=True)
+    modalidade = models.CharField(
+        default="A",
+        max_length=1,
+        choices=(
+            ('A', 'Atacado'),
+            ('V', 'Varejo'),
+        )
+    )
 
     def __str__(self):
         return self.nome

@@ -97,7 +97,8 @@
                                 {% else %}
                                 <div class="form-check form-check-inline p-2">
                                     <input class="form-check-input" type="radio" name="vid"
-                                        id="variacao-{{ variacao.id }}" value="{{ variacao.id }}">
+                                        id="variacao-{{ variacao.id }}" value="{{ variacao.id }}" {% if forloop.first %}
+                                        checked {% endif %}>
                                     <label class="form-check-label rounded-circle" for="variacao-{{ variacao.id }}"
                                         style="width: 60px; height: 60px; background-color: #f8f9fa; border: 1px solid #dee2e6; display: flex; justify-content: center; align-items: center;">
                                         {% if variacao.nome %}

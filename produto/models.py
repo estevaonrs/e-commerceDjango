@@ -144,7 +144,7 @@ class Produto(models.Model):
             ('V', 'Varejo'),
         )
     )
-    descricao_curta = models.TextField(max_length=255)
+    descricao_curta = models.TextField(max_length=500)
     descricao_longa = models.TextField()
     imagem = models.ImageField(
         upload_to='produto_imagens/%Y/%m/', blank=True, null=True)

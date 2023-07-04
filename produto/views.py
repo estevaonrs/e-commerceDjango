@@ -224,9 +224,9 @@ class ListaProdutosPorCategoriaAtacado(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         categoriaatacado_slug = self.kwargs['categoriaatacado_slug']
-        categoria = get_object_or_404(
+        categoriaatacado = get_object_or_404(
             models.Categoria, slug=categoriaatacado_slug)
-        context['categoriaatacado'] = categoria
+        context['categoriaatacado'] = categoriaatacado
         context['tiposatacados'] = models.Tipo.objects.all()
         context['categoriasatacados'] = models.Categoria.objects.all()
         return context

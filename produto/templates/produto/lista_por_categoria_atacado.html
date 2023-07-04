@@ -11,7 +11,7 @@
   <div class="card-body d-flex justify-content-start border-0">
    <div class="d-flex flex-nowrap">
     {% for tipoatacado in tiposatacados %}
-    {% if tipo.modalidade == 'A' %}
+    {% if tipoatacado.modalidade == 'A' %}
 
     <a href="{% url 'produto:lista_por_tipo_atacado' tipoatacado.slug %}"
      class="card-text text-white mx-2 text-decoration-none" style="white-space: nowrap;">
@@ -240,7 +240,7 @@
    <div class="scroll-container">
     <div class="d-flex flex-nowrap gap-2">
      {% for categoriaatacado in categoriasatacados %}
-     {% if categoria.modalidade == 'A' %}
+     {% if categoriaatacado.modalidade == 'A' %}
 
      <a href="{% url 'produto:lista_por_categoria_atacado' categoriaatacado.slug %}"
       class="btn btn-outline-secondary btn-md rounded btn-custom">

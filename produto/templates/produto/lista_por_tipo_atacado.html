@@ -243,7 +243,7 @@
       <div class="scroll-container">
         <div class="d-flex flex-nowrap gap-2">
           {% for categoriaatacado in categoriasatacados %}
-          {% if categoria.modalidade == 'A' %}
+          {% if categoriaatacado.modalidade == 'A' %}
 
           <a href="{% url 'produto:lista_por_categoria_atacado' categoriaatacado.slug %}"
             class="btn btn-outline-secondary btn-md rounded btn-custom">

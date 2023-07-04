@@ -12,13 +12,13 @@ class FornecedorForm(forms.ModelForm):
 class CategoriaForm(forms.ModelForm):
     class Meta:
         model = Categoria
-        fields = ('nome',)
+        fields = ('nome', 'modalidade')
 
 
 class TipoForm(forms.ModelForm):
     class Meta:
         model = Tipo
-        fields = ('nome',)
+        fields = ('nome', 'modalidade')
 
 
 class ContasPagarForm(forms.ModelForm):

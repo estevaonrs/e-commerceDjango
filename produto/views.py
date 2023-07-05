@@ -606,7 +606,7 @@ class AdicionarAoCarrinho(View):
         variacao = get_object_or_404(models.Variacao, id=variacao_id)
         variacao_estoque = variacao.estoque
         produto = variacao.produto
-
+        produto_modalidade = produto.modalidade
         produto_id = produto.id
         produto_nome = produto.nome
         variacao_nome = variacao.nome or ''
@@ -649,6 +649,7 @@ class AdicionarAoCarrinho(View):
             carrinho[variacao_id] = {
                 'produto_id': produto_id,
                 'produto_nome': produto_nome,
+                'produto_modalidade': produto_modalidade,
                 'variacao_nome': variacao_nome,
                 'variacao_id': variacao_id,
                 'preco_unitario': preco_unitario,

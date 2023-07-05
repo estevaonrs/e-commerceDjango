@@ -270,6 +270,7 @@ class SalvarPedido(View):
                     pedido=pedido,
                     produto=v['produto_nome'],
                     produto_modalidade=v['produto_modalidade'],
+                    produto_cor=v['produto_cor'],
                     produto_id=v['produto_id'],
                     variacao=v['variacao_nome'],
                     variacao_id=v['variacao_id'],

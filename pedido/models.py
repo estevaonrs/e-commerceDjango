@@ -42,7 +42,7 @@ class ItemPedido(models.Model):
     pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE)
     produto = models.CharField(max_length=255)
     produto_modalidade = models.CharField(max_length=255)
-
+    produto_cor = models.CharField(max_length=255)
     produto_id = models.PositiveIntegerField()
     variacao = models.CharField(max_length=255)
     variacao_id = models.PositiveIntegerField()

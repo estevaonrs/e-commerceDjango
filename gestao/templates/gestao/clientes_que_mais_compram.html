@@ -42,10 +42,14 @@
                   Perfil</th>
                 <th
                   class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">
-                  Quantidade de Pedidos Aprovados</th>
+                  Qtd Pedidos Aprovados</th>
                 <th
                   class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap min-w-140-px">
-                </th>
+                  Valor Total</th>
+                <th
+                  class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap min-w-140-px">
+                  Modalidade</th>
+
               </tr>
             </thead>
             <!-- Linhas da tabela -->
@@ -56,7 +60,14 @@
                   {{ perfil }}</th>
                 <td class="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
                   {{ perfil.num_pedidos_aprovados }}</td>
+                <td class="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
+                  {{ perfil.total_pedidos_aprovados|formata_preco }}</td>
+                {% if perfil.modalidade_pedido %}
+                <td class="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
+                  {{ perfil.modalidade_pedido }}</td>
+                {% endif %}
               </tr>
+
               {% endfor %}
             </tbody>
           </table>

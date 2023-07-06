@@ -15,7 +15,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from produto.models import Produto
 from datetime import date, datetime
-from django.db.models import Sum, Avg, Count, F
+from django.db.models import Sum, Avg, Count, F, Sum, Case, When, IntegerField
 from django.db.models import Q
 
 from vendas.models import Vendedor
@@ -145,8 +145,19 @@ def TopPerfisView(request):
         pedidos_aprovados = pedidos_aprovados.filter(
             data__range=(data_inicio, data_fim))
 
-    perfis_pedidos_aprovados = Perfil.objects.annotate(num_pedidos_aprovados=Count('usuario__pedido', filter=Q(
-        usuario__pedido__status='A', usuario__pedido__data__range=(data_inicio, data_fim)))).order_by('-num_pedidos_aprovados')[:10]
+    perfis_pedidos_aprovados = Perfil.objects.annotate(
+        num_pedidos_aprovados=Count('usuario__pedido', filter=Q(
+            usuario__pedido__status='A', usuario__pedido__data__range=(data_inicio, data_fim))),
+        total_pedidos_aprovados=Sum(
+            Case(
+                When(usuario__pedido__status='A', usuario__pedido__data__range=(
+                    data_inicio, data_fim), then='usuario__pedido__total'),
+                default=0,
+                output_field=IntegerField()
+            )
+        ),
+        modalidade_pedido=F('usuario__pedido__itempedido__produto_modalidade')
+    ).order_by('-num_pedidos_aprovados')[:10]
 
     context = {
         'perfis_pedidos_aprovados': perfis_pedidos_aprovados,

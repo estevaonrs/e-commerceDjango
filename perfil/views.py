@@ -1,13 +1,15 @@
 from django.urls import reverse_lazy
 from . import forms, models
 import copy
-
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
+from django.views.generic import DetailView, ListView, TemplateView, UpdateView, DeleteView
+from .models import Perfil
 
 
 class BasePerfil(View):
@@ -184,3 +186,11 @@ class Logout(View):
         self.request.session.save()
 
         return redirect('produto:lista')
+
+
+class PerfilListView(LoginRequiredMixin, ListView):
+    model = Perfil
+    context_object_name = 'perfis'
+    template_name = 'perfil/lista_perfil.html'
+    paginate_by = 10
+    ordering = ['-id']

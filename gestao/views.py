@@ -155,7 +155,7 @@ def TopPerfisView(request):
             )
         ),
         modalidade_pedido=F('usuario__pedido__itempedido__produto_modalidade')
-    ).order_by('-num_pedidos_aprovados')[:10]
+    ).order_by('-num_pedidos_aprovados')
 
     context = {
         'perfis_pedidos_aprovados': perfis_pedidos_aprovados,
@@ -164,6 +164,28 @@ def TopPerfisView(request):
     }
 
     return render(request, 'gestao/clientes_que_mais_compram.html', context)
+
+
+@login_required
+def PerfilDetalheView(request, perfil_id, tipo_venda=None):
+    perfil = get_object_or_404(Perfil, pk=perfil_id)
+
+    if tipo_venda == 'V':  # Vendas no Varejo
+        itens_pedido = ItemPedido.objects.filter(
+            pedido__usuario=perfil.usuario, pedido__status='A', produto_modalidade='V')
+    elif tipo_venda == 'A':  # Vendas no Atacado
+        itens_pedido = ItemPedido.objects.filter(
+            pedido__usuario=perfil.usuario, pedido__status='A', produto_modalidade='A')
+    else:
+        itens_pedido = None
+
+    context = {
+        'perfil': perfil,
+        'itens_pedido': itens_pedido,
+        'tipo_venda': tipo_venda
+    }
+
+    return render(request, 'gestao/perfil_detalhe.html', context)
 
 
 @login_required

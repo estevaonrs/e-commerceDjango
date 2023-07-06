@@ -68,7 +68,7 @@
                 <td class="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
                   {{ produto_quantidade.produto_modalidade}}</td>
                 <td class="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
-                  {{ produto_quantidade.pedido_total }}</td>
+                  {{ produto_quantidade.pedido_total|formata_preco }}</td>
 
               </tr>
               {% endfor %}

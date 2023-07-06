@@ -1,0 +1,60 @@
+{% extends "parciais/base_dashboard.html" %}
+{% load omfilters %}
+
+{% block titulo %}Detalhes do Perfil{% endblock %}
+
+{% block content %}
+<main>
+  <div class="pt-6 px-4">
+    <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8">
+
+      <h3 class="text-xl leading-none font-bold text-gray-900 mb-10">Detalhes do Perfil</h3>
+
+      <p>Nome: {{ perfil.usuario }}</p>
+      <!-- Adicione aqui outros detalhes do perfil -->
+
+      <h4 class="text-lg leading-none font-bold text-gray-900 mt-8 mb-4">Selecione o tipo de venda:</h4>
+      <p>
+        <a href="{% url 'gestao:perfil_detalhe_tipo_venda' perfil.id 'V' %}">Vendas no Varejo</a> |
+        <a href="{% url 'gestao:perfil_detalhe_tipo_venda' perfil.id 'A' %}">Vendas no Atacado</a>
+      </p>
+
+      {% if tipo_venda %}
+      {% if tipo_venda == 'V' %}
+      <h4 class="text-lg leading-none font-bold text-gray-900 mt-8 mb-4">Compras no Varejo</h4>
+      {% elif tipo_venda == 'A' %}
+      <h4 class="text-lg leading-none font-bold text-gray-900 mt-8 mb-4">Compras no Atacado</h4>
+      {% endif %}
+
+      {% if itens_pedido %}
+      <table>
+        <thead>
+          <tr>
+            <th>Produto</th>
+            <th>Quantidade</th>
+            <th>Preço</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item_pedido in itens_pedido %}
+          <tr>
+            <td>{{ item_pedido.produto }}</td>
+            <td>{{ item_pedido.quantidade }}</td>
+            {% if item_pedido.preco_promocional %}
+            <td>{{ item_pedido.preco_promocional|formata_preco }}</td>
+            {% else %}
+            <td>{{ item_pedido.preco|formata_preco }}</td>
+            {% endif %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <p>Nenhum item do pedido encontrado para este tipo de venda.</p>
+      {% endif %}
+      {% endif %}
+
+    </div>
+  </div>
+</main>
+{% endblock %}

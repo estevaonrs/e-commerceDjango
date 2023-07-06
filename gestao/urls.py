@@ -34,6 +34,10 @@ urlpatterns = [
          views.CaixaDeleteView.as_view(), name='caixa_delete'),
     path('buscar_caixa_aberto', views.buscar_caixa_aberto,
          name='buscar_caixa_aberto'),
+    path('perfil_detalhe/<int:perfil_id>/',
+         views.PerfilDetalheView, name='perfil_detalhe'),
+    path('perfil_detalhe/<int:perfil_id>/<str:tipo_venda>/',
+         views.PerfilDetalheView, name='perfil_detalhe_tipo_venda'),
 
 
 

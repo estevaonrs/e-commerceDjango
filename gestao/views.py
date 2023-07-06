@@ -49,13 +49,24 @@ def RelatorioFinanceiroView(request):
 
     produtos_quantidades = (
         itens_aprovados
-        .values('produto', 'produto_id')
+        .values('produto', 'produto_id', 'produto_modalidade', 'produto_cor')
         .annotate(quantidade=Sum('quantidade'))
         .order_by('-quantidade')[:10]
     )
 
-    perfis_pedidos_aprovados = Perfil.objects.annotate(num_pedidos_aprovados=Count('usuario__pedido', filter=Q(
-        usuario__pedido__status='A', usuario__pedido__data__range=(data_inicio, data_fim)))).order_by('-num_pedidos_aprovados')[:10]
+    perfis_pedidos_aprovados = Perfil.objects.annotate(
+        num_pedidos_aprovados=Count('usuario__pedido', filter=Q(
+            usuario__pedido__status='A', usuario__pedido__data__range=(data_inicio, data_fim))),
+        total_pedidos_aprovados=Sum(
+            Case(
+                When(usuario__pedido__status='A', usuario__pedido__data__range=(
+                    data_inicio, data_fim), then='usuario__pedido__total'),
+                default=0,
+                output_field=IntegerField()
+            )
+        ),
+        modalidade_pedido=F('usuario__pedido__itempedido__produto_modalidade')
+    ).order_by('-num_pedidos_aprovados')
 
     vendedores_pedidos_aprovados = Vendedor.objects.annotate(num_pedidos_aprovados=Count('pedido', filter=Q(
         pedido__status='A', pedido__data__range=(data_inicio, data_fim)))).order_by('-num_pedidos_aprovados')[:10]

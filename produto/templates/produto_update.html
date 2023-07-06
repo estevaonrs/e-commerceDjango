@@ -44,8 +44,8 @@
                      {% for variacao in variacoes %}
                          <tr>
                              <td><input type="text" name="nome_variacao-{{ forloop.counter0 }}-" value="{{ variacao.nome }}" required></td>
-                             <td><input type="number" name="preco_variacao-{{ forloop.counter0 }}-" min="0" step="0.01" value="{{ variacao.preco }}" required></td>
-                             <td><input type="number" name="preco_promocional_variacao-{{ forloop.counter0 }}-" min="0" step="0.01" value="{{ variacao.preco_promocional }}"></td>
+                             <td><input type="text" name="preco_variacao-{{ forloop.counter0 }}-" value="{{ variacao.preco }}" required step="any"></td>
+                             <td><input type="text" name="preco_promocional_variacao-{{ forloop.counter0 }}-" value="{{ variacao.preco_promocional }}" step="any"></td>
                              <td><input type="number" name="estoque_variacao-{{ forloop.counter0 }}-" min="0" value="{{ variacao.estoque }}" required></td>
                              <td>
                                  <input type="hidden" name="variacao_id[]" value="{{ variacao.id }}">

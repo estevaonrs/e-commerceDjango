@@ -49,6 +49,9 @@
                 <th
                   class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap min-w-140-px">
                   ATACADO/VAREJO</th>
+                <th
+                  class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap min-w-140-px">
+                  Valor</th>
 
               </tr>
             </thead>
@@ -64,6 +67,9 @@
                   {{ produto_quantidade.quantidade }}</td>
                 <td class="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
                   {{ produto_quantidade.produto_modalidade}}</td>
+                <td class="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
+                  {{ produto_quantidade.total|formata_preco }}</td>
+
               </tr>
               {% endfor %}
             </tbody>

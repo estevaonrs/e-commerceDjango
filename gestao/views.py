@@ -106,35 +106,26 @@ def TopProdutosView(request):
     produtos_quantidades = (
         itens_aprovados
         .values('produto', 'produto_id', 'produto_modalidade', 'produto_cor')
-        .annotate(quantidade=Sum('quantidade'))
+        .annotate(quantidade=Sum('quantidade'), total=Sum('pedido__total'))
         .order_by('-quantidade')[:10]
     )
 
+    produtos_agrupados = {}
+    for produto_quantidade in produtos_quantidades:
+        nome_produto = produto_quantidade['produto']
+        if nome_produto not in produtos_agrupados:
+            produtos_agrupados[nome_produto] = produto_quantidade
+        else:
+            produtos_agrupados[nome_produto]['quantidade'] += produto_quantidade['quantidade']
+            produtos_agrupados[nome_produto]['total'] += produto_quantidade['total']
+
     context = {
-        'produtos_quantidades': produtos_quantidades,
+        'produtos_quantidades': produtos_agrupados.values(),
         'data_inicio': data_inicio,
         'data_fim': data_fim,
     }
 
     return render(request, 'gestao/produtos_mais_vendidos.html', context)
-
-
-@login_required
-def TopTodosProdutosView(request):
-    itens_aprovados = ItemPedido.objects.filter(pedido__status='A')
-
-    produtos_quantidades = (
-        itens_aprovados
-        .values('produto', 'produto_id')
-        .annotate(quantidade=Sum('quantidade'))
-        .order_by('-quantidade')
-    )
-
-    context = {
-        'produtos_quantidades': produtos_quantidades,
-    }
-
-    return render(request, 'gestao/todos_os_produtos_vendas.html', context)
 
 
 @login_required

@@ -641,11 +641,12 @@ class AdicionarAoCarrinho(View):
 
             if quantidade_carrinho > variacao_estoque:
                 quantidade_carrinho = variacao_estoque
-                carrinho[variacao_id]['quantidade'] = quantidade_carrinho
-                carrinho[variacao_id]['preco_quantitativo'] = preco_unitario * \
-                    quantidade_carrinho
-                carrinho[variacao_id]['preco_quantitativo_promocional'] = preco_unitario_promocional * \
-                    quantidade_carrinho
+
+            carrinho[variacao_id]['quantidade'] = quantidade_carrinho
+            carrinho[variacao_id]['preco_quantitativo'] = preco_unitario * \
+                quantidade_carrinho
+            carrinho[variacao_id]['preco_quantitativo_promocional'] = preco_unitario_promocional * \
+                quantidade_carrinho
         else:
             carrinho[variacao_id] = {
                 'produto_id': produto_id,
@@ -663,15 +664,14 @@ class AdicionarAoCarrinho(View):
                 'imagem': imagem,
             }
 
-            request.session.save()
+        request.session.save()
 
-            messages.success(
-                request,
-                f'Produto {produto_nome} {variacao_nome} adicionado ao seu '
-                f'carrinho {carrinho[variacao_id]["quantidade"]}x.'
-            )
+        messages.success(
+            request,
+            f'Produto {produto_nome} {variacao_nome} adicionado ao seu carrinho {carrinho[variacao_id]["quantidade"]}x.'
+        )
 
-            return redirect(http_referer)
+        return redirect(http_referer)
 
 
 class AdicionarAoCarrinhoAdmin(View):

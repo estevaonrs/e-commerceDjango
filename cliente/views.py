@@ -99,7 +99,7 @@ class ClienteUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class ClienteDeleteView(LoginRequiredMixin, DeleteView):
-    model = ContasReceber
+    model = Cliente
     template_name = 'cliente_delete.html'
     success_url = reverse_lazy('cliente:lista_clientes')
 

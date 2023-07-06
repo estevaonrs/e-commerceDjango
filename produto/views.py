@@ -123,7 +123,7 @@ class ListaProdutos(ListView):
     template_name = 'produto/lista_varejo.html'
     context_object_name = 'produtos'
     paginate_by = 12
-    ordering = ['-id']
+    ordering = ['-destaque', '-id']
 
     def get_queryset(self):
         nomes_produtos = Produto.objects.values_list(
@@ -144,7 +144,7 @@ class ListaProdutosPorTipo(ListView):
     template_name = 'produto/lista_por_tipo.html'
     context_object_name = 'produtos'
     paginate_by = 10
-    ordering = ['-id']
+    ordering = ['-destaque', '-id']
 
     def get_queryset(self):
         tipo_slug = self.kwargs['tipo_slug']
@@ -167,7 +167,7 @@ class ListaProdutosPorTipoAtacado(ListView):
     template_name = 'produto/lista_por_tipo_atacado.html'
     context_object_name = 'produtos'
     paginate_by = 10
-    ordering = ['-id']
+    ordering = ['-destaque', '-id']
 
     def get_queryset(self):
         tipoatacado_slug = self.kwargs['tipoatacado_slug']
@@ -190,7 +190,7 @@ class ListaProdutosPorCategoria(ListView):
     template_name = 'produto/lista_por_categoria.html'
     context_object_name = 'produtos'
     paginate_by = 10
-    ordering = ['-id']
+    ordering = ['-destaque', '-id']
 
     def get_queryset(self):
         categoria_slug = self.kwargs['categoria_slug']
@@ -213,7 +213,7 @@ class ListaProdutosPorCategoriaAtacado(ListView):
     template_name = 'produto/lista_por_categoria_atacado.html'
     context_object_name = 'produtos'
     paginate_by = 10
-    ordering = ['-id']
+    ordering = ['-destaque', '-id']
 
     def get_queryset(self):
         categoriaatacado_slug = self.kwargs['categoriaatacado_slug']

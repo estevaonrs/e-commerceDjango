@@ -30,7 +30,7 @@ def codigo_acesso(request):
             nomes_produtos = Produto.objects.values_list(
                 'nome', flat=True).distinct()
             produtos = Produto.objects.filter(
-                nome__in=nomes_produtos, is_primary=True)
+                nome__in=nomes_produtos, is_primary=True).order_by('-destaque', '-id')
             categorias = Categoria.objects.all()
             tipos = Tipo.objects.all()
 

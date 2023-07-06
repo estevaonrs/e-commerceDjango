@@ -106,21 +106,19 @@ def TopProdutosView(request):
     produtos_quantidades = (
         itens_aprovados
         .values('produto', 'produto_id', 'produto_modalidade', 'produto_cor')
-        .annotate(quantidade=Sum('quantidade'), total=Sum('pedido__total'))
+        .annotate(quantidade=Sum('quantidade'))
+        .annotate(pedido_total=Subquery(
+            Pedido.objects.filter(
+                itempedido__produto_id=OuterRef('produto_id')
+            ).values('itempedido__produto_id')
+            .annotate(total=Sum('total'))
+            .values('total')
+        ))
         .order_by('-quantidade')[:10]
     )
 
-    produtos_agrupados = {}
-    for produto_quantidade in produtos_quantidades:
-        nome_produto = produto_quantidade['produto']
-        if nome_produto not in produtos_agrupados:
-            produtos_agrupados[nome_produto] = produto_quantidade
-        else:
-            produtos_agrupados[nome_produto]['quantidade'] += produto_quantidade['quantidade']
-            produtos_agrupados[nome_produto]['total'] += produto_quantidade['total']
-
     context = {
-        'produtos_quantidades': produtos_agrupados.values(),
+        'produtos_quantidades': produtos_quantidades,
         'data_inicio': data_inicio,
         'data_fim': data_fim,
     }

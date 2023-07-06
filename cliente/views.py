@@ -226,6 +226,7 @@ def buscar_revendedor(request):
     resultados = None
 
     if query:
-        resultados = Cliente.objects.filter(Q(nome__icontains=query))
+        resultados = Cliente.objects.filter(
+            Q(usuario__username__icontains=query))
 
     return render(request, 'cliente/lista_clientes.html', {'clientes': resultados})

@@ -15,15 +15,8 @@ class Cliente(models.Model):
         max_length=4, verbose_name='Código', blank=True, null=True)
     codigo_permanente = models.BooleanField(
         default=False, verbose_name='Código permanente')
-
     usuario = models.OneToOneField(
         User, on_delete=models.CASCADE, verbose_name='Usuário')
-    nome = models.CharField(
-        max_length=100, verbose_name='Nome completo', blank=True, null=True)
-    idade = models.PositiveIntegerField()
-    data_nascimento = models.DateField()
-    cpf = models.CharField(max_length=11)
-    cnpj = models.CharField(max_length=14, blank=True, null=True)
     endereco = models.CharField(max_length=50)
     numero = models.CharField(max_length=5)
     complemento = models.CharField(max_length=30)
@@ -106,19 +99,6 @@ class Cliente(models.Model):
 
         if error_messages:
             raise ValidationError(error_messages)
-
-        cpf_enviado = self.cpf or None
-        cpf_salvo = None
-        perfil = Cliente.objects.filter(cpf=cpf_enviado).first()
-
-        if perfil:
-            cpf_salvo = perfil.cpf
-
-            if cpf_salvo is not None and self.pk != perfil.pk:
-                error_messages['cpf'] = 'CPF já existe.'
-
-        if not valida_cpf(self.cpf):
-            error_messages['cpf'] = 'Digite um CPF válido'
 
         if re.search(r'[^0-9]', self.cep) or len(self.cep) < 8:
             error_messages['cep'] = 'CEP inválido, digite os 8 dígitos do CEP.'

@@ -22854,9 +22854,11 @@ input:focus {
 }
 
 @font-face {
- font-family: remixicon;
- src: url(../fonts/remixicon.woff) format("woff");
- font-display: auto
+ font-family: 'Archivo';
+ src: url('../fonts/Archivo-Regular.woff2') format('woff2'),
+  url('../fonts/Archivo-Regular.woff') format('woff');
+ font-weight: normal;
+ font-style: normal;
 }
 
 [class*=" ri-"],

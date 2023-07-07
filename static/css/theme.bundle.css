@@ -650,9 +650,6 @@
  }
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@100&display=swap');
-
-
 :root {
  --bs-blue: #0d6efd;
  --bs-indigo: #6610f2;
@@ -677,9 +674,9 @@
  --bs-pink: #ffa69e;
  --bs-teal: #08c5d5;
  --bs-orange: #fc6229;
- --bs-font-sans-serif: Archivo, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+ --bs-font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
  --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
- --bs-gradient: linear-gradient(180deg, hsla(0, 0%, 100%, 0.15), hsla(0, 0%, 100%, 0));
+ --bs-gradient: linear-gradient(180deg, hsla(0, 0%, 100%, 0.15), hsla(0, 0%, 100%, 0))
 }
 
 *,
@@ -696,7 +693,7 @@
 
 body {
  margin: 0;
- font-family: 'Archivo';
+ font-family: var(--bs-font-sans-serif);
  font-size: 1rem;
  font-weight: 400;
  line-height: 1.5;
@@ -21673,11 +21670,11 @@ fieldset:disabled .btn {
  }
 }
 
-::root {
- --bs-font-sans-serif: "Archivo", sans-serif;
+:root {
+ --bs-font-sans-serif: "Roboto", sans-serif;
  --bs-spacer: 1rem;
  --bs-gutter-width: 2.5rem;
- --theme-font-headings: "Archivo", sans-serif;
+ --theme-font-headings: "Oswald", sans-serif;
  --theme-font-icon: "remixicon";
  --theme-font-icon-style: "normal";
  --theme-breakpoint-xs: 0;
@@ -22857,11 +22854,9 @@ input:focus {
 }
 
 @font-face {
- font-family: 'Archivo';
- src: url('../fonts/Archivo-Regular.woff2') format('woff2'),
-  url('../fonts/Archivo-Regular.woff') format('woff');
- font-weight: normal;
- font-style: normal;
+ font-family: remixicon;
+ src: url(../fonts/remixicon.woff) format("woff");
+ font-display: auto
 }
 
 [class*=" ri-"],

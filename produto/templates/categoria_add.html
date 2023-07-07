@@ -58,6 +58,7 @@
                                 <form method="POST" action="{% url 'produto:categoria_edit' categoria.id %}">
                                     {% csrf_token %}
                                     {{ form|crispy }}
+                                    
                                     <button type="submit" class="btn btn-primary">Salvar</button>
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                                 </form>   
@@ -126,6 +127,7 @@
                                 <form method="POST" action="{% url 'produto:tipo_edit' tipo.id %}">
                                     {% csrf_token %}
                                     {{ form|crispy }}
+                                    
                                     <button type="submit" class="btn btn-primary">Salvar</button>
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                                 </form>   

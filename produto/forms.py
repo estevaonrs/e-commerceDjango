@@ -10,12 +10,26 @@ class FornecedorForm(forms.ModelForm):
 
 
 class CategoriaForm(forms.ModelForm):
+    MODALIDADE_CHOICES = (
+        ('A', 'Atacado'),
+        ('V', 'Varejo'),
+    )
+    modalidade = forms.ChoiceField(
+        choices=MODALIDADE_CHOICES, widget=forms.RadioSelect)
+
     class Meta:
         model = Categoria
         fields = ('nome', 'modalidade')
 
 
 class TipoForm(forms.ModelForm):
+    MODALIDADE_CHOICES = (
+        ('A', 'Atacado'),
+        ('V', 'Varejo'),
+    )
+    modalidade = forms.ChoiceField(
+        choices=MODALIDADE_CHOICES, widget=forms.RadioSelect)
+
     class Meta:
         model = Tipo
         fields = ('nome', 'modalidade')

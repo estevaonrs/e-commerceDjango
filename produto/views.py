@@ -515,7 +515,7 @@ def categoria_edit(request, id):
     form = CategoriaForm(request.POST or None, instance=categoria)
     if form.is_valid():
         form.save()
-        return redirect('categoria:categoria_add')
+        return redirect('produto:categoria_add')
     context = {
         'form': form,
         'categoria': categoria,

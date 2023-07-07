@@ -54,8 +54,8 @@
                     <tbody id="variacoes">
                         <tr>
                             <td><input type="text" name="nome_variacao[]" required></td>
-                            <td><input type="number" name="preco_variacao[]" required></td>
-                            <td><input type="number" name="preco_promocional_variacao[]"></td>
+                            <td><input type="number" name="preco_variacao[]" min="0" step="0.01" required></td>
+                            <td><input type="number" name="preco_promocional_variacao[]" min="0" step="0.01"></td>
                             <td><input type="number" name="estoque_variacao[]" required></td>
                         </tr>
                     </tbody>
@@ -78,26 +78,26 @@
             <td><input type="text" name="nome_variacao[]" required></td>
             <td><input type="number" name="preco_variacao[]" min="0" step="0.01" required></td>
             <td><input type="number" name="preco_promocional_variacao[]" min="0" step="0.01"></td>
-            <td><input type="number" name="estoque_variacao[]" min="0" required></td>
+            <td><input type="number" name="estoque_variacao[]" required></td>
             <td><button type="button" class="btn btn-danger" onclick="removerVariacao(this)">Remover</button></td>
             `;
         // adiciona a nova linha na tabela
         tabela_variacoes.appendChild(linha);
     });
-
+    
     function removerVariacao(botao) {
         var linha = botao.closest('tr');
         linha.remove();
     }
-
+    
     // intercepta o envio do formulário
     document.querySelector('form').addEventListener('submit', function(event) {
         // previne o comportamento padrão do formulário
         event.preventDefault();
-
+    
         // obtém os dados do formulário
         var form = new FormData(event.target);
-
+    
         // envia os dados para o servidor utilizando o AJAX
         fetch('/api/produtos/', {
             method: 'POST',
@@ -107,5 +107,5 @@
         .then(data => console.log(data))
         .catch(error => console.error(error));
     });
-</script>
+    </script>
 {% endblock %}

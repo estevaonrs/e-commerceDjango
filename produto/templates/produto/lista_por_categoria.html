@@ -5,6 +5,33 @@
 {% block titulo %}Produtos | {{ categoria.nome }} {% endblock %}
 
 {% block conteudo %}
+<style>
+    /* Estilos para dispositivos maiores - Slide 1 */
+    #slide1.bg-img-cover {
+        background-image: url({% static 'images/banners/Banner-1_Reborn.png'%});
+    }
+
+    /* Estilos para dispositivos menores - Slide 1 */
+    @media (max-width: 768px) {
+        #slide1.bg-img-cover {
+            background-image: url({% static 'images/banners/Banner-1_Reborn-vertical.png'%});
+        }
+    }
+
+    /* Estilos para dispositivos maiores - Slide 2 */
+    #slide2.bg-img-cover {
+        background-image: url({% static 'images/banners/Banner-2_AMRCN.png'%});
+    }
+
+    /* Estilos para dispositivos menores - Slide 2 */
+    @media (max-width: 768px) {
+        #slide2.bg-img-cover {
+            background-image: url({% static 'images/banners/Banner-2_vertical.png'%});
+        }
+    }
+</style>
+
+
 <div class="d-flex justify-content-center w-100 mt-0">
     <!-- Sort Options -->
     <div class="card custom-card w-100 overflow-auto">
@@ -55,97 +82,21 @@
               }'>
             <div class="swiper-wrapper">
 
-                <!-- Slide-->
+                <!-- Slide 1 -->
                 <div class="swiper-slide position-relative h-100 w-100">
                     <div class="w-100 h-100 overflow-hidden position-absolute z-index-1 top-0 start-0 end-0 bottom-0">
                         <div class="w-100 h-100 bg-img-cover bg-pos-center-center overflow-hidden"
-                            data-swiper-parallax="-100"
-                            style=" will-change: transform; background-image: url({% static 'images/banners/banner-1.jpg'%})">
-                        </div>
-                    </div>
-                    <div
-                        class="container position-relative z-index-10 d-flex h-100 align-items-start flex-column justify-content-center">
-                        <p class="title-small text-white opacity-75 mb-0" data-swiper-parallax="-100">Lifestyle</p>
-                        <h2 class="display-3 tracking-wide fw-bold text-uppercase tracking-wide text-white"
-                            data-swiper-parallax="100">
-                            <span class="text-outline-light">American</span> Brand
-                        </h2>
-                        <div data-swiper-parallax-y="-25">
-                            <a href="" class="btn btn-psuedo text-white" role="button">Compre
-                                agora</a>
-                        </div>
+                            data-swiper-parallax="-100" id="slide1"></div>
                     </div>
                 </div>
-                <!-- /Slide-->
 
-                <!-- Slide-->
+                <!-- Slide 2 -->
                 <div class="swiper-slide position-relative h-100 w-100">
                     <div class="w-100 h-100 overflow-hidden position-absolute z-index-1 top-0 start-0 end-0 bottom-0">
                         <div class="w-100 h-100 bg-img-cover bg-pos-center-center overflow-hidden"
-                            data-swiper-parallax="-100"
-                            style=" will-change: transform; background-image: url({% static 'images/banners/banner-2.jpg'%})">
-                        </div>
-                    </div>
-                    <div
-                        class="container position-relative z-index-10 d-flex h-100 align-items-start flex-column justify-content-center">
-                        <p class="title-small text-white opacity-75 mb-0" data-swiper-parallax="-100">Lifestyle</p>
-                        <h2 class="display-3 tracking-wide fw-bold text-uppercase tracking-wide text-white"
-                            data-swiper-parallax="100">
-                            <span class="text-outline-light">American</span> Brand
-                        </h2>
-                        <div data-swiper-parallax-y="-25">
-                            <a href="" class="btn btn-psuedo text-white" role="button">Compre
-                                agora</a>
-                        </div>
+                            data-swiper-parallax="-100" id="slide2"></div>
                     </div>
                 </div>
-                <!--/Slide-->
-
-                <!-- Slide-->
-                <div class="swiper-slide position-relative h-100 w-100">
-                    <div class="w-100 h-100 overflow-hidden position-absolute z-index-1 top-0 start-0 end-0 bottom-0">
-                        <div class="w-100 h-100 bg-img-cover bg-pos-center-center overflow-hidden"
-                            data-swiper-parallax="-100"
-                            style=" will-change: transform; background-image: url({% static 'images/banners/banner-3.jpg'%})">
-                        </div>
-                    </div>
-                    <div
-                        class="container position-relative z-index-10 d-flex h-100 align-items-start flex-column justify-content-center">
-                        <p class="title-small text-white opacity-75 mb-0" data-swiper-parallax="-100">Lifestyle</p>
-                        <h2 class="display-3 tracking-wide fw-bold text-uppercase tracking-wide text-white"
-                            data-swiper-parallax="100">
-                            <span class="text-outline-light">American</span> Brand
-                        </h2>
-                        <div data-swiper-parallax-y="-25">
-                            <a href="" class="btn btn-psuedo text-white" role="button">Compre
-                                agora</a>
-                        </div>
-                    </div>
-                </div>
-                <!-- /Slide-->
-
-                <!--Slide-->
-                <div class="swiper-slide position-relative h-100 w-100">
-                    <div class="w-100 h-100 overflow-hidden position-absolute z-index-1 top-0 start-0 end-0 bottom-0">
-                        <div class="w-100 h-100 bg-img-cover bg-pos-center-center overflow-hidden"
-                            data-swiper-parallax="-100"
-                            style=" will-change: transform; background-image: url({% static 'images/banners/banner-4.jpg'%})">
-                        </div>
-                    </div>
-                    <div
-                        class="container position-relative z-index-10 d-flex h-100 align-items-start flex-column justify-content-center">
-                        <p class="title-small text-white opacity-75 mb-0" data-swiper-parallax="-100">Lifestyle</p>
-                        <h2 class="display-3 tracking-wide fw-bold text-uppercase tracking-wide text-white"
-                            data-swiper-parallax="100">
-                            <span class="text-outline-light">American</span> Brand
-                        </h2>
-                        <div data-swiper-parallax-y="-25">
-                            <a href="" class="btn btn-psuedo text-white" role="button">Compre
-                                agora</a>
-                        </div>
-                    </div>
-                </div>
-                <!--/Slide-->
 
             </div>
 

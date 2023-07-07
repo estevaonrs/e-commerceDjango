@@ -192,6 +192,179 @@
         </div>
     </div>
     <!--/ Featured Brands-->
+    <div class="container-fluid" data-aos="fade-in">
+        <div class="d-flex justify-content-center mt-4 mt-lg-0 flex-column flex-md-row">
+            <!-- Collections -->
+            <div class="scroll-container">
+                <div class="d-flex flex-nowrap gap-2">
+                    {% for tipo in tipos %}
+                    {% if tipo.modalidade == 'V' %}
+
+                    <a href="{% url 'produto:lista_por_tipo' tipo.slug %}"
+                        class="btn btn-outline-secondary btn-md rounded btn-custom">
+                        {{ tipo.nome }}
+                    </a>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <!-- /Collections -->
+        </div>
+        <!-- Category Toolbar-->
+        <div class="d-flex justify-content-between items-center pt-5 pb-4 flex-column flex-lg-row">
+            <div>
+                <h1 class="fw-bold fs-3 mb-2">CATÁLOGO</h1>
+                <p class="m-0 text-muted small">Mostrando 10 produtos por página</p>
+            </div>
+
+        </div> <!-- /Category Toolbar-->
+
+        <!-- Products-->
+        <div class="row g-4">
+
+            {% for produto in produtos %}
+            {% if produto.modalidade == 'V' %}
+
+            {% if produto.destaque %}
+            <!-- Produtos em destaque -->
+            <div class="col-6 col-md-6 col-lg-3">
+                <!-- Card Product-->
+                <div class="card border border-transparent position-relative overflow-hidden h-100 transparent">
+                    <div class="card-img position-relative">
+                        <div class="card-badges">
+                            <span class="badge badge-card"><span
+                                    class="f-w-2 f-h-2 bg-success rounded-circle d-block me-1"></span>
+                                Produto
+                                Novo</span>
+                        </div>
+                        <span class="position-absolute top-0 end-0 p-2 z-index-20 text-muted"><i
+                                class="ri-heart-line"></i></span>
+                        {% if produto.imagem %}
+                        <picture class="position-relative overflow-hidden d-block bg-light">
+                            <img class="w-100 img-fluid position-relative z-index-10" title=""
+                                src="{{ produto.imagem.url }}" alt="{{ produto.nome }}">
+                        </picture>
+                        {% endif %}
+                        <div class="position-absolute start-0 bottom-0 end-0 z-index-20 p-2">
+                            <button class="btn btn-quick-add"><i class="ri-add-line me-2"></i> Compre
+                                Agora</button>
+                        </div>
+                    </div>
+                    <div class="card-body px-0">
+                        <a class="text-decoration-none link-cover" href="{% url 'produto:detalhe' produto.slug %}">
+                            {{ produto.nome }}</a>
+
+                        {% if produto.preco_marketing_promocional %}
+                        <h1 class="mt-2 mb-0 small">
+                            </p><del>{{ produto.preco_marketing|formata_preco }}</del></h1>
+                        <h1 class="mt-2 mb-0 small" style="font-weight: bold;">
+                            {{ produto.preco_marketing_promocional|formata_preco }}</h1>
+                        {% else %}
+                        <h1 class="mt-2 mb-0 small" style="font-weight: bold;">
+                            </p>{{ produto.preco_marketing|formata_preco }}</h1>
+                        {% endif %}
+
+                    </div>
+                </div>
+                <!--/ Card Product-->
+            </div>
+            <!--/ Produtos em destaque -->
+            {% endif %}
+
+            {% endif %}
+            {% endfor %}
+
+            <!-- Outros produtos -->
+            {% for produto in produtos %}
+            {% if produto.modalidade == 'V' %}
+            {% if not produto.destaque %}
+            <div class="col-6 col-md-6 col-lg-3">
+                <!-- Card Product-->
+                <div class="card border border-transparent position-relative overflow-hidden h-100 transparent">
+                    <div class="card-img position-relative">
+                        <div class="card-badges">
+                            <span class="badge badge-card"><span
+                                    class="f-w-2 f-h-2 bg-success rounded-circle d-block me-1"></span>
+                                Produto
+                                Novo</span>
+                        </div>
+                        <span class="position-absolute top-0 end-0 p-2 z-index-20 text-muted"><i
+                                class="ri-heart-line"></i></span>
+                        {% if produto.imagem %}
+                        <picture class="position-relative overflow-hidden d-block bg-light">
+                            <img class="w-100 img-fluid position-relative z-index-10" title=""
+                                src="{{ produto.imagem.url }}" alt="{{ produto.nome }}">
+                        </picture>
+                        {% endif %}
+                        <div class="position-absolute start-0 bottom-0 end-0 z-index-20 p-2">
+                            <button class="btn btn-quick-add"><i class="ri-add-line me-2"></i> Compre
+                                Agora</button>
+                        </div>
+                    </div>
+                    <div class="card-body px-0">
+                        <a class="text-decoration-none link-cover" href="{% url 'produto:detalhe' produto.slug %}">
+                            {{ produto.nome }}</a>
+
+                        {% if produto.preco_marketing_promocional %}
+                        <h1 class="mt-2 mb-0 small">
+                            </p><del>{{ produto.preco_marketing|formata_preco }}</del></h1>
+                        <h1 class="mt-2 mb-0 small" style="font-weight: bold;">
+                            {{ produto.preco_marketing_promocional|formata_preco }}</h1>
+                        {% else %}
+                        <h1 class="mt-2 mb-0 small" style="font-weight: bold;">
+                            </p>{{ produto.preco_marketing|formata_preco }}</h1>
+                        {% endif %}
+
+                    </div>
+                </div>
+                <!--/ Card Product-->
+            </div>
+            {% endif %}
+            {% endif %}
+            {% endfor %}
+            <!--/ Outros produtos -->
+
+        </div>
+        <!-- / Products-->
+
+        <!-- Pagination-->
+        <div class="pagination">
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1">&laquo;</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&lsaquo;</a>
+                </li>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+
+                {% if page_obj.number == num %}
+                <li class="page-item active">
+                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                </li>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %} <li class="page-item">
+                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                    </li>
+                    {% endif %}
+
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">&rsaquo;</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a>
+                    </li>
+                    {% endif %}
+            </ul>
+        </div> <!-- / Pagination-->
+    </div>
+
+    <br><br>
     <div class="container-fluid">
 
         <!-- Featured Categories-->
@@ -262,173 +435,6 @@
                         </div>
                     </div>
 
-                </div>
-
-                <div
-                    class="swiper-btn swiper-prev swiper-disabled-hide swiper-btn-side btn-icon bg-white text-dark ms-3 shadow mt-n5">
-                    <i class="ri-arrow-left-s-line "></i>
-                </div>
-                <div
-                    class="swiper-btn swiper-next swiper-disabled-hide swiper-btn-side swiper-btn-side-right btn-icon bg-white text-dark me-3 shadow mt-n5">
-                    <i class="ri-arrow-right-s-line ri-lg"></i>
-                </div>
-
-            </div>
-            <!-- / Swiper Latest--> <!-- SVG Used for Clipath on featured images above-->
-            <svg width="0" height="0">
-                <defs>
-                    <clipPath id="svg-slanted-one" clipPathUnits="objectBoundingBox">
-                        <path
-                            d="M0.822,1 H0.016 a0.015,0.015,0,0,1,-0.016,-0.015 L0.158,0.015 A0.016,0.015,0,0,1,0.173,0 L0.984,0 a0.016,0.015,0,0,1,0.016,0.015 L0.837,0.985 A0.016,0.015,0,0,1,0.822,1">
-                        </path>
-                    </clipPath>
-                </defs>
-            </svg>
-        </div>
-        <!-- /Featured Categories-->
-
-
-        <!-- Homepage Banners-->
-
-        <!-- / Homepage Banners-->
-
-        <!-- Instagram-->
-        <!-- Swiper Instagram -->
-        <div data-aos="fade-in">
-            <h3 class="title-small text-muted text-center mb-3 mt-5">
-                <i class="ri-instagram-line align-bottom"></i>
-                <a href="https://www.instagram.com/americanbrandbr/">AMERICANBRANDBR</a>
-            </h3>
-        </div>
-        <!-- /Swiper Instagram-->
-        <!-- / Instagram-->
-
-    </div>
-
-    <br><br>
-    <div class="container-fluid">
-
-        <!-- Featured Categories-->
-        <div class="m-0">
-            <!-- Swiper Latest -->
-            <div class="swiper-container overflow-hidden overflow-lg-visible" data-swiper data-options='{
-                            "spaceBetween": 25,
-                            "slidesPerView": 1,
-                            "observer": true,
-                            "observeParents": true,
-                            "breakpoints": {     
-                              "540": {
-                                "slidesPerView": 1,
-                                "spaceBetween": 0
-                              },
-                              "770": {
-                                "slidesPerView": 2
-                              },
-                              "1024": {
-                                "slidesPerView": 3
-                              },
-                              "1200": {
-                                "slidesPerView": 4
-                              },
-                              "1500": {
-                                "slidesPerView": 5
-                              }
-                            },   
-                            "navigation": {
-                              "nextEl": ".swiper-next",
-                              "prevEl": ".swiper-prev"
-                            }
-                          }'>
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide align-self-stretch bg-transparent h-auto">
-                        <div class="me-xl-n4 me-xxl-n5" data-aos="fade-up" data-aos-delay="000">
-                            <picture class="d-block mb-4 img-clip-shape-one">
-                                <img class="w-100" title="" src="{% static 'images/categories/category-1.jpg' %}"
-                                    alt="HTML Bootstrap Template by Pixel Rocket">
-                            </picture>
-                            <p class="title-small mb-2 text-muted">American Brand</p>
-                            <h4 class="lead fw-bold">American Brand</h4>
-                            <a href="" class="btn btn-psuedo align-self-start">Compre Agora</a>
-                        </div>
-                    </div>
-                    <div class="swiper-slide align-self-stretch bg-transparent h-auto">
-                        <div class="me-xl-n4 me-xxl-n5" data-aos="fade-up" data-aos-delay="100">
-                            <picture class="d-block mb-4 img-clip-shape-one">
-                                <img class="w-100" title="" src="{% static 'images/categories/category-2.jpg' %}"
-                                    alt="HTML Bootstrap Template by Pixel Rocket">
-                            </picture>
-                            <p class="title-small mb-2 text-muted">American Brand</p>
-                            <h4 class="lead fw-bold">American Brand</h4>
-                            <a href="" class="btn btn-psuedo align-self-start">Compre Agora</a>
-                        </div>
-                    </div>
-                    <div class="swiper-slide align-self-stretch bg-transparent h-auto">
-                        <div class="me-xl-n4 me-xxl-n5" data-aos="fade-up" data-aos-delay="200">
-                            <picture class="d-block mb-4 img-clip-shape-one">
-                                <img class="w-100" title="" src="{% static 'images/categories/category-3.jpg' %}"
-                                    alt="HTML Bootstrap Template by Pixel Rocket">
-                            </picture>
-                            <p class="title-small mb-2 text-muted">American Brand</p>
-                            <h4 class="lead fw-bold">American Brand</h4>
-                            <a href="" class="btn btn-psuedo align-self-start">Compre Agora</a>
-                        </div>
-                    </div>
-                    <div class="swiper-slide align-self-stretch bg-transparent h-auto">
-                        <div class="me-xl-n4 me-xxl-n5" data-aos="fade-up" data-aos-delay="300">
-                            <picture class="d-block mb-4 img-clip-shape-one">
-                                <img class="w-100" title="" src="{% static 'images/categories/category-4.jpg' %}"
-                                    alt="HTML Bootstrap Template by Pixel Rocket">
-                            </picture>
-                            <p class="title-small mb-2 text-muted">American Brand</p>
-                            <h4 class="lead fw-bold">American Brand</h4>
-                            <a href="" class="btn btn-psuedo align-self-start">Compre Agora</a>
-                        </div>
-                    </div>
-                    <div class="swiper-slide align-self-stretch bg-transparent h-auto">
-                        <div class="me-xl-n4 me-xxl-n5" data-aos="fade-up" data-aos-delay="400">
-                            <picture class="d-block mb-4 img-clip-shape-one">
-                                <img class="w-100" title="" src="{% static 'images/categories/category-5.jpg' %}"
-                                    alt="HTML Bootstrap Template by Pixel Rocket">
-                            </picture>
-                            <p class="title-small mb-2 text-muted">American Brand</p>
-                            <h4 class="lead fw-bold">American Brand</h4>
-                            <a href="" class="btn btn-psuedo align-self-start">Compre Agora</a>
-                        </div>
-                    </div>
-                    <div class="swiper-slide align-self-stretch bg-transparent h-auto">
-                        <div class="me-xl-n4 me-xxl-n5" data-aos="fade-up" data-aos-delay="500">
-                            <picture class="d-block mb-4 img-clip-shape-one">
-                                <img class="w-100" title="" src="{% static 'images/categories/category-6.jpg' %}"
-                                    alt="HTML Bootstrap Template by Pixel Rocket">
-                            </picture>
-                            <p class="title-small mb-2 text-muted">American Brand</p>
-                            <h4 class="lead fw-bold">American Brand</h4>
-                            <a href="" class="btn btn-psuedo align-self-start">Compre Agora</a>
-                        </div>
-                    </div>
-                    <div class="swiper-slide align-self-stretch bg-transparent h-auto">
-                        <div class="me-xl-n4 me-xxl-n5" data-aos="fade-up" data-aos-delay="600">
-                            <picture class="d-block mb-4 img-clip-shape-one">
-                                <img class="w-100" title="" src="{% static 'images/categories/category-7.jpg' %}"
-                                    alt="HTML Bootstrap Template by Pixel Rocket">
-                            </picture>
-                            <p class="title-small mb-2 text-muted">American Brand</p>
-                            <h4 class="lead fw-bold">American Brand</h4>
-                            <a href="" class="btn btn-psuedo align-self-start">Compre Agora</a>
-                        </div>
-                    </div>
-
-                    <div class="swiper-slide align-self-stretch bg-transparent h-auto">
-                        <div class="me-xl-n4 me-xxl-n5" data-aos="fade-up" data-aos-delay="700">
-                            <picture class="d-block mb-4 img-clip-shape-one">
-                                <img class="w-100" title="" src="{% static 'images/categories/category-8.jpg' %}"
-                                    alt="HTML Bootstrap Template by Pixel Rocket">
-                            </picture>
-                            <p class="title-small mb-2 text-muted">American Brand</p>
-                            <h4 class="lead fw-bold">American Brand</h4>
-                            <a href="" class="btn btn-psuedo align-self-start">Compre Agora</a>
-                        </div>
-                    </div>
                 </div>
 
                 <div

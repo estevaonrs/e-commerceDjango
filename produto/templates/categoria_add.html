@@ -35,7 +35,10 @@
 
       <h1>Lista de Coleções</h1>
         <ul class="list-group">
+            <h1>Atacado</h1>
+
             {% for categoria in categorias %}
+            {% if categoria.modalidade == 'A' %}
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     {{ categoria.nome }}
                     <div class="btn-group">
@@ -83,6 +86,62 @@
                         </div>
                     </div>
                 </div>
+                {% endif %}
+            {% endfor %}
+            <br>
+            <h1>Varejo</h1>
+
+            {% for categoria in categorias %}
+            {% if categoria.modalidade == 'V' %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ categoria.nome }}
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-secondary mr-2" data-bs-toggle="modal" data-bs-target="#editarCategoriaModal{{categoria.id}}">
+                            <i class="fa-solid fa-pen-to-square fa-xl" style="color:white"></i>
+                        </button>
+                        <button type="submit" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#excluirCategoriaModal{{categoria.id}}">
+                            <i class="fa-solid fa-trash fa-xl" style="color: white;"></i>
+                        </button>
+                    </div>
+                </li>      
+                <div class="modal fade" id="editarCategoriaModal{{categoria.id}}" tabindex="-1" aria-labelledby="editarCategoriaModal{{categoria.id}}Label" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editarCategoriaModal{{categoria.id}}Label">Editar Categoria</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form method="POST" action="{% url 'produto:categoria_edit' categoria.id %}">
+                                    {% csrf_token %}
+                                    {{ form|crispy }}
+                                    
+                                    <button type="submit" class="btn btn-primary">Salvar</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                </form>   
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="excluirCategoriaModal{{categoria.id}}" tabindex="-1" aria-labelledby="excluirCategoriaModal{{categoria.id}}Label" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="excluirCategoriaModal{{categoria.id}}Label">Excluir Categoria</h5>
+                            </div>
+                            <div class="modal-footer">
+                                <form method="POST" action="{% url 'produto:categoria_delete' categoria.slug %}">
+                                    {% csrf_token %}
+                                    <h4>Deseja realmente excluir a categoria "{{categoria.nome}}"?</h4>
+                                    <button type="submit" class="btn btn-danger">Excluir</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                </form> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
             {% endfor %}
         </u>        
     </div>    
@@ -104,7 +163,9 @@
 
       <h1>Lista de Tipos</h1>
         <ul class="list-group">
+            <h1>Atacado</h1>
             {% for tipo in tipos %}
+            {% if tipo.modalidade == 'A' %}
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     {{ tipo.nome }}
                     <div class="btn-group">
@@ -152,6 +213,60 @@
                         </div>
                     </div>
                 </div>
+                {% endif %}
+            {% endfor %}
+            <br>
+            <h1>Varejo</h1>
+            {% for tipo in tipos %}
+            {% if tipo.modalidade == 'V' %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ tipo.nome }}
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-secondary mr-2" data-bs-toggle="modal" data-bs-target="#editarTipoModal{{tipo.id}}">
+                            <i class="fa-solid fa-pen-to-square fa-xl" style="color:white"></i>
+                        </button>
+                        <button type="submit" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#excluirTipoModal{{tipo.id}}">
+                            <i class="fa-solid fa-trash fa-xl" style="color: white;"></i>
+                        </button>
+                    </div>
+                </li>      
+                <div class="modal fade" id="editarTipoModal{{tipo.id}}" tabindex="-1" aria-labelledby="editarTipoModal{{tipo.id}}Label" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editarTipoModal{{tipo.id}}Label">Editar Tipo</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form method="POST" action="{% url 'produto:tipo_edit' tipo.id %}">
+                                    {% csrf_token %}
+                                    {{ form|crispy }}
+                                    
+                                    <button type="submit" class="btn btn-primary">Salvar</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                </form>   
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="excluirTipoModal{{tipo.id}}" tabindex="-1" aria-labelledby="excluirTipoModal{{tipo.id}}Label" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="excluirTipoModal{{tipo.id}}Label">Excluir Categoria</h5>
+                            </div>
+                            <div class="modal-footer">
+                                <form method="POST" action="{% url 'produto:tipo_delete' tipo.id %}">
+                                    {% csrf_token %}
+                                    <h4>Deseja realmente excluir a categoria "{{tipo.nome}}"?</h4>
+                                    <button type="submit" class="btn btn-danger">Excluir</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                </form> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
             {% endfor %}
         </u>        
     </div>    
@@ -197,7 +312,7 @@
                     </div>
                     <div class="col-lg-4 col-sm-4">
                       <div class="box_main">
-                        <h4 class="shirt_text">{{ produto.nome }}</h4>
+                        <h4 class="shirt_text">{{ produto.nome }} - {{ produto.modalidade }}</h4>
                         {% if produto.imagem %}
                         <a href="{% url 'produto:detalhe' produto.slug %}">
                           <img class="card-img-top" src="{{ produto.imagem.url }}" alt="{{ produto.nome }}">

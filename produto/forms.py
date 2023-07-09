@@ -62,6 +62,21 @@ class ProdutoForm(forms.ModelForm):
         model = Produto
         exclude = ('slug',)
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # Personaliza as opções de exibição para o campo categoria
+        self.fields['categoria'].label_from_instance = self.label_from_instance_categoria
+
+        # Personaliza as opções de exibição para o campo tipo
+        self.fields['tipo'].label_from_instance = self.label_from_instance_tipo
+
+    def label_from_instance_categoria(self, obj):
+        return f'{obj.nome} ({obj.modalidade})'
+
+    def label_from_instance_tipo(self, obj):
+        return f'{obj.nome} ({obj.modalidade})'
+
 
 class ImagemProdutoForm(forms.ModelForm):
     imagens = forms.FileField(widget=forms.FileInput, required=False)

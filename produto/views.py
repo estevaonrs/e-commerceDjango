@@ -336,9 +336,9 @@ class ProdutoUpdateView(LoginRequiredMixin, UpdateView):
             imagem_formset.save()
 
         nome_variacao = self.request.POST.getlist('nome_variacao[]')
-        preco_variacao = self.request.POST.getlist('preco_variacao[]')
+        preco_variacao = self.request.POST.getlist('preco[]')
         preco_promocional_variacao = self.request.POST.getlist(
-            'preco_promocional_variacao[]')
+            'preco_promocional[]')
         estoque_variacao = self.request.POST.getlist('estoque_variacao[]')
         excluir_variacao_ids = self.request.POST.getlist(
             'excluir_variacao_id[]')
@@ -353,18 +353,21 @@ class ProdutoUpdateView(LoginRequiredMixin, UpdateView):
             if variacao_id:
                 variacao = Variacao.objects.get(id=variacao_id)
                 variacao.nome = nome_variacao[i]
-                variacao.preco = preco_variacao[i]
-                variacao.preco_promocional = (
-                    preco_promocional_variacao[i] or None)
+                variacao.preco = preco_variacao[i].replace(
+                    ',', '.')  # Substituir vírgula por ponto
+                variacao.preco_promocional = preco_promocional_variacao[i].replace(
+                    ',', '.') or None  # Substituir vírgula por ponto
                 variacao.estoque = estoque_variacao[i]
                 variacao.save()
             else:
                 variacao = Variacao.objects.create(
                     produto=produto,
                     nome=nome_variacao[i],
-                    preco=preco_variacao[i],
-                    preco_promocional=preco_promocional_variacao[i] or None,
-                    estoque=estoque_variacao[i],
+                    # Substituir vírgula por ponto
+                    preco=preco_variacao[i].replace(',', '.'),
+                    preco_promocional=preco_promocional_variacao[i].replace(
+                        ',', '.') or None,  # Substituir vírgula por ponto
+                    estoque=estoque_variacao[i]
                 )
 
         return redirect(self.get_success_url())

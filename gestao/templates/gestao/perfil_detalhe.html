@@ -25,25 +25,45 @@
       {% elif tipo_venda == 'A' %}
       <h4 class="text-lg leading-none font-bold text-gray-900 mt-8 mb-4">Compras no Atacado</h4>
       {% endif %}
+      {% if tipo_venda %}
+      {% if tipo_venda == 'V' %}
+      <p>Total Varejo: R$ {{ total_varejo }}</p>
+      <p>Quantidade Varejo: {{ quantidade_varejo }}</p>
 
+      {% elif tipo_venda == 'A' %}
+      <p>Total Atacado: R$ {{ total_atacado }}</p>
+      <p>Quantidade Atacado: {{ quantidade_atacado }}</p>
+
+      {% endif %}
+      {% endif %}
       {% if itens_pedido %}
-      <table>
+      <table class="items-center w-full bg-transparent border-collapse">
         <thead>
           <tr>
-            <th>Produto</th>
-            <th>Quantidade</th>
-            <th>Preço</th>
+            <th
+              class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">
+              Produto</th>
+            <th
+              class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">
+              Quantidade</th>
+            <th
+              class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap min-w-140-px">
+              Preço</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody class="divide-y divide-gray-100">
           {% for item_pedido in itens_pedido %}
-          <tr>
-            <td>{{ item_pedido.produto }}</td>
-            <td>{{ item_pedido.quantidade }}</td>
+          <tr class="text-gray-500">
+            <th class="border-t-0 px-4 align-middle text-sm font-normal whitespace-nowrap p-4 text-left">
+              {{ item_pedido.produto }}-{{ item_pedido.produto_cor }}</th>
+            <td class="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
+              {{ item_pedido.quantidade }}</td>
             {% if item_pedido.preco_promocional %}
-            <td>{{ item_pedido.preco_promocional|formata_preco }}</td>
+            <td class="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
+              {{ item_pedido.preco_promocional|formata_preco }}</td>
             {% else %}
-            <td>{{ item_pedido.preco|formata_preco }}</td>
+            <td class="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
+              {{ item_pedido.preco|formata_preco }}</td>
             {% endif %}
           </tr>
           {% endfor %}

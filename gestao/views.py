@@ -189,20 +189,40 @@ def TopPerfisView(request):
 def PerfilDetalheView(request, perfil_id, tipo_venda=None):
     perfil = get_object_or_404(Perfil, pk=perfil_id)
 
+    context = {
+        'perfil': perfil,
+        'tipo_venda': tipo_venda,
+        'total_varejo': 0,
+        'total_atacado': 0,
+        'quantidade_varejo': 0,
+        'quantidade_atacado': 0,
+    }
+
     if tipo_venda == 'V':  # Vendas no Varejo
         itens_pedido = ItemPedido.objects.filter(
             pedido__usuario=perfil.usuario, pedido__status='A', produto_modalidade='V')
+
+        total_varejo = sum(
+            item_pedido.preco_promocional or item_pedido.preco for item_pedido in itens_pedido)
+        quantidade_varejo = sum(
+            item_pedido.quantidade for item_pedido in itens_pedido)
+
+        context['itens_pedido'] = itens_pedido
+        context['total_varejo'] = total_varejo
+        context['quantidade_varejo'] = quantidade_varejo
+
     elif tipo_venda == 'A':  # Vendas no Atacado
         itens_pedido = ItemPedido.objects.filter(
             pedido__usuario=perfil.usuario, pedido__status='A', produto_modalidade='A')
-    else:
-        itens_pedido = None
 
-    context = {
-        'perfil': perfil,
-        'itens_pedido': itens_pedido,
-        'tipo_venda': tipo_venda
-    }
+        total_atacado = sum(
+            item_pedido.preco_promocional or item_pedido.preco for item_pedido in itens_pedido)
+        quantidade_atacado = sum(
+            item_pedido.quantidade for item_pedido in itens_pedido)
+
+        context['itens_pedido'] = itens_pedido
+        context['total_atacado'] = total_atacado
+        context['quantidade_atacado'] = quantidade_atacado
 
     return render(request, 'gestao/perfil_detalhe.html', context)
 

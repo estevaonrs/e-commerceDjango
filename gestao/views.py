@@ -1,3 +1,4 @@
+from django.views import View
 from perfil.models import Perfil
 from perfil.models import Perfil
 from .models import CaixaAberto

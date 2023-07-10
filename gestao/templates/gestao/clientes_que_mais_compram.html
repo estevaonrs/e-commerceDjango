@@ -16,20 +16,7 @@
         <h3 class="text-xl leading-none font-bold text-gray-900 mb-10">Clientes que mais compram</h3>
 
 
-        <form method="GET" action="{% url 'gestao:clientes_mais_compram' %}">
-          <div class="flex mb-4 grid justify-content-start align-items-center">
-            <label for="data_inicio" class="mr-2">Início:</label>
-            <input type="text" name="data_inicio" id="data_inicio" class="px-2 py-1 border rounded datepicker"
-              autocomplete="off">
-            <label for="data_fim" class="ml-4 mr-2">Fim:</label>
-            <input type="text" name="data_fim" id="data_fim" class="px-2 py-1 border rounded datepicker"
-              autocomplete="off">
-            <button type="submit" class="mr-2 px-4 py-1 bg-blue-500 text-black rounded">Filtrar</button>
-            <button type="submit" class="mr-2 px-4 py-1 bg-blue-500 text-black rounded">
-              <a href="{% url 'gestao:clientes_mais_compram' %}">Limpar pesquisa</a>
-            </button>
-          </div>
-        </form>
+
 
         <!-- Tabela de produtos mais vendidos -->
         <div class="block w-full overflow-x-auto">
@@ -78,19 +65,7 @@
 
     </div>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script>
-  <script
-    src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.9.0/dist/locales/bootstrap-datepicker.pt-BR.min.js"></script>
-  <script>
-    $(document).ready(function () {
-      $('.datepicker').datepicker({
-        format: 'dd/mm/yyyy',
-        autoclose: true,
-        todayHighlight: true,
-        language: 'pt-BR'
-      });
-    });
-  </script>
+
 
 </main>
 {% endblock %}

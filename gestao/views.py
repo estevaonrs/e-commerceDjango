@@ -1,4 +1,5 @@
 from perfil.models import Perfil
+from perfil.models import Perfil
 from .models import CaixaAberto
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
@@ -17,6 +18,8 @@ from produto.models import Produto
 from datetime import date, datetime
 from django.db.models import Sum, Avg, Count, F, Sum, Case, When, IntegerField, Subquery, OuterRef, Value, DecimalField
 from django.db.models import Q
+from django.db.models.functions import Coalesce
+from collections import Counter
 
 from vendas.models import Vendedor
 
@@ -188,6 +191,14 @@ def TopPerfisView(request):
 @login_required
 def PerfilDetalheView(request, perfil_id, tipo_venda=None):
     perfil = get_object_or_404(Perfil, pk=perfil_id)
+    data_inicio = request.GET.get('data_inicio')
+    data_fim = request.GET.get('data_fim')
+
+    # Converter as datas para o formato correto (dd/mm/yyyy)
+    data_inicio = datetime.strptime(
+        data_inicio, '%d/%m/%Y').date() if data_inicio else None
+    data_fim = datetime.strptime(
+        data_fim, '%d/%m/%Y').date() if data_fim else None
 
     context = {
         'perfil': perfil,
@@ -196,11 +207,21 @@ def PerfilDetalheView(request, perfil_id, tipo_venda=None):
         'total_atacado': 0,
         'quantidade_varejo': 0,
         'quantidade_atacado': 0,
+        'data_inicio': data_inicio,
+        'data_fim': data_fim,
     }
 
     if tipo_venda == 'V':  # Vendas no Varejo
         itens_pedido = ItemPedido.objects.filter(
             pedido__usuario=perfil.usuario, pedido__status='A', produto_modalidade='V')
+
+        pedidos_aprovados = Pedido.objects.filter(status='A')
+
+        if data_inicio and data_fim:
+            pedidos_aprovados = pedidos_aprovados.filter(
+                data__range=(data_inicio, data_fim))
+
+        itens_pedido = itens_pedido.filter(pedido__in=pedidos_aprovados)
 
         total_varejo = sum(
             item_pedido.preco_promocional or item_pedido.preco for item_pedido in itens_pedido)
@@ -214,6 +235,14 @@ def PerfilDetalheView(request, perfil_id, tipo_venda=None):
     elif tipo_venda == 'A':  # Vendas no Atacado
         itens_pedido = ItemPedido.objects.filter(
             pedido__usuario=perfil.usuario, pedido__status='A', produto_modalidade='A')
+
+        pedidos_aprovados = Pedido.objects.filter(status='A')
+
+        if data_inicio and data_fim:
+            pedidos_aprovados = pedidos_aprovados.filter(
+                data__range=(data_inicio, data_fim))
+
+        itens_pedido = itens_pedido.filter(pedido__in=pedidos_aprovados)
 
         total_atacado = sum(
             item_pedido.preco_promocional or item_pedido.preco for item_pedido in itens_pedido)

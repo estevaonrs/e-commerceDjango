@@ -17,7 +17,7 @@ class PedidoAdmin(admin.ModelAdmin):
 
 
 class DevolucaoAdmin(admin.ModelAdmin):
-    list_display = ['usuario', 'pedido', 'itens',
+    list_display = ['usuario', 'pedido',
                     'pagamento', 'observacoes']
 
 

@@ -41,8 +41,9 @@ class Pedido(models.Model):
 class ItemPedido(models.Model):
     pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE)
     produto = models.CharField(max_length=255)
-    produto_modalidade = models.CharField(max_length=255)
-    produto_cor = models.CharField(max_length=255)
+    produto_modalidade = models.CharField(
+        max_length=255, blank=True, null=True)
+    produto_cor = models.CharField(max_length=255, blank=True, null=True)
     produto_id = models.PositiveIntegerField()
     variacao = models.CharField(max_length=255)
     variacao_id = models.PositiveIntegerField()
@@ -62,7 +63,6 @@ class ItemPedido(models.Model):
 class Devolucao(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE)
-    itens = models.ForeignKey(ItemPedido, on_delete=models.CASCADE)
     pagamento = models.CharField(
         max_length=255, verbose_name="Tipo de pagamento")
     observacoes = models.CharField(

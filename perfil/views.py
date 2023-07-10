@@ -10,6 +10,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
 from django.views.generic import DetailView, ListView, TemplateView, UpdateView, DeleteView
 from .models import Perfil
+from django.db.models import Q
 
 
 class BasePerfil(View):
@@ -194,3 +195,14 @@ class PerfilListView(LoginRequiredMixin, ListView):
     template_name = 'perfil/lista_perfil.html'
     paginate_by = 10
     ordering = ['-id']
+
+
+def buscar_perfil(request):
+    query = request.GET.get('q')
+    resultados = None
+
+    if query:
+        resultados = Perfil.objects.filter(
+            Q(usuario__username__icontains=query))
+
+    return render(request, 'perfil/lista_perfil.html', {'perfis': resultados})

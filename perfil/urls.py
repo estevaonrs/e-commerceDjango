@@ -11,5 +11,7 @@ urlpatterns = [
     path('logout/', views.Logout.as_view(), name='logout'),
     path('lista_perfis/', views.PerfilListView.as_view(),
          name='lista_perfis'),
+    path('buscar_perfil/', views.buscar_perfil,
+         name='buscar_perfil'),
 
 ]

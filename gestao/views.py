@@ -130,7 +130,7 @@ def TopProdutosView(request):
 
     produtos_quantidades = (
         itens_aprovados
-        .values('produto', 'produto_cor')
+        .values('produto', 'produto_cor', 'produto_modalidade')
         .annotate(quantidade=Sum('quantidade'))
         .annotate(pedido_total=Subquery(subquery))
         .order_by('-quantidade')[:10]

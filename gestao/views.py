@@ -15,7 +15,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from produto.models import Produto
 from datetime import date, datetime
-from django.db.models import Sum, Avg, Count, F, Sum, Case, When, IntegerField, Subquery, OuterRef
+from django.db.models import Sum, Avg, Count, F, Sum, Case, When, IntegerField, Subquery, OuterRef, Value, DecimalField
 from django.db.models import Q
 
 from vendas.models import Vendedor

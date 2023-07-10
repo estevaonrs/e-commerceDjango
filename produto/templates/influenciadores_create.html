@@ -5,20 +5,27 @@
 
 {% block content %}
 
-
 <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8  2xl:col-span-2">
-
   <div class="flex items-center justify-between mb-4">
-   <div class="flex-shrink-0"><br><br><br>
-    <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">{{ title }}</span><br><br>
-   </div>
+    <div class="flex-shrink-0"><br><br><br>
+      <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900">{{ title }}</span><br><br>
+    </div>
   </div>
  
   <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
     <form method="post">
       {% csrf_token %}
       {{ form|crispy }}
-  
+
+      <div class="form-group">
+        <label for="id_variacao">Variação:</label>
+        <select name="variacao" id="id_variacao" class="form-control">
+          {% for variacao in variacoes %}
+            <option value="{{ variacao.pk }}">{{ variacao.nome }} - {{ variacao.produto.nome }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
       <div class="form-group">
         <div class="col-md-12 text-right">
           <button type="submit" class="btn btn-success">Salvar</button>
@@ -29,5 +36,4 @@
   </div>
 </div>
 
-  
 {% endblock %}

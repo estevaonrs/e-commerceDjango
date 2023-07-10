@@ -99,6 +99,9 @@ class VariacaoForm(forms.ModelForm):
 
 
 class InfluenciadoresForm(forms.ModelForm):
+    variacao = forms.ModelChoiceField(
+        queryset=Variacao.objects.all(), widget=forms.HiddenInput())
+
     class Meta:
         model = Influenciadores
-        fields = '__all__'
+        fields = ['produto', 'nome', 'data', 'quantidade']

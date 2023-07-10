@@ -929,9 +929,14 @@ class InfluenciadoresCreateView(LoginRequiredMixin, CreateView):
     template_name = 'influenciadores_create.html'
     success_url = reverse_lazy('produto:lista_influenciadores')
 
+    def form_valid(self, form):
+        form.instance.variacao = form.cleaned_data['variacao']
+        return super().form_valid(form)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Influenciadores'
+        context['variacoes'] = Variacao.objects.all().select_related('produto')
         return context
 
 

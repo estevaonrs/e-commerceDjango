@@ -107,6 +107,20 @@ def TopProdutosView(request):
     data_fim = datetime.strptime(
         data_fim, '%d/%m/%Y').date() if data_fim else None
 
+    subquery = ItemPedido.objects.filter(
+        produto=OuterRef('produto'),
+        produto_cor=OuterRef('produto_cor'),
+        pedido__status='A'
+    ).annotate(
+        preco_item=Case(
+            When(preco_promocional__gt=0, then=F('preco_promocional')),
+            default=F('preco'),
+            output_field=DecimalField()
+        )
+    ).values('produto', 'produto_cor').annotate(
+        total=Sum('preco_item')
+    ).values('total')
+
     itens_aprovados = ItemPedido.objects.filter(pedido__status='A')
 
     # Aplicar filtro de datas, se fornecidas
@@ -116,15 +130,9 @@ def TopProdutosView(request):
 
     produtos_quantidades = (
         itens_aprovados
-        .values('produto', 'produto_id', 'produto_modalidade', 'produto_cor')
+        .values('produto', 'produto_cor')
         .annotate(quantidade=Sum('quantidade'))
-        .annotate(pedido_total=Subquery(
-            Pedido.objects.filter(
-                itempedido__produto_id=OuterRef('produto_id')
-            ).values('itempedido__produto_id')
-            .annotate(total=Sum('total'))
-            .values('total')
-        ))
+        .annotate(pedido_total=Subquery(subquery))
         .order_by('-quantidade')[:10]
     )
 
@@ -319,7 +327,8 @@ class CaixaAbertoDetail(LoginRequiredMixin, DetailView):
         obs_retiradas = Retirada.objects.filter(
             data=data_caixa).values_list('observacao', flat=True)
 
-        soma_reforcos = Reforço.objects.filter(data=data_caixa).aggregate(soma=Sum('reforço'))['soma'] or 0
+        soma_reforcos = Reforço.objects.filter(
+            data=data_caixa).aggregate(soma=Sum('reforço'))['soma'] or 0
 
         saldo = caixa.valor + total_pedidos - soma_devolucoes + \
             soma_reforcos + soma_fiados - soma_retiradas + diminuicao_fiados

@@ -38,6 +38,8 @@ urlpatterns = [
          views.PerfilDetalheView, name='perfil_detalhe'),
     path('perfil_detalhe/<int:perfil_id>/<str:tipo_venda>/',
          views.PerfilDetalheView, name='perfil_detalhe_tipo_venda'),
+    path('relatorio_caixa_por_data/', views.RelatorioCaixaPorDataView.as_view(),
+         name='relatorio_caixa_por_data'),
 
 
 

@@ -69,7 +69,7 @@
 
 
 
-
+        <hr><br>
         <!-- Tabela de perfis com mais pedidos aprovados -->
         <div class="block w-full overflow-x-auto">
           <table class="items-center w-full bg-transparent border-collapse">
@@ -79,12 +79,6 @@
                 <th
                   class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">
                   Perfil</th>
-                <th
-                  class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">
-                  Quantidade de Pedidos</th>
-                <th
-                  class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">
-                  Valores</th>
                 <th
                   class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">
                   Modalidade</th>
@@ -99,10 +93,6 @@
               <tr class="text-gray-500">
                 <th class="border-t-0 px-4 align-middle text-sm font-normal whitespace-nowrap p-4 text-left">
                   {{ perfil }}</th>
-                <td class="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
-                  {{ perfil.num_pedidos_aprovados }}</td>
-                <td class="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
-                  {{ perfil.total_pedidos_aprovados|formata_preco }}</td>
                 {% if perfil.modalidade_pedido %}
                 <td class="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
                   {{ perfil.modalidade_pedido }}</td>
@@ -110,7 +100,8 @@
                 <td class="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
                   0</td>
                 {% endif %}
-                <td>
+                <td class="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
+
                   <a href="{% url 'gestao:perfil_detalhe' perfil.id %}">Detalhe</a>
                 </td>
               </tr>
@@ -121,7 +112,7 @@
         </div>
         <canvas id="perfis-chart"></canvas>
 
-
+        <hr><br>
         <!-- Tabela de vendedores com mais pedidos aprovados -->
         <div class="block w-full overflow-x-auto">
           <table class="items-center w-full bg-transparent border-collapse">
@@ -152,7 +143,7 @@
         </div>
         <canvas id="vendedores-chart"></canvas>
 
-
+        <hr><br>
         <!-- Tabela de resumo -->
         <div class="block w-full overflow-x-auto">
           <table class="items-center w-full bg-transparent border-collapse">
@@ -161,16 +152,16 @@
               <tr>
                 <th
                   class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">
-                  Quantidade de Pedidos Aprovados</th>
+                  Qtd de Pedidos Vendidos</th>
                 <th
                   class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">
-                  Quantidade de Itens Aprovados</th>
+                  Qtd de itens vendidos</th>
                 <th
                   class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">
                   Total Vendas R$</th>
                 <th
                   class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">
-                  Quantidade de Devoluções</th>
+                  Qtd de Devoluções</th>
                 <th
                   class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">
                   Soma das Devoluções</th>

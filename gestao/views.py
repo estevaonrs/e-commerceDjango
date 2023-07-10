@@ -54,7 +54,7 @@ def RelatorioFinanceiroView(request):
         itens_aprovados
         .values('produto', 'produto_id', 'produto_modalidade', 'produto_cor')
         .annotate(quantidade=Sum('quantidade'))
-        .order_by('-quantidade')[:10]
+        .order_by('-quantidade')
     )
 
     perfis_pedidos_aprovados = Perfil.objects.annotate(

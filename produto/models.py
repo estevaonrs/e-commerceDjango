@@ -144,6 +144,7 @@ class Produto(models.Model):
             ('V', 'Varejo'),
         )
     )
+    destaque = models.BooleanField(default=False, verbose_name='Destaque')
     descricao_curta = models.TextField(max_length=500)
     descricao_longa = models.TextField()
     imagem = models.ImageField(

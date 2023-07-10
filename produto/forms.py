@@ -100,7 +100,18 @@ class VariacaoForm(forms.ModelForm):
 
 class InfluenciadoresForm(forms.ModelForm):
     variacao = forms.ModelChoiceField(
-        queryset=Variacao.objects.all(), widget=forms.HiddenInput())
+        queryset=Variacao.objects.all(),
+        widget=forms.HiddenInput()
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        produtos = Produto.objects.all()
+        self.fields['produto'].queryset = produtos
+        self.fields['produto'].label_from_instance = self.label_from_instance_with_modalidade
+
+    def label_from_instance_with_modalidade(self, obj):
+        return f'{obj.nome} - {obj.modalidade}'
 
     class Meta:
         model = Influenciadores

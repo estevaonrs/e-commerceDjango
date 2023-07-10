@@ -21,7 +21,7 @@
         <label for="id_variacao">Variação:</label>
         <select name="variacao" id="id_variacao" class="form-control">
           {% for variacao in variacoes %}
-            <option value="{{ variacao.pk }}">{{ variacao.nome }} - {{ variacao.produto.nome }}</option>
+            <option value="{{ variacao.pk }}">{{ variacao.nome }} - {{ variacao.produto.nome }} - {{ variacao.produto.modalidade }}</option>
           {% endfor %}
         </select>
       </div>

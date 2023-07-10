@@ -326,6 +326,86 @@ def VendasGeraisView(request):
     return render(request, 'gestao/vendas_gerais.html', context)
 
 
+class RelatorioCaixaPorDataView(View):
+    def get(self, request):
+        data_inicio = request.GET.get('data_inicio')
+        data_fim = request.GET.get('data_fim')
+
+        # Converter as datas para o formato correto (dd/mm/yyyy)
+        data_inicio = datetime.strptime(
+            data_inicio, '%d/%m/%Y').date() if data_inicio else None
+        data_fim = datetime.strptime(
+            data_fim, '%d/%m/%Y').date() if data_fim else None
+
+        pedidos_aprovados = Pedido.objects.filter(status='A')
+        devolucoes = Devolucao.objects.filter(pedido__in=pedidos_aprovados)
+
+        # Aplicar filtro de datas, se fornecidas
+        if data_inicio and data_fim:
+            pedidos_aprovados = pedidos_aprovados.filter(
+                data__range=(data_inicio, data_fim))
+            devolucoes = devolucoes.filter(
+                pedido__data__range=(data_inicio, data_fim))
+
+        soma_quantidade_pedidos_c = pedidos_aprovados.filter(
+            pagamento='C').count()
+        soma_quantidade_pedidos_d = pedidos_aprovados.filter(
+            pagamento='D').count()
+
+        fiados_p = Fiado.objects.filter(
+            data_p__range=(data_inicio, data_fim), status='P')
+        soma_fiados = fiados_p.aggregate(soma=Sum('valor'))['soma'] or 0
+
+        fiados_d = Fiado.objects.filter(
+            data__range=(data_inicio, data_fim), status='D')
+        diminuicao_fiados = - \
+            (fiados_d.aggregate(soma=Sum('valor'))['soma'] or 0)
+
+        total_pedidos = pedidos_aprovados.aggregate(
+            total=Sum('total'))['total'] or 0
+        valor_medio_vendas = pedidos_aprovados.aggregate(media=Avg('total'))[
+            'media']
+        soma_devolucoes = devolucoes.aggregate(
+            soma=Sum('pedido__total'))['soma'] or 0
+
+        soma_retiradas = Retirada.objects.filter(data__range=(
+            data_inicio, data_fim)).aggregate(soma=Sum('retirada'))['soma'] or 0
+        obs_retiradas = Retirada.objects.filter(data__range=(
+            data_inicio, data_fim)).values_list('observacao', flat=True)
+
+        soma_reforcos = Reforço.objects.filter(data__range=(
+            data_inicio, data_fim)).aggregate(soma=Sum('reforço'))['soma'] or 0
+
+        saldo = total_pedidos - soma_devolucoes + \
+            soma_reforcos + soma_fiados - soma_retiradas + diminuicao_fiados
+
+        context = {
+            'data_inicio': data_inicio,
+            'data_fim': data_fim,
+            'quantidade_pedidos_c': soma_quantidade_pedidos_c,
+            'soma_quantidade_pedidos_c': soma_quantidade_pedidos_c,
+            'quantidade_pedidos_d': soma_quantidade_pedidos_d,
+            'soma_quantidade_pedidos_d': soma_quantidade_pedidos_d,
+            'soma_fiados': soma_fiados,
+            'diminuicao_fiados': diminuicao_fiados,
+            'saldo': saldo,
+            'data_caixa': data_inicio,
+            'pedidos_aprovados': pedidos_aprovados,
+            'quantidade_aprovados': pedidos_aprovados.count(),
+            'devolucoes': devolucoes,
+            'total_pedidos': total_pedidos,
+            'valor_medio_vendas': valor_medio_vendas,
+            'soma_devolucoes': soma_devolucoes,
+            'reforco_form': ReforçoForm(),
+            'retirada_form': RetiradaForm(),
+            'soma_retiradas': soma_retiradas,
+            'soma_reforcos': soma_reforcos,
+            'obs_retiradas': obs_retiradas
+        }
+
+        return render(request, 'gestao/relatorio_caixa_por_data.html', context)
+
+
 class DetalheCaixa(LoginRequiredMixin, TemplateView):
     template_name = 'gestao/detalhe_caixa.html'
 

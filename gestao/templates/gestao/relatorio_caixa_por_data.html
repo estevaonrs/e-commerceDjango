@@ -1,0 +1,78 @@
+{% extends "parciais/base_dashboard.html" %}
+{% load omfilters %}
+
+{% block titulo %}Relatório Caixa por Data{% endblock %}
+
+{% block content %}
+<main>
+ <div class="pt-6 px-4">
+  <div class="grid grid-cols-1 2xl:grid-cols-2 xl:gap-4 my-4">
+   <!-- Relatório Caixa por Data Card -->
+   <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8">
+
+    <!-- Card Title -->
+    <h3 class="text-xl leading-none font-bold text-gray-900 mb-10">Relatório Caixa por Data</h3>
+
+    <form method="GET" action="{% url 'gestao:relatorio_caixa_por_data' %}">
+     <div class="flex mb-4 grid justify-content-start align-items-center">
+      <label for="data_inicio" class="mr-2">Início:</label>
+      <input type="text" name="data_inicio" id="data_inicio" class="px-2 py-1 border rounded datepicker"
+       autocomplete="off">
+      <label for="data_fim" class="ml-4 mr-2">Fim:</label>
+      <input type="text" name="data_fim" id="data_fim" class="px-2 py-1 border rounded datepicker" autocomplete="off">
+      <button type="submit" class="mr-2 px-4 py-1 bg-blue-500 text-black rounded">Filtrar</button>
+     </div>
+    </form>
+
+    {% if data_inicio and data_fim %}
+    <h2>Relatório para o período: {{ data_inicio }} - {{ data_fim }}</h2>
+    <table class="table">
+     <thead>
+      <tr>
+       <th>Vendas</th>
+       <th>Fiados</th>
+       <th>Reforços</th>
+       <th>Retiradas</th>
+       <th>Diminuição Fiados</th>
+       <th>Devoluções</th>
+       <th>Saldo</th>
+      </tr>
+     </thead>
+     <tbody>
+      <tr>
+       <td>R${{ total_pedidos|floatformat:2 }}</td>
+       <td>R${{ soma_fiados|floatformat:2 }}</td>
+       <td>R${{ soma_reforcos|floatformat:2 }}</td>
+       <td>R$-{{ soma_retiradas|floatformat:2 }}{% for observacao in obs_retiradas %}
+        <br>( {{ observacao }} )
+        {% endfor %}
+       </td>
+       <td>R${{ diminuicao_fiados|floatformat:2 }}</td>
+       <td>R${{ soma_devolucoes|floatformat:2 }}</td>
+       <td>R${{ saldo|floatformat:2 }}</td>
+
+
+      </tr>
+     </tbody>
+    </table>
+    {% endif %}
+
+   </div>
+  </div>
+ </div>
+
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+ <script
+  src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+ <script>
+  $(document).ready(function () {
+   $('.datepicker').datepicker({
+    format: 'dd/mm/yyyy',
+    autoclose: true,
+    todayHighlight: true,
+    language: 'pt-BR'
+   });
+  });
+ </script>
+</main>
+{% endblock %}

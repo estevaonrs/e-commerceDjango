@@ -141,13 +141,22 @@
                         <!-- Color Options -->
                         <div class="mt-5 text-center">
                             <h3 class="mb-3">Cores Disponíveis</h3>
-                            <div class="color-options ">
+                            <div class="color-options">
                                 {% for produto_igual in produtos_iguais %}
+                                {% if produto_igual.modalidade == 'A' and produto.modalidade == 'A' %}
                                 {% if produto_igual.imagem %}
                                 <a href="{% url 'produto:detalhe' produto_igual.slug %}">
                                     <div class="color-option"
                                         style="background-image: url('{{ produto_igual.imagem.url }}');"></div>
                                 </a>
+                                {% endif %}
+                                {% elif produto_igual.modalidade == 'V' and produto.modalidade == 'V' %}
+                                {% if produto_igual.imagem %}
+                                <a href="{% url 'produto:detalhe' produto_igual.slug %}">
+                                    <div class="color-option"
+                                        style="background-image: url('{{ produto_igual.imagem.url }}');"></div>
+                                </a>
+                                {% endif %}
                                 {% endif %}
                                 {% endfor %}
                             </div>

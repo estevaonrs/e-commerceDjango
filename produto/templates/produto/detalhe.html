@@ -63,9 +63,8 @@
 
 
 
-            <!-- Product Information-->
             <div class="col-12 col-md-6 col-lg-5">
-                <div class="sticky-top top-5">
+                <div class="sticky-top top-5" id="product-information">
                     <div class="pb-3" data-aos="fade-in">
 
 
@@ -131,7 +130,7 @@
                                 <input type="number" name="quantidade" id="quantidade" value="1" min="1" required>
                             </div>
                             <div class="text-center">
-                                <button type="submit" class="btn btn-dark btn-lg">
+                                <button type="submit" class="btn btn-dark btn-sm add-to-cart-button">
                                     <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                                     Adicionar ao Carrinho
                                 </button>
@@ -210,6 +209,29 @@
                             .carousel-control-next-icon {
                                 filter: invert(100%);
                             }
+
+                            .add-to-cart-button {
+                                top: 720px;
+                                left: 50%;
+                                width: 200px;
+                                padding: 20px;
+                                border-radius: 5px;
+                            }
+
+                            @media (max-width: 767.98px) {
+                                .add-to-cart-button {
+                                    position: fixed;
+                                    top: 720px;
+                                    left: 50%;
+                                    transform: translateX(-60%);
+                                    z-index: 1030;
+                                    width: 150px;
+                                    height: 40px;
+                                    padding: 0.5rem;
+                                    font-size: 0.8rem;
+                                    border-radius: 5px;
+                                }
+                            }
                         </style>
 
 
@@ -227,5 +249,24 @@
     <!-- /Page Content -->
 </section>
 <!-- / Main Section-->
+<script>
+    // Verifica se o dispositivo é móvel
+    function isMobileDevice() {
+        return window.matchMedia("(max-width: 767.98px)").matches;
+    }
 
+    // Adiciona ou remove a classe 'fixed-bottom' ao botão com base no dispositivo
+    function fixAddToCartButtonPosition() {
+        var addToCartButton = document.querySelector('.add-to-cart-button');
+        if (isMobileDevice() && addToCartButton) {
+            addToCartButton.classList.add('fixed-bottom');
+        } else {
+            addToCartButton.classList.remove('fixed-bottom');
+        }
+    }
+
+    // Chama a função quando a página for carregada e ao redimensionar a tela
+    window.addEventListener('load', fixAddToCartButtonPosition);
+    window.addEventListener('resize', fixAddToCartButtonPosition);
+</script>
 {% endblock %}

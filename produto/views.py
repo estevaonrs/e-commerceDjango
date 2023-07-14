@@ -149,7 +149,11 @@ class ListaProdutosPorTipo(ListView):
     def get_queryset(self):
         tipo_slug = self.kwargs['tipo_slug']
         tipo = get_object_or_404(models.Tipo, slug=tipo_slug)
-        return models.Produto.objects.filter(tipo=tipo)
+        nomes_produtos = Produto.objects.values_list(
+            'nome', flat=True).distinct()
+        queryset = Produto.objects.filter(
+            nome__in=nomes_produtos, is_primary=True, tipo=tipo)
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -172,7 +176,11 @@ class ListaProdutosPorTipoAtacado(ListView):
     def get_queryset(self):
         tipoatacado_slug = self.kwargs['tipoatacado_slug']
         tipoatacado = get_object_or_404(models.Tipo, slug=tipoatacado_slug)
-        return models.Produto.objects.filter(tipo=tipoatacado)
+        nomes_produtos = Produto.objects.values_list(
+            'nome', flat=True).distinct()
+        queryset = Produto.objects.filter(
+            nome__in=nomes_produtos, is_primary=True, tipo=tipoatacado)
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -195,7 +203,11 @@ class ListaProdutosPorCategoria(ListView):
     def get_queryset(self):
         categoria_slug = self.kwargs['categoria_slug']
         categoria = get_object_or_404(models.Categoria, slug=categoria_slug)
-        return models.Produto.objects.filter(categoria=categoria)
+        nomes_produtos = Produto.objects.values_list(
+            'nome', flat=True).distinct()
+        queryset = Produto.objects.filter(
+            nome__in=nomes_produtos, is_primary=True, categoria=categoria)
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -219,7 +231,11 @@ class ListaProdutosPorCategoriaAtacado(ListView):
         categoriaatacado_slug = self.kwargs['categoriaatacado_slug']
         categoriaatacado = get_object_or_404(
             models.Categoria, slug=categoriaatacado_slug)
-        return models.Produto.objects.filter(categoria=categoriaatacado)
+        nomes_produtos = Produto.objects.values_list(
+            'nome', flat=True).distinct()
+        queryset = Produto.objects.filter(
+            nome__in=nomes_produtos, is_primary=True, categoria=categoriaatacado)
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

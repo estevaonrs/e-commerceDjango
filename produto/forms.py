@@ -19,7 +19,7 @@ class CategoriaForm(forms.ModelForm):
 
     class Meta:
         model = Categoria
-        fields = ('nome', 'modalidade')
+        fields = ('nome', 'modalidade', 'imagem')
 
 
 class TipoForm(forms.ModelForm):

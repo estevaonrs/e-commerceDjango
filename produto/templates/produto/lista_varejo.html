@@ -32,24 +32,7 @@
     }
 </style>
 
-<div class="d-flex justify-content-center w-100 mt-0">
-    <!-- Sort Options -->
-    <div class="card custom-card w-100 overflow-auto">
-        <div class="card-body d-flex justify-content-start border-0">
-            <div class="d-flex flex-nowrap">
-                {% for categoria in categorias %}
-                {% if categoria.modalidade == 'V' %}
 
-                <a href="{% url 'produto:lista_por_categoria' categoria.slug %}"
-                    class="card-text text-white mx-2 text-decoration-none" style="white-space: nowrap;">
-                    | {{ categoria.nome }}
-                </a>
-                {% endif %}
-                {% endfor %}
-            </div>
-        </div>
-    </div>
-</div>
 
 <!-- Main Section-->
 <section class="mt-0 overflow-hidden ">
@@ -58,27 +41,27 @@
     <!-- / Top banner -->
     <section class="vh-75 vh-lg-60 container-fluid rounded overflow-hidden" data-aos="fade-in">
         <!-- Swiper Info -->
-        <div class="swiper-container overflow-hidden rounded h-100 bg-light" data-swiper data-options='{
-              "spaceBetween": 0,
-              "slidesPerView": 1,
-              "effect": "fade",
-              "speed": 1000,
-              "loop": true,
-              "parallax": true,
-              "observer": true,
-              "observeParents": true,
-              "lazy": {
+        <div class="swiper-container overflow-hidden rounded h-100 bg-light w-100" data-swiper data-options='{
+            "spaceBetween": 0,
+            "slidesPerView": 1,
+            "effect": "fade",
+            "speed": 1000,
+            "loop": true,
+            "parallax": true,
+            "observer": true,
+            "observeParents": true,
+            "lazy": {
                 "loadPrevNext": true
-                },
-                "autoplay": {
-                  "delay": 5000,
-                  "disableOnInteraction": false
-              },
-              "pagination": {
+            },
+            "autoplay": {
+                "delay": 5000,
+                "disableOnInteraction": false
+            },
+            "pagination": {
                 "el": ".swiper-pagination",
                 "clickable": true
-                }
-              }'>
+            }
+        }'>
             <div class="swiper-wrapper">
 
                 <!-- Slide 1 -->
@@ -100,9 +83,8 @@
             </div>
 
             <div class="swiper-pagination swiper-pagination-bullet-light"></div>
-
         </div>
-        <!-- / Swiper Info-->
+        <!-- / Swiper Info -->
     </section>
     <!--/ Top Banner-->
 
@@ -365,9 +347,16 @@
     </div>
 
     <br><br>
-    <div class="container-fluid">
 
-        <!-- Featured Categories-->
+
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between items-center pt-5 pb-4 flex-column flex-lg-row">
+            <div>
+                <h1 class="fw-bold fs-3 mb-2">COLEÇÕES</h1>
+            </div>
+
+        </div> <!-- /Category Toolbar-->
+
         <div class="m-0">
             <!-- Swiper Latest -->
             <div class="swiper-container overflow-hidden overflow-lg-visible" data-swiper data-options='{
@@ -398,42 +387,30 @@
                               "prevEl": ".swiper-prev"
                             }
                           }'>
+
                 <div class="swiper-wrapper">
+
+                    {% for categoria in categorias %}
+                    {% if categoria.modalidade == 'V' %}
                     <div class="swiper-slide align-self-stretch bg-transparent h-auto">
                         <div class="me-xl-n4 me-xxl-n5" data-aos="fade-up" data-aos-delay="000">
-                            <picture class="d-block mb-4 img-clip-shape-one">
-                                <img class="w-100" title="" src="{% static 'images/categories/minibanner-1.png' %}"
-                                    alt="HTML Bootstrap Template by Pixel Rocket">
-                            </picture>
-                            <p class="title-small mb-2 text-muted">American Brand</p>
-                            <h4 class="lead fw-bold">American Brand</h4>
-                            <a href="" class="btn btn-psuedo align-self-start">Compre Agora</a>
-                        </div>
-                    </div>
+                            {% if categoria.imagem %}
 
-                    <div class="swiper-slide align-self-stretch bg-transparent h-auto">
-                        <div class="me-xl-n4 me-xxl-n5" data-aos="fade-up" data-aos-delay="100">
                             <picture class="d-block mb-4 img-clip-shape-one">
-                                <img class="w-100" title="" src="{% static 'images/categories/minibanner-2.png' %}"
-                                    alt="HTML Bootstrap Template by Pixel Rocket">
+                                <a href="{% url 'produto:lista_por_categoria' categoria.slug %}">
+                                    <img class="w-100" title="" src="{{ categoria.imagem.url }}"
+                                        alt="HTML Bootstrap Template by Pixel Rocket">
+                                </a>
                             </picture>
-                            <p class="title-small mb-2 text-muted">American Brand</p>
-                            <h4 class="lead fw-bold">American Brand</h4>
-                            <a href="" class="btn btn-psuedo align-self-start">Compre Agora</a>
+                            {% endif %}
+                            <p class="title-small mb-2 text-muted">{{ categoria.nome }}</p>
+                            <a href="{% url 'produto:lista_por_categoria' categoria.slug %}"
+                                class="btn btn-psuedo align-self-start">Compre Agora</a>
                         </div>
                     </div>
+                    {% endif %}
+                    {% endfor %}
 
-                    <div class="swiper-slide align-self-stretch bg-transparent h-auto">
-                        <div class="me-xl-n4 me-xxl-n5" data-aos="fade-up" data-aos-delay="200">
-                            <picture class="d-block mb-4 img-clip-shape-one">
-                                <img class="w-100" title="" src="{% static 'images/categories/minibanner-3.png' %}"
-                                    alt="HTML Bootstrap Template by Pixel Rocket">
-                            </picture>
-                            <p class="title-small mb-2 text-muted">American Brand</p>
-                            <h4 class="lead fw-bold">American Brand</h4>
-                            <a href="" class="btn btn-psuedo align-self-start">Compre Agora</a>
-                        </div>
-                    </div>
 
                 </div>
 
@@ -458,12 +435,7 @@
                 </defs>
             </svg>
         </div>
-        <!-- /Featured Categories-->
 
-
-        <!-- Homepage Banners-->
-
-        <!-- / Homepage Banners-->
 
         <!-- Instagram-->
         <!-- Swiper Instagram -->

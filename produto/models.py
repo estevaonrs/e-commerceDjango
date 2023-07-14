@@ -25,6 +25,8 @@ class Categoria(models.Model):
             ('V', 'Varejo'),
         )
     )
+    imagem = models.ImageField(
+        upload_to='categoria_imagens/%Y/%m/', blank=True, null=True)
 
     def __str__(self):
         return self.nome
@@ -245,6 +247,14 @@ class Influenciadores(models.Model):
                             verbose_name='Data do envio')
     produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
     quantidade = models.IntegerField()
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+        # Atualizar estoque da Variação selecionada
+        variacao = self.variacao
+        variacao.estoque -= self.quantidade
+        variacao.save()
 
     def __str__(self):
         return self.nome or self.nome

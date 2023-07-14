@@ -378,21 +378,21 @@
 
         <div class="swiper-wrapper">
 
-          {% for categoriaatacado in categoriasatacados %}
-          {% if categoriaatacado.modalidade == 'A' %}
+          {% for categoria in categorias %}
+          {% if categoria.modalidade == 'A' %}
           <div class="swiper-slide align-self-stretch bg-transparent h-auto">
             <div class="me-xl-n4 me-xxl-n5" data-aos="fade-up" data-aos-delay="000">
-              {% if categoriaatacado.imagem %}
+              {% if categoria.imagem %}
 
               <picture class="d-block mb-4 img-clip-shape-one">
-                <a href="{% url 'produto:lista_por_categoria_atacado' categoriaatacado.slug %}">
+                <a href="{% url 'produto:lista_por_categoria_atacado' categoria.slug %}">
                   <img class="w-100" title="" src="{{ categoria.imagem.url }}"
                     alt="HTML Bootstrap Template by Pixel Rocket">
                 </a>
               </picture>
               {% endif %}
-              <p class="title-small mb-2 text-muted">{{ categoriaatacado.nome }}</p>
-              <a href="{% url 'produto:lista_por_categoria_atacado' categoriaatacado.slug %}"
+              <p class="title-small mb-2 text-muted">{{ categoria.nome }}</p>
+              <a href="{% url 'produto:lista_por_categoria_atacado' categoria.slug %}"
                 class="btn btn-psuedo align-self-start">Compre Agora</a>
             </div>
           </div>

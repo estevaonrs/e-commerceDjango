@@ -309,57 +309,20 @@
         </div>
         <!-- / Products-->
 
-        <!-- Pagination-->
-        <div class="pagination">
-            <ul class="pagination">
-                {% if page_obj.has_previous %}
-                <li class="page-item">
-                    <a class="page-link" href="?page=1">&laquo;</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&lsaquo;</a>
-                </li>
-                {% endif %}
-
-                {% for num in page_obj.paginator.page_range %}
-
-                {% if page_obj.number == num %}
-                <li class="page-item active">
-                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
-                </li>
-                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %} <li class="page-item">
-                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
-                    </li>
-                    {% endif %}
-
-                    {% endfor %}
-
-                    {% if page_obj.has_next %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">&rsaquo;</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a>
-                    </li>
-                    {% endif %}
-            </ul>
-        </div> <!-- / Pagination-->
-    </div>
-
-    <br><br>
+        <br><br>
 
 
-    <div class="container-fluid">
-        <div class="d-flex justify-content-between items-center pt-5 pb-4 flex-column flex-lg-row">
-            <div>
-                <h1 class="fw-bold fs-3 mb-2">COLEÇÕES</h1>
-            </div>
+        <div class="container-fluid">
+            <div class="d-flex justify-content-between items-center pt-5 pb-4 flex-column flex-lg-row">
+                <div>
+                    <h1 class="fw-bold fs-3 mb-2">COLEÇÕES</h1>
+                </div>
 
-        </div> <!-- /Category Toolbar-->
+            </div> <!-- /Category Toolbar-->
 
-        <div class="m-0">
-            <!-- Swiper Latest -->
-            <div class="swiper-container overflow-hidden overflow-lg-visible" data-swiper data-options='{
+            <div class="m-0">
+                <!-- Swiper Latest -->
+                <div class="swiper-container overflow-hidden overflow-lg-visible" data-swiper data-options='{
                             "spaceBetween": 25,
                             "slidesPerView": 1,
                             "observer": true,
@@ -388,95 +351,95 @@
                             }
                           }'>
 
-                <div class="swiper-wrapper">
+                    <div class="swiper-wrapper">
 
-                    {% for categoria in categorias %}
-                    {% if categoria.modalidade == 'V' %}
-                    <div class="swiper-slide align-self-stretch bg-transparent h-auto">
-                        <div class="me-xl-n4 me-xxl-n5" data-aos="fade-up" data-aos-delay="000">
-                            {% if categoria.imagem %}
+                        {% for categoria in categorias %}
+                        {% if categoria.modalidade == 'V' %}
+                        <div class="swiper-slide align-self-stretch bg-transparent h-auto">
+                            <div class="me-xl-n4 me-xxl-n5" data-aos="fade-up" data-aos-delay="000">
+                                {% if categoria.imagem %}
 
-                            <picture class="d-block mb-4 img-clip-shape-one">
-                                <a href="{% url 'produto:lista_por_categoria' categoria.slug %}">
-                                    <img class="w-100" title="" src="{{ categoria.imagem.url }}"
-                                        alt="HTML Bootstrap Template by Pixel Rocket">
-                                </a>
-                            </picture>
-                            {% endif %}
-                            <p class="title-small mb-2 text-muted">{{ categoria.nome }}</p>
-                            <a href="{% url 'produto:lista_por_categoria' categoria.slug %}"
-                                class="btn btn-psuedo align-self-start">Compre Agora</a>
+                                <picture class="d-block mb-4 img-clip-shape-one">
+                                    <a href="{% url 'produto:lista_por_categoria' categoria.slug %}">
+                                        <img class="w-100" title="" src="{{ categoria.imagem.url }}"
+                                            alt="HTML Bootstrap Template by Pixel Rocket">
+                                    </a>
+                                </picture>
+                                {% endif %}
+                                <p class="title-small mb-2 text-muted">{{ categoria.nome }}</p>
+                                <a href="{% url 'produto:lista_por_categoria' categoria.slug %}"
+                                    class="btn btn-psuedo align-self-start">Compre Agora</a>
+                            </div>
                         </div>
+                        {% endif %}
+                        {% endfor %}
+
+
                     </div>
-                    {% endif %}
-                    {% endfor %}
 
+                    <div
+                        class="swiper-btn swiper-prev swiper-disabled-hide swiper-btn-side btn-icon bg-white text-dark ms-3 shadow mt-n5">
+                        <i class="ri-arrow-left-s-line "></i>
+                    </div>
+                    <div
+                        class="swiper-btn swiper-next swiper-disabled-hide swiper-btn-side swiper-btn-side-right btn-icon bg-white text-dark me-3 shadow mt-n5">
+                        <i class="ri-arrow-right-s-line ri-lg"></i>
+                    </div>
 
                 </div>
-
-                <div
-                    class="swiper-btn swiper-prev swiper-disabled-hide swiper-btn-side btn-icon bg-white text-dark ms-3 shadow mt-n5">
-                    <i class="ri-arrow-left-s-line "></i>
-                </div>
-                <div
-                    class="swiper-btn swiper-next swiper-disabled-hide swiper-btn-side swiper-btn-side-right btn-icon bg-white text-dark me-3 shadow mt-n5">
-                    <i class="ri-arrow-right-s-line ri-lg"></i>
-                </div>
-
+                <!-- / Swiper Latest--> <!-- SVG Used for Clipath on featured images above-->
+                <svg width="0" height="0">
+                    <defs>
+                        <clipPath id="svg-slanted-one" clipPathUnits="objectBoundingBox">
+                            <path
+                                d="M0.822,1 H0.016 a0.015,0.015,0,0,1,-0.016,-0.015 L0.158,0.015 A0.016,0.015,0,0,1,0.173,0 L0.984,0 a0.016,0.015,0,0,1,0.016,0.015 L0.837,0.985 A0.016,0.015,0,0,1,0.822,1">
+                            </path>
+                        </clipPath>
+                    </defs>
+                </svg>
             </div>
-            <!-- / Swiper Latest--> <!-- SVG Used for Clipath on featured images above-->
-            <svg width="0" height="0">
-                <defs>
-                    <clipPath id="svg-slanted-one" clipPathUnits="objectBoundingBox">
-                        <path
-                            d="M0.822,1 H0.016 a0.015,0.015,0,0,1,-0.016,-0.015 L0.158,0.015 A0.016,0.015,0,0,1,0.173,0 L0.984,0 a0.016,0.015,0,0,1,0.016,0.015 L0.837,0.985 A0.016,0.015,0,0,1,0.822,1">
-                        </path>
-                    </clipPath>
-                </defs>
-            </svg>
+
+
+            <!-- Instagram-->
+            <!-- Swiper Instagram -->
+            <div data-aos="fade-in">
+                <h3 class="title-small text-muted text-center mb-3 mt-5">
+                    <i class="ri-instagram-line align-bottom"></i>
+                    <a href="https://www.instagram.com/americanbrandbr/">AMERICANBRANDBR</a>
+                </h3>
+            </div>
+            <!-- /Swiper Instagram-->
+            <!-- / Instagram-->
+
         </div>
+        <style>
+            .custom-card {
+                background-color: #333333;
+                /* Cor de fundo cinza */
+                padding: 01px;
+                margin-bottom: 10px;
+            }
 
+            .custom-card .card-text:hover {
+                background-color: #212529;
+                color: #212529;
 
-        <!-- Instagram-->
-        <!-- Swiper Instagram -->
-        <div data-aos="fade-in">
-            <h3 class="title-small text-muted text-center mb-3 mt-5">
-                <i class="ri-instagram-line align-bottom"></i>
-                <a href="https://www.instagram.com/americanbrandbr/">AMERICANBRANDBR</a>
-            </h3>
-        </div>
-        <!-- /Swiper Instagram-->
-        <!-- / Instagram-->
+            }
 
-    </div>
-    <style>
-        .custom-card {
-            background-color: #333333;
-            /* Cor de fundo cinza */
-            padding: 01px;
-            margin-bottom: 10px;
-        }
+            .btn-outline-secondary:hover {
+                background-color: #333;
+                color: white;
+            }
 
-        .custom-card .card-text:hover {
-            background-color: #212529;
-            color: #212529;
+            .scroll-container {
+                overflow-x: auto;
+            }
 
-        }
-
-        .btn-outline-secondary:hover {
-            background-color: #333;
-            color: white;
-        }
-
-        .scroll-container {
-            overflow-x: auto;
-        }
-
-        .btn-custom {
-            white-space: nowrap;
-        }
-    </style>
-    <!-- /Page Content -->
+            .btn-custom {
+                white-space: nowrap;
+            }
+        </style>
+        <!-- /Page Content -->
 </section>
 <!-- / Main Section-->
 

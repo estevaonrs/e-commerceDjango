@@ -20,30 +20,54 @@ from django.db.models import Q
 def codigo_acesso(request):
     perfil = Cliente.objects.filter(usuario=request.user).first()
 
-    if not perfil or not perfil.codigo:
-        return render(request, 'codigo_acesso.html', {'erro': 'Você não tem acesso ao catálogo de atacado, fale com a loja!'})
+    # Verificar se o cliente já digitou o código de acesso nesta sessão
+    codigo_acesso_digitado = request.session.get(
+        'codigo_acesso_digitado', False)
 
-    if request.method == 'POST':
-        codigo_digitado = request.POST.get('codigo', '')
-
-        if codigo_digitado == perfil.codigo:
-            nomes_produtos = Produto.objects.values_list(
-                'nome', flat=True).distinct()
-            produtos = Produto.objects.filter(
-                nome__in=nomes_produtos, is_primary=True).order_by('-destaque', '-id')
-            categorias = Categoria.objects.all()
-            tipos = Tipo.objects.all()
-
-            context = {
-                'produtos': produtos,
-                'categorias': categorias,
-                'tipos': tipos
-            }
-            return render(request, 'produto/lista_atacado.html', context)
+    if not codigo_acesso_digitado:
+        if not perfil or not perfil.codigo:
+            return render(request, 'codigo_acesso.html', {'erro': 'Você não tem acesso ao catálogo de atacado, fale com a loja!'})
         else:
-            return render(request, 'codigo_acesso.html', {'erro': 'Código inválido.'})
+            # Se o perfil do cliente possui o código, mas ainda não foi digitado nesta sessão, solicite o código.
+            if request.method == 'POST':
+                codigo_digitado = request.POST.get('codigo', '')
 
-    return render(request, 'codigo_acesso.html')
+                if codigo_digitado == perfil.codigo:
+                    # Se o código estiver correto, armazene o indicador na sessão
+                    request.session['codigo_acesso_digitado'] = True
+
+                    nomes_produtos = Produto.objects.values_list(
+                        'nome', flat=True).distinct()
+                    produtos = Produto.objects.filter(
+                        nome__in=nomes_produtos, is_primary=True).order_by('-destaque', '-id')
+                    categorias = Categoria.objects.all()
+                    tipos = Tipo.objects.all()
+
+                    context = {
+                        'produtos': produtos,
+                        'categorias': categorias,
+                        'tipos': tipos
+                    }
+                    return render(request, 'produto/lista_atacado.html', context)
+                else:
+                    return render(request, 'codigo_acesso.html', {'erro': 'Código inválido.'})
+            else:
+                return render(request, 'codigo_acesso.html')
+
+    # Se o código já foi digitado nesta sessão e é válido, redirecione para a lista_atacado
+    nomes_produtos = Produto.objects.values_list(
+        'nome', flat=True).distinct()
+    produtos = Produto.objects.filter(
+        nome__in=nomes_produtos, is_primary=True).order_by('-destaque', '-id')
+    categorias = Categoria.objects.all()
+    tipos = Tipo.objects.all()
+
+    context = {
+        'produtos': produtos,
+        'categorias': categorias,
+        'tipos': tipos
+    }
+    return render(request, 'produto/lista_atacado.html', context)
 
 
 def reset_codigo_cliente():

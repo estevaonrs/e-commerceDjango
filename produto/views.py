@@ -341,52 +341,56 @@ class ProdutoUpdateView(LoginRequiredMixin, UpdateView):
         Produto, ImagemProduto, fields=('imagem',), extra=3)
 
     def form_valid(self, form):
-        form.instance.user = self.request.user
-        produto = form.save(commit=False)
-        produto.save()
+        if self.request.method == 'POST':
+            form.instance.user = self.request.user
+            produto = form.save(commit=False)
+            produto.save()
 
-        imagem_formset = self.ImagemProdutoFormSet(
-            self.request.POST, self.request.FILES, instance=produto)
+            imagem_formset = self.ImagemProdutoFormSet(
+                self.request.POST, self.request.FILES, instance=produto)
 
-        if imagem_formset.is_valid():
-            imagem_formset.save()
+            if imagem_formset.is_valid():
+                imagem_formset.save()
 
-        nome_variacao = self.request.POST.getlist('nome_variacao[]')
-        preco_variacao = self.request.POST.getlist('preco[]')
-        preco_promocional_variacao = self.request.POST.getlist(
-            'preco_promocional[]')
-        estoque_variacao = self.request.POST.getlist('estoque_variacao[]')
-        excluir_variacao_ids = self.request.POST.getlist(
-            'excluir_variacao_id[]')
+            nome_variacao = self.request.POST.getlist('nome_variacao[]')
+            preco_variacao = self.request.POST.getlist('preco[]')
+            preco_promocional_variacao = self.request.POST.getlist(
+                'preco_promocional[]')
+            estoque_variacao = self.request.POST.getlist('estoque_variacao[]')
+            excluir_variacao_ids = self.request.POST.getlist(
+                'excluir_variacao_id[]')
+            variacao_ids = self.request.POST.getlist('variacao_id[]')
 
-        for i in range(len(nome_variacao)):
-            variacao_id = self.request.POST.getlist('variacao_id[]')[i]
-
-            if variacao_id in excluir_variacao_ids:
+            # Remova as variações existentes que estão marcadas para exclusão
+            for variacao_id in excluir_variacao_ids:
                 Variacao.objects.filter(id=variacao_id).delete()
-                continue
 
-            if variacao_id:
-                variacao = Variacao.objects.get(id=variacao_id)
+            # Salva ou atualiza as variações adicionadas/alteradas
+            num_variacoes = len(nome_variacao)
+            for i in range(num_variacoes):
+                variacao_id = variacao_ids[i] if i < len(
+                    variacao_ids) else None
+
+                if variacao_id:
+                    variacao = Variacao.objects.get(id=variacao_id)
+                else:
+                    variacao = Variacao(produto=produto)
+
                 variacao.nome = nome_variacao[i]
-                variacao.preco = preco_variacao[i].replace(
-                    ',', '.')  # Substituir vírgula por ponto
-                variacao.preco_promocional = preco_promocional_variacao[i].replace(
-                    ',', '.') or None  # Substituir vírgula por ponto
-                variacao.estoque = estoque_variacao[i]
-                variacao.save()
-            else:
-                variacao = Variacao.objects.create(
-                    produto=produto,
-                    nome=nome_variacao[i],
-                    # Substituir vírgula por ponto
-                    preco=preco_variacao[i].replace(',', '.'),
-                    preco_promocional=preco_promocional_variacao[i].replace(
-                        ',', '.') or None,  # Substituir vírgula por ponto
-                    estoque=estoque_variacao[i]
-                )
+                variacao.preco = preco_variacao[i].replace(',', '.')
+                variacao.estoque = estoque_variacao[i] if i < len(
+                    estoque_variacao) else 0
 
-        return redirect(self.get_success_url())
+                # Verifica se o campo preco_promocional_variacao[i] possui valor
+                preco_promocional = preco_promocional_variacao[i].replace(
+                    ',', '.') if preco_promocional_variacao[i] else None
+                variacao.preco_promocional = preco_promocional
+
+                variacao.save()
+
+            return redirect(self.get_success_url())
+
+        return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

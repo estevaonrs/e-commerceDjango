@@ -261,8 +261,9 @@
                 {% else %}
                 <h1 class="mt-2 mb-0 small" style="font-weight: bold;">
                   </p>{{ produto.preco_marketing|formata_preco }}</h1>
-                {% endif %}
-                <a href="{% url 'produto:detalhe' produto.slug %}" class="btn btn-psuedo align-self-start">Compre
+                {% endif %}<br>
+                <a href="{% url 'produto:detalhe' produto.slug %}"
+                  class="btn btn-outline-secondary btn-md rounded btn-custom">Compre
                   Agora</a>
               </div>
             </div>
@@ -293,8 +294,9 @@
                 {% else %}
                 <h1 class="mt-2 mb-0 small" style="font-weight: bold;">
                   </p>{{ produto.preco_marketing|formata_preco }}</h1>
-                {% endif %}
-                <a href="{% url 'produto:detalhe' produto.slug %}" class="btn btn-psuedo align-self-start">Compre
+                {% endif %}<br>
+                <a href="{% url 'produto:detalhe' produto.slug %}"
+                  class="btn btn-outline-secondary btn-md rounded btn-custom">Compre
                   Agora</a>
               </div>
             </div>
@@ -382,9 +384,9 @@
                     </a>
                   </picture>
                   {% endif %}
-                  <p class="title-small mb-2 text-muted">{{ categoria.nome }}</p>
+                  <p class="title-small mb-2 text-muted">{{ categoria.nome }}</p><br>
                   <a href="{% url 'produto:lista_por_categoria_atacado' categoria.slug %}"
-                    class="btn btn-psuedo align-self-start">Compre Agora</a>
+                    class="btn btn-outline-secondary btn-md rounded btn-custom">Compre Agora</a>
                 </div>
               </div>
               {% endif %}

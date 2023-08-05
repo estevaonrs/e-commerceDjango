@@ -523,9 +523,15 @@ class DetalheProduto(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         produto = self.get_object()
-        produtos_iguais = Produto.objects.filter(
-            nome=produto.nome)
+        produtos_iguais = Produto.objects.filter(nome=produto.nome)
         context['produtos_iguais'] = produtos_iguais
+
+        # Acessar o carrinho da sessão e adicionar ao contexto
+        carrinho = self.request.session.get('carrinho', {})
+        totals = cart_totals(carrinho)
+        context['carrinho'] = carrinho
+        context['cart_totals'] = totals
+
         return context
 
 

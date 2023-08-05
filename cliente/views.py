@@ -1,4 +1,5 @@
 from datetime import datetime
+from utils.utils import cart_totals
 
 from .forms import FiadoForm
 from django.shortcuts import render, redirect
@@ -48,6 +49,13 @@ def codigo_acesso(request):
                         'categorias': categorias,
                         'tipos': tipos
                     }
+
+                    # Acessar o carrinho da sessão e adicionar ao contexto
+                    carrinho = request.session.get('carrinho', {})
+                    totals = cart_totals(carrinho)
+                    context['carrinho'] = carrinho
+                    context['cart_totals'] = totals
+
                     return render(request, 'produto/lista_atacado.html', context)
                 else:
                     return render(request, 'codigo_acesso.html', {'erro': 'Código inválido.'})
@@ -67,6 +75,13 @@ def codigo_acesso(request):
         'categorias': categorias,
         'tipos': tipos
     }
+
+    # Acessar o carrinho da sessão e adicionar ao contexto
+    carrinho = request.session.get('carrinho', {})
+    totals = cart_totals(carrinho)
+    context['carrinho'] = carrinho
+    context['cart_totals'] = totals
+
     return render(request, 'produto/lista_atacado.html', context)
 
 

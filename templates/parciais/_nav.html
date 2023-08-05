@@ -23,6 +23,65 @@
             text-align: center;
         }
     }
+
+    .navbar {
+        display: flex;
+        align-items: center;
+    }
+
+    .navbar-container {
+        flex: 1;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .nav-icons {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .search-icon {
+        margin-right: 1px;
+        /* Ajuste o valor conforme necessário */
+    }
+
+    .cart-icon {
+        margin-right: 1px;
+        /* Ajuste o valor conforme necessário */
+    }
+
+    /* Estilos para o ícone de pesquisa */
+    #searchIcon {
+        color: #fff;
+        background-color: #000;
+        border-radius: 10%;
+        border-color: #000;
+        text-decoration: none;
+    }
+
+    /* Estilos para o formulário de busca no dropdown */
+    .search-form {
+        display: none;
+        position: absolute;
+        top: 100%;
+        padding: 0px;
+        right: 0;
+        min-width: 250px;
+        background-color: #fff;
+        box-shadow: #000;
+        z-index: 1000;
+    }
+
+    .search-form.active {
+        display: block;
+    }
+
+    .search-form input[type="text"] {
+        background-color: #f2f2f2;
+        height: 40px;
+    }
 </style>
 <div class="header">
     <div class="container">
@@ -42,29 +101,118 @@
     </div>
 </div>
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #000; margin-bottom: 10px;">
-    <div class="container-fluid position-relative">
-        <a class="navbar-brand d-flex justify-content-center align-items-center" href="{% url 'produto:lista' %}">
-            <img src="{% static 'images/logos/logoab.png'%}" alt="HTML Bootstrap Template by Pixel Rocket"
-                style="width: 280px; margin-top: 05px;" class="img-fluid">
-        </a>
+    <div class="container-fluid">
+        <div class="navbar-container">
+            <!-- Ícone do toggle do menu na esquerda -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation"
+                style="border-radius: 10%; background-color: #000; border-color: #000; text-decoration: none;">
+                <i class="fi fi-rs-burger-menu" style="color: #fff;"></i>
+            </button>
 
-        {% if request.session.carrinho %}
-        <a class="navbar-toggler" href="{% url 'produto:carrinho' %}"
-            style="background-color: #000; position: absolute; top: 65%; right: 15px; border-radius: 10%; border-color: #000; text-decoration: none;">
-            <i class="fi fi-rs-shopping-bag" style="color: #fff;"></i>
-        </a>
-        {% endif %}
+            <!-- Logo -->
+            <a class="navbar-brand d-flex justify-content-center align-items-center" href="{% url 'produto:lista' %}">
+                <img src="{% static 'images/logos/logoab.png'%}" alt="HTML Bootstrap Template by Pixel Rocket"
+                    style="width: 200px; margin-top: 05px;" class="img-fluid">
+            </a>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
-            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation"
-            style="border-radius: 10%; background-color: #000; border-color: #000;">
-            <i class="fi fi-rs-burger-menu" style="color: #fff;"></i>
-        </button>
+
+
+            <div class="d-flex justify-content-center align-items-center pt-5 pb-4 flex-column flex-lg-row">
+                <!-- Ícone de busca -->
+                <div class="me-2" style="margin-left: 30px;">
+                    <div class="search-dropdown">
+                        <!-- Ícone de pesquisa -->
+                        <a id="searchIcon" class="navbar-toggler search-icon" href="#searchForm">
+                            <span class="navbar-brand text-body cursor-pointer">
+                                <i class="ri-search-line ri-lg" style="color: #fff;"></i>
+                            </span>
+                        </a>
+
+                        <!-- Formulário de busca no dropdown -->
+                        <div class="search-form" id="searchForm">
+                            <form method="GET" action="{% url 'produto:busca' %}">
+                                <div class="input-group align-items-stretch mb-3">
+                                    <input name="termo" value="{{ request.GET.termo }}"
+                                        style="background-color: #d3d3d3;" class="form-control text-body  border-0"
+                                        placeholder="Procure por produtos...">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-secondary py-0" type="submit"
+                                            style="background-color: #333; border-color: #333; height: 51px;">
+                                            <i class="fi fi-rs-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ícone do carrinho -->
+                {% if request.session.carrinho %}
+                <!-- Ícone do carrinho com Dropdown no modo mobile -->
+                <div class="me-lg-auto">
+                    <div class="dropdown d-block d-lg-none">
+                        <a class="btn btn-dark dropdown-toggle" style="background-color: #000; border-color: #000;"
+                            href="#" role="button" id="dropdownCart" data-bs-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            <i class="fi fi-rs-shopping-bag" style="color: #fff;"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownCart">
+                            <!-- Conteúdo do dropdown do carrinho -->
+                            <div>
+                                <h6 class="fw-bolder" style=" white-space: nowrap; ">Resumo do carrinho ({{
+                                    request.session.carrinho|cart_total_qtd }} itens)</h6>
+                            </div>
+                            <div>
+                                {% for linha in carrinho.values %}
+                                <!-- Cart Product-->
+                                <div class="row mx-0 py-3 border-bottom">
+                                    <div class="col-3">
+                                        <picture class="d-block" style=" width: 50px;">
+                                            <img class="img-fluid" src="{% get_media_prefix %}{{ linha.imagem }}"
+                                                alt="HTML Bootstrap Template by Pixel Rocket">
+                                        </picture>
+                                    </div>
+                                    <div class="col-9">
+                                        <div>
+                                            <h6 class="justify-content-between d-flex align-items-start mb-2"
+                                                style=" margin-left: 50px;">
+                                                {{ linha.produto_nome }}({{ linha.quantidade }}X)
+
+                                            </h6>
+                                        </div>
+                                        <p class="fw-bolder text-end text-muted m-0">
+                                            {% if linha.preco_quantitativo_promocional %}
+                                            {{ linha.preco_quantitativo_promocional|formata_preco }}
+                                            {% else %}
+                                            {{ linha.preco_quantitativo|formata_preco }}
+                                            {% endif %}
+                                        </p>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <div class="dropdown-footer">
+                                <a href="{% url 'produto:carrinho' %}" class="btn btn-outline-dark w-100"
+                                    role="button">Ver Carrinho</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div> <!-- /Category Toolbar -->
+        </div>
+
+
+
+
 
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav ms-auto"> <!-- Adicionada a classe ms-auto -->
+            <ul class="navbar-nav ms-auto">
                 <li class="nav-item" style="margin-top: 15px;">
-                    <form class="input-group" method="GET" action="{% url 'produto:busca' %}">
+                    <form class="d-none d-lg-flex input-group" method="GET" action="{% url 'produto:busca' %}"
+                        style="margin-right: 20px;">
                         <input name="termo" value="{{ request.GET.termo }}" class="form-control border-0"
                             placeholder="Pesquisar" style="background-color: #f2f2f2; height: 40px;">
                         <div class="input-group-append">
@@ -75,15 +223,77 @@
                         </div>
                     </form>
                 </li>
-                <br>
+
                 {% if request.session.carrinho %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'produto:carrinho' %}"
-                        style="font-size: 14px; background-color:  #000;">
-                        Carrinho <i class="fi fi-rs-shopping-bag"></i>({{ request.session.carrinho|cart_total_qtd }}X)
-                    </a>
+                <li class="ms-1 d-inline-block position-relative dropdown-cart" style="margin-top: -2px;">
+                    <button class="nav-link me-0 disable-child-pointer border-0 p-0 bg-transparent" type="button">
+                        <a class="nav-link" href="" style="font-size: 15px; background-color:  #000;">
+                            Carrinho <i class="fi fi-rs-shopping-bag"></i>
+                            ({{ request.session.carrinho|cart_total_qtd}})
+                        </a>
+
+                    </button>
+                    <div class="cart-dropdown dropdown-menu">
+
+                        <!-- Cart Header-->
+                        <div class="d-flex justify-content-between align-items-center border-bottom pt-3 pb-4">
+                            <h6 class="fw-bolder m-0">Resumo do carrinho {{ request.session.carrinho|cart_total_qtd}}
+                                itens</h6>
+                            <i class="ri-close-circle-line text-muted ri-lg cursor-pointer btn-close-cart"></i>
+                        </div>
+                        <!-- / Cart Header-->
+
+                        <!-- Cart Items-->
+                        <div>
+                            {% for linha in carrinho.values %}
+                            <!-- Cart Product-->
+                            <div class="row mx-0 py-4 g-0 border-bottom">
+                                <div class="col-2 position-relative">
+                                    <picture class="d-block ">
+                                        <img class="img-fluid" src="{% get_media_prefix %}{{ linha.imagem }}"
+                                            alt="HTML Bootstrap Template by Pixel Rocket">
+                                    </picture>
+                                </div>
+                                <div class="col-9 offset-1">
+                                    <div>
+                                        <h6 class="justify-content-between d-flex align-items-start mb-2">
+                                            {{ linha.produto_nome }} ({{ linha.quantidade }}X)
+                                        </h6>
+
+                                    </div>
+                                    <p class="fw-bolder text-end text-muted m-0">
+                                        {% if linha.preco_quantitativo_promocional %}
+                                        {{ linha.preco_quantitativo_promocional|formata_preco }}
+                                        {% else %}
+                                        {{ linha.preco_quantitativo|formata_preco }}
+                                        {% endif %}</p>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <!-- /Cart Items-->
+
+                        <!-- Cart Summary-->
+                        <div>
+                            <div class="pt-3">
+                                <div
+                                    class="d-flex flex-column flex-md-row justify-content-md-between align-items-md-start mb-4 mb-md-2">
+
+                                </div>
+                            </div>
+                            <a href="{% url 'produto:carrinho' %}" class="btn btn-dark w-100 text-center mt-2"
+                                role="button">Ver Carrinho</a>
+
+                        </div>
+                        <!-- / Cart Summary-->
+                    </div>
+
+
                 </li>
                 {% endif %}
+                <br>
+
+
                 {% if request.user.is_authenticated %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -128,4 +338,28 @@
             </ul>
         </div>
     </div>
+    <script>
+        function hideCartInToggle() {
+            const cartToggle = document.querySelector('.navbar-toggler');
+            const cartLink = document.querySelector('.dropdown-cart');
+
+            if (window.innerWidth <= 767) {
+                cartLink.classList.add('d-none');
+            } else {
+                cartLink.classList.remove('d-none');
+            }
+        }
+
+        // Executa a função ao carregar a página
+        hideCartInToggle();
+
+        // Executa a função sempre que o tamanho da tela é alterado
+        window.addEventListener('resize', hideCartInToggle);
+
+        // Adicione um evento de clique para mostrar/ocultar o formulário de busca no dropdown
+        document.getElementById("searchIcon").addEventListener("click", function () {
+            const searchForm = document.getElementById("searchForm");
+            searchForm.classList.toggle("active");
+        });
+    </script>
 </nav>

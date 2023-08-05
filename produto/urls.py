@@ -90,6 +90,8 @@ urlpatterns = [
          InfluenciadoresDeleteView.as_view(), name='influenciadores_delete'),
     path('lista_influenciadores/', views.InfluenciadoresListView.as_view(),
          name='lista_influenciadores'),
+    path('sobre/', SobreView.as_view(), name='sobre'),
+
 
 
 

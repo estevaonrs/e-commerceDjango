@@ -1,8 +1,39 @@
 {% load static %}
 <!-- Footer --> <br><br>
+<style>
+    .number {
+        font-size: 18px;
+    }
 
+    .title {
+        font-size: 20px;
+        font-weight: bold;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+
+    }
+</style>
 <footer class="border-top py-5 mt-4  ">
     <div class="container-fluid">
+
+        <ul class="list-unstyled mb-0 ms-lg-4 mt-3 mt-lg-0 d-flex flex-column align-items-center">
+            <div class="title">SOBRE</div>
+
+            <li class="p-2 mb-2"><a class="number" href="{% url 'produto:sobre' %}" style="text-decoration: none;">Nossa
+                    marca</a></li>
+            <li class="p-2 mb-2"><span class="number">Nosso CNPJ: 57.738.648/0001-87</span></li>
+
+            <div class="title">ENDEREÇO</div>
+            <li class="p-2 mb-2"><span class="number">R. Trinta e Quatro, 21 - Jereissati I, Maracanaú
+                    - CE,
+                    61900-600</span></li>
+            <li class="p-2 mb-2"><span class="number">Consulte a loja para maiores informações
+                    sobre frete.</span></li>
+            <div class="title">APOIO</div>
+            <li class="p-2"><a class="number" href="https://wa.me/5585988945862" style="text-decoration: none;">Falar
+                    via
+                    WhatsApp <i class="fa-brands fa-whatsapp"></i></a></li>
+        </ul>
         <div class="d-flex justify-content-between align-items-center flex-column flex-lg-row">
             <div>
                 <ul class="list-unstyled">
@@ -35,6 +66,8 @@
                             class="pi pi-sm pi-visa"></i>
                     </li>
                 </ul>
+                <!-- Lista não ordenada com números de 1 a 5 -->
+
             </div>
         </div>
     </div>

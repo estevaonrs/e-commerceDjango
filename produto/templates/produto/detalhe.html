@@ -13,8 +13,144 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<style>
+    .color-options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .color-option {
+        width: 100px;
+        height: 100px;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    .carousel-control-prev,
+    .carousel-control-next {
+        width: 10%;
+    }
+
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        filter: invert(100%);
+    }
+
+    .add-to-cart-button {
+        top: 720px;
+        left: 50%;
+        width: 200px;
+        padding: 20px;
+        border-radius: 5px;
+    }
+
+
+    /* Posicionar os botões na tela somente em dispositivos móveis */
+    @media (max-width: 767.98px) {
+        .bottom-div {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            /* Altura da div */
+            /* Cor de fundo */
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+
+        }
+
+        .half-button-left,
+        .half-button-right {
+            top: 850px;
+            width: 50%;
+            height: 40px;
+            /* Botões ocupam metade da largura na tela do mobile */
+
+        }
+
+        /* Posicionar os botões no canto inferior esquerdo e inferior direito */
+        .half-button-left {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            padding: 0px 2px 0px 0px;
+
+        }
+
+        .half-button-right {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            padding: 0px 5px 0px 0px;
+        }
+
+        /* Estilizar os botões para ocuparem a div bottom-div inteira */
+        .btn.btn-sm {
+            width: 100%;
+            height: 100%;
+            font-size: 15px;
+            /* Tamanho da fonte dos botões */
+            padding: 15px 20px 30px;
+            /* Padding dos botões (ajuste conforme necessário) */
+            border-radius: 10px;
+            /* Bordas arredondadas */
+
+        }
+
+        /* Estilizar o carrossel */
+        #carouselExample {
+            width: 110%;
+            max-width: 500px;
+            /* Defina a largura máxima desejada para as imagens */
+            height: auto;
+            /* Ajusta automaticamente a altura para manter a proporção */
+            margin-top: -90px;
+            margin-left: -18px;
+            ;
+
+
+            /* Adicione um espaço entre o carrossel e a div de informações do produto */
+        }
+
+        .carousel-item img {
+            width: 100%;
+            height: auto;
+            margin-bottom: -50px;
+
+        }
+
+        /* Estilizar o texto e os botões */
+        #product-information h1 {
+            margin-top: -1px;
+            font-size: 15px;
+            /* Ajuste o tamanho da fonte do título */
+        }
+
+        #product-information p {
+            margin-top: -30px !important;
+            /* Ajuste o tamanho da fonte do título */
+        }
+
+        .text-left-mobile {
+            text-align: left;
+        }
+
+        .custom-margin-top {
+            margin-top: -25px;
+            text-align: left;
+
+            /* Ajuste o valor da margem conforme necessário */
+        }
+
+    }
+</style>
 <!-- Main Section-->
-<section class="mt-0 ">
+<section class="mt-0">
     <!-- Page Content Goes Here -->
 
 
@@ -22,7 +158,7 @@
     <div class="container-fluid mt-5">
 
         <!-- Product Top Section-->
-        <div class="row g-9" data-sticky-container>
+        <div class="row" data-sticky-container>
 
             <!-- Product Images -->
             <div class="col-12 col-md-6 col-xl-7">
@@ -39,7 +175,7 @@
                         {% for imagem in produto.imagens.all %}
                         {% if imagem.imagem %}
                         <div class="carousel-item">
-                            <div class="d-flex justify-content-center">
+                            <div class=" justify-content-center">
                                 <picture>
                                     <img class="img-fluid" data-zoomable src="{{ imagem.imagem.url }}"
                                         alt="HTML Bootstrap Template by Pixel Rocket">
@@ -69,11 +205,13 @@
 
 
                         <div class="pb-3 text-center" data-aos="fade-in">
-                            <h1 class="mb-1 fs-2 fw-bold" style="font-size: 65px;">{{ produto.nome }}</h1><br>
+                            <h1 class="mb-1 fw-bold">{{ produto.nome }}
+                            </h1><br>
 
 
                             <div class="d-flex justify-content-center align-items-center text-center">
-                                <p class="fs-4 m-0">
+                                <!-- Preço para desktop -->
+                                <p class="fs-4 m-0 d-none d-md-block">
                                     {% if produto.preco_marketing_promocional %}
                                     <span id="variation-preco-promocional" class="product-price mb-2"
                                         style="font-size: 35px; font-weight: bold;">
@@ -89,20 +227,39 @@
                                     </span>
                                     {% endif %}
                                 </p>
+
+                                <!-- Preço para mobile -->
+                                <p class="fs-4 m-0 d-md-none text-left-mobile">
+                                    {% if produto.preco_marketing_promocional %}
+                                    <span id="variation-preco-promocional" class="product-price mb-2 text-left-mobile"
+                                        style="font-size: 20px; font-weight: bold;">
+                                        {{ produto.preco_marketing_promocional|formata_preco }}
+                                    </span>
+                                    <span id="variation-preco"
+                                        class="product-old-price text-muted mb-2 text-left-mobile"
+                                        style="font-size: 13px;">
+                                        <s>{{ produto.preco_marketing|formata_preco }}</s>
+                                    </span>
+                                    {% else %}
+                                    <span id="variation-preco" class="product-price mb-2 text-left-mobile"
+                                        style="font-size: 20px; ">
+                                        {{ produto.preco_marketing|formata_preco }}
+                                    </span>
+                                    {% endif %}
+                                </p>
                             </div>
                         </div>
-                        <p class="text-center" style="font-size: 16px;">Selecione o tamanho</p>
 
                         <form action="{% url 'produto:adicionaraocarrinho' %}" id="form-add-to-cart">
-                            <div class="form-group d-flex justify-content-center flex-wrap">
+                            <div class="form-group d-flex justify-content-center flex-wrap custom-margin-top">
                                 {% for variacao in produto.variacao_set.all %}
                                 {% if variacao.preco_promocional %}
                                 <div class="form-check form-check-inline p-2">
-                                    <input class="form-check-input" type="radio" name="vid"
+                                    <input class="form-check-input" type="radio" style="margin-top: 30px;" name="vid"
                                         id="variacao-{{ variacao.id }}" value="{{ variacao.id }}" {% if forloop.first %}
                                         checked {% endif %}>
                                     <label class="form-check-label rounded-circle" for="variacao-{{ variacao.id }}"
-                                        style="width: 60px; height: 60px; background-color: #f8f9fa; border: 1px solid #dee2e6; display: flex; justify-content: center; align-items: center;">
+                                        style="width: 40px; height: 40px; background-color: #f8f9fa; border: 1px solid #dee2e6; display: flex; justify-content: center; align-items: center; margin-top: 30px;">
                                         {% if variacao.nome %}
                                         {{ variacao.nome }}
                                         {% else %}
@@ -116,7 +273,7 @@
                                         id="variacao-{{ variacao.id }}" value="{{ variacao.id }}" {% if forloop.first %}
                                         checked {% endif %}>
                                     <label class="form-check-label rounded-circle" for="variacao-{{ variacao.id }}"
-                                        style="width: 60px; height: 60px; background-color: #f8f9fa; border: 1px solid #dee2e6; display: flex; justify-content: center; align-items: center;">
+                                        style="width: 40px; height: 40px; background-color: #f8f9fa; border: 1px solid #dee2e6; display: flex; justify-content: center; align-items: center;">
                                         {% if variacao.nome %}
                                         {{ variacao.nome }}
                                         {% endif %}
@@ -125,15 +282,34 @@
                                 {% endif %}
                                 {% endfor %}
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" style="margin-top: -30px;">
                                 <label for="quantidade">Quantidade:</label>
-                                <input type="number" name="quantidade" id="quantidade" value="1" min="1" required>
+                                <input type="number" name="quantidade" id="quantidade" class=" form-control-sm"
+                                    value="1" min="1" required>
                             </div>
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-dark btn-sm add-to-cart-button">
+
+                            <div class="text-center d-none d-md-block">
+                                <button type="submit" class="btn btn-dark btn-sm add-to-cart-button"
+                                    data-product-added="false">
                                     <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                                     Adicionar ao Carrinho
                                 </button>
+                            </div>
+
+                            <!-- No arquivo HTML -->
+                            <!-- Botões "Adicionar ao Carrinho" e "Compre agora" apenas em dispositivos móveis -->
+                            <div class="bottom-div fixed-bottom d-block d-md-none">
+                                <!-- Adicione a classe "fixed-bottom" diretamente aqui -->
+                                <div class="half-button-left">
+                                    <button type="submit" class="btn btn-dark btn-sm buy-now-button">
+                                        Adicionar ao Carrinho
+                                    </button>
+                                </div>
+                                <div class="half-button-right">
+                                    <button type="submit" class="btn btn-dark btn-sm buy-now-button">
+                                        Compre agora
+                                    </button>
+                                </div>
                             </div>
                         </form>
 
@@ -173,6 +349,7 @@
                                         Descrição
                                     </button>
                                 </h2>
+                                <br>
                                 <div id="collapseOne" class="accordion-collapse collapse show"
                                     aria-labelledby="headingOne" data-bs-parent="#accordionProduct">
                                     <div class="accordion-body">
@@ -185,54 +362,8 @@
 
 
 
-                        <style>
-                            .color-options {
-                                display: flex;
-                                flex-wrap: wrap;
-                                gap: 10px;
-                            }
 
-                            .color-option {
-                                width: 100px;
-                                height: 100px;
-                                background-size: cover;
-                                background-position: center;
-                                background-repeat: no-repeat;
-                            }
 
-                            .carousel-control-prev,
-                            .carousel-control-next {
-                                width: 10%;
-                            }
-
-                            .carousel-control-prev-icon,
-                            .carousel-control-next-icon {
-                                filter: invert(100%);
-                            }
-
-                            .add-to-cart-button {
-                                top: 720px;
-                                left: 50%;
-                                width: 200px;
-                                padding: 20px;
-                                border-radius: 5px;
-                            }
-
-                            @media (max-width: 767.98px) {
-                                .add-to-cart-button {
-                                    position: fixed;
-                                    top: 720px;
-                                    left: 50%;
-                                    transform: translateX(-50%);
-                                    z-index: 1030;
-                                    width: 150px;
-                                    height: 40px;
-                                    padding: 0.5rem;
-                                    font-size: 0.8rem;
-                                    border-radius: 5px;
-                                }
-                            }
-                        </style>
 
 
                     </div>
@@ -245,28 +376,51 @@
 
     </div>
 
-
+    <!-- Pop-up de confirmação -->
+    <div class="modal fade" id="addToCartModal" tabindex="-1" aria-labelledby="addToCartModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addToCartModalLabel">Produto Adicionado ao Carrinho</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body">
+                    Seu produto foi adicionado ao carrinho.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Continuar Comprando</button>
+                    <a href="{% url 'produto:carrinho' %}" class="btn btn-dark">Finalizar Pedido</a>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- /Page Content -->
 </section>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 <!-- / Main Section-->
 <script>
-    // Verifica se o dispositivo é móvel
-    function isMobileDevice() {
-        return window.matchMedia("(max-width: 767.98px)").matches;
-    }
-
-    // Adiciona ou remove a classe 'fixed-bottom' ao botão com base no dispositivo
-    function fixAddToCartButtonPosition() {
+    document.addEventListener('DOMContentLoaded', function () {
         var addToCartButton = document.querySelector('.add-to-cart-button');
-        if (isMobileDevice() && addToCartButton) {
-            addToCartButton.classList.add('fixed-bottom');
-        } else {
-            addToCartButton.classList.remove('fixed-bottom');
-        }
-    }
 
-    // Chama a função quando a página for carregada e ao redimensionar a tela
-    window.addEventListener('load', fixAddToCartButtonPosition);
-    window.addEventListener('resize', fixAddToCartButtonPosition);
+        addToCartButton.addEventListener('click', function () {
+            addToCartButton.setAttribute('data-product-added', 'true');
+            sessionStorage.setItem('productAdded', 'true');
+        });
+
+        function showAddToCartModal() {
+            var addToCartModal = new bootstrap.Modal(document.getElementById('addToCartModal'));
+            addToCartModal.show();
+        }
+
+        // Verifica se o produto foi adicionado e exibe o modal, se necessário
+        var productAdded = sessionStorage.getItem('productAdded');
+        if (productAdded === 'true') {
+            showAddToCartModal();
+            // Limpa o sessionStorage para não exibir o modal novamente na próxima página carregada
+            sessionStorage.removeItem('productAdded');
+        }
+    });
 </script>
 {% endblock %}

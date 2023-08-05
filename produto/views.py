@@ -136,6 +136,13 @@ class ListaProdutos(ListView):
         context = super().get_context_data(**kwargs)
         context['categorias'] = models.Categoria.objects.all()
         context['tipos'] = models.Tipo.objects.all()
+
+        # Acessar o carrinho da sessão e adicionar ao contexto
+        carrinho = self.request.session.get('carrinho', {})
+        totals = cart_totals(carrinho)
+        context['carrinho'] = carrinho
+        context['cart_totals'] = totals
+
         return context
 
 
@@ -162,6 +169,12 @@ class ListaProdutosPorTipo(ListView):
         context['tipo'] = tipo
         context['tipos'] = models.Tipo.objects.all()
         context['categorias'] = models.Categoria.objects.all()
+
+        # Acessar o carrinho da sessão e adicionar ao contexto
+        carrinho = self.request.session.get('carrinho', {})
+        totals = cart_totals(carrinho)
+        context['carrinho'] = carrinho
+        context['cart_totals'] = totals
 
         return context
 
@@ -190,6 +203,12 @@ class ListaProdutosPorTipoAtacado(ListView):
         context['tiposatacados'] = models.Tipo.objects.all()
         context['categoriasatacados'] = models.Categoria.objects.all()
 
+        # Acessar o carrinho da sessão e adicionar ao contexto
+        carrinho = self.request.session.get('carrinho', {})
+        totals = cart_totals(carrinho)
+        context['carrinho'] = carrinho
+        context['cart_totals'] = totals
+
         return context
 
 
@@ -215,6 +234,12 @@ class ListaProdutosPorCategoria(ListView):
         categoria = get_object_or_404(models.Categoria, slug=categoria_slug)
         context['categoria'] = categoria
         context['tipos'] = models.Tipo.objects.all()
+
+        # Acessar o carrinho da sessão e adicionar ao contexto
+        carrinho = self.request.session.get('carrinho', {})
+        totals = cart_totals(carrinho)
+        context['carrinho'] = carrinho
+        context['cart_totals'] = totals
 
         context['categorias'] = models.Categoria.objects.all()
         return context
@@ -245,7 +270,18 @@ class ListaProdutosPorCategoriaAtacado(ListView):
         context['categoriaatacado'] = categoriaatacado
         context['tiposatacados'] = models.Tipo.objects.all()
         context['categoriasatacados'] = models.Categoria.objects.all()
+
+        # Acessar o carrinho da sessão e adicionar ao contexto
+        carrinho = self.request.session.get('carrinho', {})
+        totals = cart_totals(carrinho)
+        context['carrinho'] = carrinho
+        context['cart_totals'] = totals
+
         return context
+
+
+class SobreView(LoginRequiredMixin, TemplateView):
+    template_name = 'sobre.html'
 
 
 class TipoCreateView(LoginRequiredMixin, CreateView):

@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
-from .views import ContasPagarDeleteView, ContasPagarUpdateView, FornecedorDeleteView, FornecedorUpdateView, InfluenciadoresCreateView, InfluenciadoresDeleteView, InfluenciadoresUpdateView, TipoCreateView, buscar_conta_pagar, buscar_fornecedores, buscar_produto, \
+from .views import ContasPagarDeleteView, ContasPagarUpdateView, FornecedorDeleteView, FornecedorUpdateView, InfluenciadoresCreateView, InfluenciadoresDeleteView, InfluenciadoresUpdateView, SobreView, TipoCreateView, buscar_conta_pagar, buscar_fornecedores, buscar_produto, \
     categoria_delete, produto_delete, EstoqueVariacaoView, \
     FornecedorCreateView, GestaoEstoqueVariacao, ContasView, \
     ContasPagarCreateView, FornecedorListView, VariacaoDeleteView, TipoUpdateView, TipoDeleteView

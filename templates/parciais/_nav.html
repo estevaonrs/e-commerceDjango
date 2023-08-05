@@ -69,7 +69,7 @@
         padding: 0px;
         right: 0;
         min-width: 250px;
-        background-color: #fff;
+        background-color: transparent;
         box-shadow: #000;
         z-index: 1000;
     }
@@ -161,7 +161,7 @@
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownCart">
                             <!-- Conteúdo do dropdown do carrinho -->
                             <div>
-                                <h6 class="fw-bolder" style=" white-space: nowrap; ">Resumo do carrinho 
+                                <h6 class="fw-bolder" style=" white-space: nowrap; ">Resumo do carrinho
                                     ({{ request.session.carrinho|cart_total_qtd }} itens)</h6>
                             </div>
                             <div>

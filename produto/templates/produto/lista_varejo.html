@@ -236,6 +236,7 @@
         </div>
 
 
+
         <!-- Products-->
         <div class="row g-4">
 
@@ -294,8 +295,9 @@
                                     </a>
                                 </picture>
                                 {% endif %}
-                                <p class="title-small mb-2 text-muted">{{ produto.nome }}</p>
-                                {% if produto.preco_marketing_promocional %}
+                                <a href="{% url 'produto:detalhe' produto.slug %}" style="text-decoration: none;">
+                                    <p class="title-small mb-2 text-muted">{{ produto.nome }}</p>
+                                </a> {% if produto.preco_marketing_promocional %}
                                 <h1 class="mt-2 mb-0 small">
                                     </p><del>{{ produto.preco_marketing|formata_preco }}</del></h1>
                                 <h1 class="mt-2 mb-0 small" style="font-weight: bold;">
@@ -303,9 +305,9 @@
                                 {% else %}
                                 <h1 class="mt-2 mb-0 small" style="font-weight: bold;">
                                     </p>{{ produto.preco_marketing|formata_preco }}</h1>
-                                {% endif %}
+                                {% endif %}<br>
                                 <a href="{% url 'produto:detalhe' produto.slug %}"
-                                    class="btn btn-psuedo align-self-start">Compre
+                                    class="btn btn-outline-secondary btn-md rounded btn-custom">Compre
                                     Agora</a>
                             </div>
                         </div>
@@ -327,8 +329,9 @@
                                     </a>
                                 </picture>
                                 {% endif %}
-                                <p class="title-small mb-2 text-muted">{{ produto.nome }}</p>
-                                {% if produto.preco_marketing_promocional %}
+                                <a href="{% url 'produto:detalhe' produto.slug %}" style="text-decoration: none;">
+                                    <p class="title-small mb-2 text-muted">{{ produto.nome }}</p>
+                                </a> {% if produto.preco_marketing_promocional %}
                                 <h1 class="mt-2 mb-0 small">
                                     </p><del>{{ produto.preco_marketing|formata_preco }}</del></h1>
                                 <h1 class="mt-2 mb-0 small" style="font-weight: bold;">
@@ -337,8 +340,9 @@
                                 <h1 class="mt-2 mb-0 small" style="font-weight: bold;">
                                     </p>{{ produto.preco_marketing|formata_preco }}</h1>
                                 {% endif %}
+                                <br>
                                 <a href="{% url 'produto:detalhe' produto.slug %}"
-                                    class="btn btn-psuedo align-self-start">Compre
+                                    class="btn btn-outline-secondary btn-md rounded btn-custom">Compre
                                     Agora</a>
                             </div>
                         </div>
@@ -425,8 +429,11 @@
                                 </picture>
                                 {% endif %}
                                 <p class="title-small mb-2 text-muted">{{ categoria.nome }}</p>
+                                <br>
                                 <a href="{% url 'produto:lista_por_categoria' categoria.slug %}"
-                                    class="btn btn-psuedo align-self-start">Compre Agora</a>
+                                    class="btn btn-outline-secondary btn-md rounded btn-custom">Compre
+                                    Agora</a>
+
                             </div>
                         </div>
                         {% endif %}

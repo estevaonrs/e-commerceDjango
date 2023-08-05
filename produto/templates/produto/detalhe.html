@@ -66,7 +66,7 @@
 
         .half-button-left,
         .half-button-right {
-            top: 665px;
+            top: 765px;
             width: 50%;
             height: 40px;
             /* Botões ocupam metade da largura na tela do mobile */
@@ -136,21 +136,52 @@
             /* Ajuste o tamanho da fonte do título */
         }
 
-        #product-information p {
-            margin-top: -40px !important;
-            /* Ajuste o tamanho da fonte do título */
-        }
-
         .text-left-mobile {
             text-align: left;
         }
 
         .custom-margin-top {
-            margin-top: -25px;
+            margin-top: 15px;
             text-align: left;
 
             /* Ajuste o valor da margem conforme necessário */
         }
+
+        .whatsapp {
+            display: flex;
+            justify-content: center;
+            position: fixed;
+            bottom: 20px;
+            right: 200px;
+            background-color: #000;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 9999;
+            line-height: 10px;
+            /* ajuste o valor para a altura do botão */
+            margin-right: 5px;
+            white-space: nowrap;
+            border-color: transparent;
+
+        }
+
+        .whatsapp2 {
+            display: flex;
+            justify-content: center;
+            position: fixed;
+            bottom: 20px;
+            right: 10px;
+            background-color: #000;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 9999;
+            line-height: 10px;
+            /* ajuste o valor para a altura do botão */
+            border-color: transparent;
+        }
+
 
     }
 </style>
@@ -306,13 +337,14 @@
                             <div class="bottom-div fixed-bottom d-block d-md-none">
                                 <!-- Adicione a classe "fixed-bottom" diretamente aqui -->
                                 <div class="half-button-left">
-                                    <button type="submit" class="btn btn-dark btn-sm buy-now-button">
+                                    <button type="submit" class="whatsapp">
                                         Adicionar ao Carrinho
                                     </button>
                                 </div>
                                 <div class="half-button-right">
-                                    <button type="submit" class="btn btn-dark btn-sm buy-now-button">
-                                        Compre agora
+                                    <button type="submit" class="whatsapp2">
+                                        <a style="text-decoration: none; color: #fff;"
+                                            href="{% url 'produto:carrinho' %}">Finalize a sua compra</a>
                                     </button>
                                 </div>
                             </div>
@@ -399,7 +431,8 @@
             </div>
         </div>
     </div>
-    <!-- /Page Content -->
+    <!-- Go to Top Link -->
+
 </section>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

@@ -94,7 +94,7 @@
         }
 
         .custom-margin-top {
-            margin-top: -20px;
+            margin-top: -30px;
             text-align: left;
 
             /* Ajuste o valor da margem conforme necessário */
@@ -291,6 +291,8 @@
                                 <input type="number" name="quantidade" id="quantidade" class=" form-control-sm"
                                     value="1" min="1" required>
                             </div>
+                            {% include 'parciais/_messages.html' %}
+
 
                             <div class="text-center d-none d-md-block">
                                 <button type="submit" class="btn btn-dark btn-sm add-to-cart-button"

@@ -120,7 +120,7 @@
             justify-content: center;
             position: fixed;
             bottom: 10px;
-            right: 210px;
+            right: 240px;
             background-color: #000;
             color: #fff;
             padding: 10px;
@@ -130,7 +130,7 @@
             /* ajuste o valor para a altura do botão */
             margin-right: 5px;
             white-space: nowrap;
-            border-color: #fff;
+            border-color: transparent;
 
         }
 
@@ -139,7 +139,7 @@
             justify-content: center;
             position: fixed;
             bottom: 10px;
-            right: 10px;
+            right: 50px;
             background-color: #000;
             color: #fff;
             padding: 10px;
@@ -147,7 +147,24 @@
             z-index: 9999;
             line-height: 25px;
             /* ajuste o valor para a altura do botão */
-            border-color: #fff;
+            white-space: nowrap;
+            border-color: transparent;
+
+        }
+
+        .bottom-div::after {
+            content: '';
+            display: block;
+            position: absolute;
+            bottom: 15px;
+            left: calc(50% - 1px);
+            /* Centraliza a linha entre os botões */
+            width: 2px;
+            height: 40px;
+            /* Ajuste a altura da linha de acordo com suas preferências */
+            background-color: #fff;
+            z-index: 9998;
+            /* Coloque a linha atrás dos botões (z-index menor) */
         }
 
 
@@ -306,17 +323,14 @@
                             <!-- Botões "Adicionar ao Carrinho" e "Compre agora" apenas em dispositivos móveis -->
                             <div class="bottom-div fixed-bottom d-block d-md-none">
                                 <!-- Adicione a classe "fixed-bottom" diretamente aqui -->
-                                <div class="half-button-left">
-                                    <button type="submit" class="whatsapp">
-                                        Adicionar ao Carrinho
-                                    </button>
-                                </div>
-                                <div class="half-button-right">
-                                    <button type="submit" class="whatsapp2">
-                                        <a style="text-decoration: none; color: #fff;"
-                                            href="{% url 'produto:carrinho' %}">Finalize a sua compra</a>
-                                    </button>
-                                </div>
+                                <button type="submit" class="whatsapp" style="justify-content: center;">
+                                    Carrinho <i class="fa-solid fa-cart-shopping" style="margin-top: 5px;"></i>
+                                </button>
+                                <button type="submit" class="whatsapp2" style="justify-content: left;">
+                                    <a style="text-decoration: none; color: #fff;"
+                                        href="{% url 'produto:carrinho' %}">Finalizar <i
+                                            class="fa-solid fa-check"></i></a>
+                                </button>
                             </div>
                         </form>
 

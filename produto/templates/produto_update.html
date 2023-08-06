@@ -5,11 +5,19 @@
 
 {% block content %}
 
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/js/bootstrap.bundle.min.js"></script>
+
 <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 2xl:col-span-2">
     <div class="row">
         <div class="col-lg-12">
             <br><br>
             <h1 class="fashion_taital">Editar Produto</h1>
+            </a>
             <hr>
         </div>
     </div>
@@ -23,7 +31,7 @@
                 <label for="id_imagem">Imagem:</label>
                 {{ imagem_formset.management_form }}
                 {% for form in imagem_formset %}
-                    <div>{{ form.imagem }}</div><br>
+                <div>{{ form.imagem }}</div><br>
                 {% endfor %}
                 <button type="button" id="add_imagem">Adicionar imagem</button>
             </div>
@@ -38,30 +46,76 @@
                             <th>Preço</th>
                             <th>Preço promocional</th>
                             <th>Estoque</th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody id="variacoes">
                         {% for variacao in variacoes %}
                         <tr>
-                            <td><input type="text" name="nome_variacao[]" value="{{ variacao.nome }}" required></td>
-                            <td><input type="text" name="preco[]" value="{{ variacao.preco }}" required step="any"></td>  <!-- Corrigido -->
-                            <td><input type="text" name="preco_promocional[]" value="{{ variacao.preco_promocional }}" step="any"></td>  <!-- Corrigido -->
-                            <td><input type="number" name="estoque_variacao[]" min="0" value="{{ variacao.estoque }}" required></td>
                             <td>
-                                <input type="hidden" name="variacao_id[]" value="{{ variacao.id }}">
+                                <input type="text" name="nome_variacao[]" value="{{ variacao.nome }}" required>
+                            </td>
+                            <td>
+                                <input type="text" name="preco_variacao[]" min="0" step="0.01" value="{{ variacao.preco|floatformat:"-2" }}" required>
+                            </td>
+                            <td>
+                                <input type="text" name="preco_promocional_variacao[]" min="0" step="0.01" value="{{ variacao.preco_promocional|floatformat:"-2" }}">
+                            </td>
+                            <td>
+                                <input type="number" name="estoque_variacao[]" value="{{ variacao.estoque }}" required>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger" onclick="removerVariacao(this)">Remover</button>
                             </td>
                         </tr>
                         {% endfor %}
                     </tbody>
-                </table>
-
-            </div>
-            <br>
+                </table><br>
+                <button type="button" class="btn btn-primary btn-sm" id="add_variacao">Adicionar variação</button>
+            </div><br>
             <button type="submit" class="btn btn-success btn-sm">Salvar</button>
         </form>
     </div>
 </div>
 
+<script>
+    // Função para adicionar uma nova linha de variação à tabela
+    document.getElementById('add_variacao').addEventListener('click', function() {
+        var tabela_variacoes = document.getElementById('variacoes');
+        var linha = document.createElement('tr');
+        linha.innerHTML = `
+            <td><input type="text" name="nome_variacao[]" required></td>
+            <td><input type="text" name="preco_variacao[]" min="0" step="0.01" required></td>
+            <td><input type="text" name="preco_promocional_variacao[]" min="0" step="0.01"></td>
+            <td><input type="number" name="estoque_variacao[]" required></td>
+            <td><button type="button" class="btn btn-danger" onclick="removerVariacao(this)">Remover</button></td>
+            `;
+        // adiciona a nova linha na tabela
+        tabela_variacoes.appendChild(linha);
+    });
+
+    // Função para remover a linha de variação selecionada
+    function removerVariacao(botao) {
+        var linha = botao.closest('tr');
+        linha.remove();
+    }
+
+    // Intercepta o envio do formulário
+    document.querySelector('form').addEventListener('submit', function(event) {
+        // previne o comportamento padrão do formulário
+        event.preventDefault();
+
+        // obtém os dados do formulário
+        var form = new FormData(event.target);
+
+        // envia os dados para o servidor utilizando o AJAX
+        fetch(window.location.href, {
+            method: 'POST',
+            body: form,
+        })
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.error(error));
+    });
+</script>
 
 {% endblock %}

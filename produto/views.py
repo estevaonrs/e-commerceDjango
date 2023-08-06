@@ -368,72 +368,46 @@ class produto_add(LoginRequiredMixin, CreateView):
         return context
 
 
-class ProdutoUpdateView(LoginRequiredMixin, UpdateView):
+class ProdutoUpdateView(UpdateView):
+    template_name = 'produto_update.html'
     model = Produto
     form_class = ProdutoForm
-    template_name = 'produto_update.html'
     success_url = reverse_lazy('produto:categoria_add')
-    ImagemProdutoFormSet = inlineformset_factory(
-        Produto, ImagemProduto, fields=('imagem',), extra=3)
-
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        produto = form.save(commit=False)
-        produto.save()
-
-        imagem_formset = self.ImagemProdutoFormSet(
-            self.request.POST, self.request.FILES, instance=produto)
-
-        if imagem_formset.is_valid():
-            imagem_formset.save()
-
-        nome_variacao = self.request.POST.getlist('nome_variacao[]')
-        preco_variacao = self.request.POST.getlist('preco[]')
-        preco_promocional_variacao = self.request.POST.getlist(
-            'preco_promocional[]')
-        estoque_variacao = self.request.POST.getlist('estoque_variacao[]')
-        excluir_variacao_ids = self.request.POST.getlist(
-            'excluir_variacao_id[]')
-
-        for i in range(len(nome_variacao)):
-            variacao_id = self.request.POST.getlist('variacao_id[]')[i]
-
-            if variacao_id in excluir_variacao_ids:
-                Variacao.objects.filter(id=variacao_id).delete()
-                continue
-
-            if variacao_id:
-                variacao = Variacao.objects.get(id=variacao_id)
-                variacao.nome = nome_variacao[i]
-                variacao.preco = preco_variacao[i].replace(
-                    ',', '.')  # Substituir vírgula por ponto
-                variacao.preco_promocional = preco_promocional_variacao[i].replace(
-                    ',', '.') or None  # Substituir vírgula por ponto
-                variacao.estoque = estoque_variacao[i]
-                variacao.save()
-            else:
-                variacao = Variacao.objects.create(
-                    produto=produto,
-                    nome=nome_variacao[i],
-                    # Substituir vírgula por ponto
-                    preco=preco_variacao[i].replace(',', '.'),
-                    preco_promocional=preco_promocional_variacao[i].replace(
-                        ',', '.') or None,  # Substituir vírgula por ponto
-                    estoque=estoque_variacao[i]
-                )
-
-        return redirect(self.get_success_url())
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['categorias'] = Categoria.objects.all()
-        context['imagem_formset'] = self.ImagemProdutoFormSet(
-            queryset=ImagemProduto.objects.none())
-
-        produto = self.get_object()
-        context['variacoes'] = Variacao.objects.filter(produto=produto)
-
+        produto = self.object
+        variacoes = Variacao.objects.filter(produto=produto)
+        context['variacoes'] = variacoes
+        context['variacao_form'] = VariacaoForm()
         return context
+
+    def form_valid(self, form):
+        produto = form.save(commit=False)
+        produto.save()
+
+        # Remove variações existentes antes de adicionar as atualizadas
+        Variacao.objects.filter(produto=produto).delete()
+
+        # Lógica para adicionar novas variações
+        nome_variacao = self.request.POST.getlist('nome_variacao[]')
+        preco_variacao = self.request.POST.getlist('preco_variacao[]')
+        preco_promocional_variacao = self.request.POST.getlist(
+            'preco_promocional_variacao[]'
+        )
+        estoque_variacao = self.request.POST.getlist('estoque_variacao[]')
+
+        for i in range(len(nome_variacao)):
+            variacao = Variacao(
+                produto=produto,
+                nome=nome_variacao[i],
+                preco=preco_variacao[i],
+                preco_promocional=preco_promocional_variacao[i] or None,
+                estoque=estoque_variacao[i],
+            )
+            variacao.save()
+
+        return super().form_valid(form)
 
 
 class EstoqueVariacaoView(LoginRequiredMixin, View):

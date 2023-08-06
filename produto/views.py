@@ -383,7 +383,7 @@ class ProdutoUpdateView(UpdateView):
         return context
 
     def form_valid(self, form):
-        produto = form.save(commit=False)
+        produto = form.save()
         produto.save()
 
         # Remove variações existentes antes de adicionar as atualizadas
@@ -393,16 +393,16 @@ class ProdutoUpdateView(UpdateView):
         nome_variacao = self.request.POST.getlist('nome_variacao[]')
         preco_variacao = self.request.POST.getlist('preco_variacao[]')
         preco_promocional_variacao = self.request.POST.getlist(
-            'preco_promocional_variacao[]'
-        )
+            'preco_promocional_variacao[]')
         estoque_variacao = self.request.POST.getlist('estoque_variacao[]')
 
         for i in range(len(nome_variacao)):
             variacao = Variacao(
                 produto=produto,
                 nome=nome_variacao[i],
-                preco=preco_variacao[i],
-                preco_promocional=preco_promocional_variacao[i] or None,
+                preco=preco_variacao[i].replace(",", "."),
+                preco_promocional=preco_promocional_variacao[i].replace(
+                    ",", ".") or None,
                 estoque=estoque_variacao[i],
             )
             variacao.save()

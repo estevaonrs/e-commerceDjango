@@ -55,10 +55,10 @@
                                 <input type="text" name="nome_variacao[]" value="{{ variacao.nome }}" required>
                             </td>
                             <td>
-                                <input type="text" name="preco_variacao[]" min="0" step="0.01" value="{{ variacao.preco|floatformat:"-2" }}" required>
+                                <input type="text" name="preco_variacao[]" min="0" step="0.01" value="{{ variacao.preco|floatformat:"-2" }}" oninput="formatarPreco(this)" required>
                             </td>
                             <td>
-                                <input type="text" name="preco_promocional_variacao[]" min="0" step="0.01" value="{{ variacao.preco_promocional|floatformat:"-2" }}">
+                                <input type="text" name="preco_promocional_variacao[]" min="0" step="0.01" value="{{ variacao.preco_promocional|floatformat:"-2" }}" oninput="formatarPreco(this)">
                             </td>
                             <td>
                                 <input type="number" name="estoque_variacao[]" value="{{ variacao.estoque }}" required>
@@ -98,7 +98,11 @@
         var linha = botao.closest('tr');
         linha.remove();
     }
-
+    // Função para formatar o preço substituindo vírgula por ponto
+    function formatarPreco(input) {
+        var valor = input.value.replace(",", ".");
+        input.value = valor;
+    }
     // Intercepta o envio do formulário
     document.querySelector('form').addEventListener('submit', function(event) {
         // previne o comportamento padrão do formulário

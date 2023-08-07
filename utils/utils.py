@@ -9,6 +9,9 @@ def cart_total_qtd(carrinho):
 
 
 def cart_totals(carrinho, cupom=None):
+    if carrinho is None:
+        return 0
+
     sub_total = sum(
         [
             item.get('preco_quantitativo_promocional')

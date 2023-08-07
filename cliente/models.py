@@ -62,7 +62,7 @@ class Cliente(models.Model):
         self.save()
 
     def __str__(self):
-        return f'{self.nome}'
+        return f'{self.usuario.username}'
 
     def clean(self):
         error_messages = {}

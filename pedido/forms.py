@@ -17,7 +17,7 @@ class CupomForm(forms.ModelForm):
 class PedidoForm(forms.ModelForm):
     class Meta:
         model = Pedido
-        fields = ['status', 'data', 'pagamento', 'vendedor']
+        fields = ['status', 'data', 'pagamento', 'vendedor', 'usuario']
 
 
 class PagamentoForm(forms.Form):

@@ -9,9 +9,6 @@ class ClienteForm(forms.ModelForm):
     class Meta:
         model = models.Cliente
         fields = '__all__'
-        widgets = {
-            'codigo_permanente': forms.CheckboxInput()
-        }
 
 
 class FiadoForm(forms.ModelForm):

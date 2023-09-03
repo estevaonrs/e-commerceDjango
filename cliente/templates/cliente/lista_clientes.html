@@ -37,10 +37,9 @@
      <th scope="col" class="px-6 py-3">
       Código
      </th>
-     <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-      Endereço
-     </th>
-     <th scope="col" class="px-6 py-3">
+
+     <th scope="col"
+      class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
       Ações
      </th>
     </tr>
@@ -55,11 +54,8 @@
      <td class="px-6 py-4">
       {{ cliente.codigo }}
      </td>
-     <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
-      {{ cliente.endereco }}, {{ cliente.numero }}, {{ cliente.complemento }},<br> {{ cliente.bairro }},
-      {{ cliente.cep }}, {{ cliente.cidade }}, {{ cliente.estado }}
-     </td>
-     <td class="px-6 py-4">
+
+     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
       <a href="{% url 'cliente:cliente_edit' cliente.id %}">
        <i class="fa-solid fa-pen-to-square fa-xl" style="color:mediumblue"></i>
       </a>

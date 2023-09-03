@@ -85,14 +85,6 @@ def codigo_acesso(request):
     return render(request, 'produto/lista_atacado.html', context)
 
 
-def reset_codigo_cliente():
-    # Obtenha todos os clientes e redefine o campo 'codigo' para 0, exceto para os clientes com código permanente
-    clientes = Cliente.objects.filter(codigo_permanente=False)
-    for cliente in clientes:
-        cliente.codigo = 0
-        cliente.save()
-
-
 class ClienteCreateView(LoginRequiredMixin, CreateView):
     model = Cliente
     form_class = ClienteForm
@@ -103,18 +95,6 @@ class ClienteCreateView(LoginRequiredMixin, CreateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Novo Revendedor'
         return context
-
-    def dispatch(self, request, *args, **kwargs):
-        # Inicie uma nova thread para chamar a função reset_codigo_cliente após 1 minuto
-        t = threading.Timer(172800, reset_codigo_cliente)
-        t.start()
-        return super().dispatch(request, *args, **kwargs)
-
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        if form.cleaned_data['codigo_permanente']:
-            self.object.tornar_codigo_permanente()
-        return response
 
 
 class ClienteListView(LoginRequiredMixin, ListView):

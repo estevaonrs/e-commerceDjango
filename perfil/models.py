@@ -11,6 +11,7 @@ from utils.validacpf import valida_cpf
 class Perfil(models.Model):
     usuario = models.OneToOneField(User, on_delete=models.CASCADE,
                                    verbose_name='Usuário')
+    cpf = models.CharField(max_length=11)
     endereco = models.CharField(max_length=50)
     numero = models.CharField(max_length=5)
     complemento = models.CharField(max_length=30)

@@ -30,31 +30,150 @@
                         <h3 class="fs-5 fw-bolder mb-4 border-bottom pb-4">Parabéns, você realizou seu pedido com
                             sucesso, para realizar o pagamento fale com a loja e informe o número do seu pedido!</h3>
 
-                        <h3 class="fs-5 fw-bolder mb-4 border-bottom pb-4">Você pode visualizar as informações de seu
-                            pedido na aba Minha Conta > Meus pedidos</h3>
 
                         <div class="row">
+                            <h3 class="fs-5 fw-bolder mb-4 border-bottom pb-4">Pagamento</h3>
 
-                            <!-- Payment Option-->
-                            <div class="col-12">
-                                <div class="form-check form-group form-check-custom form-radio-custom mb-3">
-                                    <input class="form-check-input" type="radio" name="checkoutPaymentMethod"
-                                        id="checoutPaymentStripe" checked>
-                                    <label class="form-check-label" for="checoutPaymentStripe">
-                                        <span class="d-flex justify-content-between align-items-start">
-                                            <span>
-                                                <span class="mb-0 fw-bolder d-block">
-                                                    <a href="https://api.whatsapp.com/send?phone=5585988945862&text=Olá, acabei de fazer um pedido no site, gostaria de finalizar"
-                                                        target="_blank" class="btn btn-dark w-100 w-md-auto">
-                                                        Ir Para o WhatsApp da Loja
-                                                    </a>
+                            <div class="row">
+
+                                <!-- Payment Option-->
+                                <div class="col-12">
+                                    <div class="form-check form-group form-check-custom form-radio-custom mb-3">
+                                        <input class="form-check-input" type="radio" name="checkoutPaymentMethod"
+                                            id="checoutPaymentStripe" checked>
+                                        <label class="form-check-label" for="checoutPaymentStripe">
+                                            <span class="d-flex justify-content-between align-items-start">
+                                                <span>
+                                                    <span class="mb-0 fw-bolder d-block">Cartão de crédito</span>
                                                 </span>
-
+                                                <i class="ri-bank-card-line"></i>
                                             </span>
-                                        </span>
-                                    </label>
+                                        </label>
+                                    </div>
                                 </div>
+
+                                <!-- Payment Option-->
+                                <div class="col-12">
+                                    <div class="form-check form-group form-check-custom form-radio-custom mb-3">
+                                        <input class="form-check-input" type="radio" name="checkoutPaymentMethod"
+                                            id="checkoutPaymentPaypal">
+                                        <label class="form-check-label" for="checkoutPaymentPaypal">
+                                            <span class="d-flex justify-content-between align-items-start">
+                                                <span>
+                                                    <span class="mb-0 fw-bolder d-block">Pix</span>
+                                                </span>
+                                                <i class="ri-paypal-line"></i>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+
                             </div>
+                            <!-- Paypal Info-->
+                            <div class="paypal-details bg-light p-4 d-none my-3 fw-bolder">
+                                Se o pagamento for via PIX, clique em Ir Para o WhatsApp da Loja <span
+                                    class="mb-0 fw-bolder d-block">
+                                    <a href="https://api.whatsapp.com/send?phone=5585988945862&text=Olá, acabei de fazer um pedido no site, gostaria de finalizar"
+                                        target="_blank" class="btn btn-dark w-100 w-md-auto">
+                                        Ir Para o WhatsApp da Loja
+                                    </a>
+                                </span>
+                            </div>
+                            <!-- /Paypal Info-->
+
+                            <form method="post" action="{% url 'pedido:pagar' pedido.id %}">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-1">
+                                            <label for="{{ form.nome_cliente.id_for_label }}"
+                                                class="col-sm-12 col-form-label">Nome no
+                                                cartão</label>
+                                            {{ form.nome_cliente }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-1">
+                                            <label for="{{ form.cpf_cnpj.id_for_label }}"
+                                                class="col-sm-12 col-form-label">CPF</label>
+                                            {{ form.cpf_cnpj }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-1">
+                                            <label for="{{ form.numero_cartao.id_for_label }}"
+                                                class="col-sm-12 col-form-label">Número
+                                                do cartão</label>
+                                            {{ form.numero_cartao }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-1">
+                                            <label for="{{ form.mes_validade.id_for_label }}"
+                                                class="col-sm-12 col-form-label">Mês de
+                                                validade</label>
+                                            {{ form.mes_validade }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-1">
+                                            <label for="{{ form.ano_validade.id_for_label }}"
+                                                class="col-sm-12 col-form-label">Ano de
+                                                validade</label>
+                                            {{ form.ano_validade }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-1">
+                                            <label for="{{ form.ccv.id_for_label }}"
+                                                class="col-sm-12 col-form-label">CVV</label>
+                                            {{ form.ccv }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-1">
+                                            <label for="{{ form.email.id_for_label }}"
+                                                class="col-sm-12 col-form-label">Email</label>
+                                            {{ form.email }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-1">
+                                            <label for="{{ form.endereco.id_for_label }}"
+                                                class="col-sm-12 col-form-label">Endereço</label>
+                                            {{ form.endereco }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-1">
+                                            <label for="{{ form.cep.id_for_label }}"
+                                                class="col-sm-12 col-form-label">CEP</label>
+                                            {{ form.cep }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-1">
+                                            <label for="{{ form.telefone.id_for_label }}"
+                                                class="col-sm-12 col-form-label">Telefone</label>
+                                            {{ form.telefone }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    class="pt-1 mt-5 pb-5 d-flex flex-column flex-md-row justify-content-between align-items-center">
+                                    <button type="submit" class="btn btn-dark w-100 w-md-auto">Completar
+                                        pagamento</button>
+                                </div>
+                            </form>
+
                         </div>
                     </div>
                 </div>
@@ -64,4 +183,6 @@
     </div>
     <!-- /Page Content -->
 </section>
+
+
 {% endblock %}

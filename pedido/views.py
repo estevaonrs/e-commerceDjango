@@ -87,7 +87,14 @@ def pagar(request, id):
     if request.method == 'POST':
         form = PagamentoForm(request.POST)
         if form.is_valid():
+            # Obtenha o nome do usuário logado
+            user = request.user
             nome_cliente = form.cleaned_data['nome_cliente']
+
+            # Combine o nome do cliente com o nome do usuário
+            nome_completo = f"{nome_cliente} ({user.username})"
+
+            # Resto do seu código permanece o mesmo
             cpf_cnpj = form.cleaned_data['cpf_cnpj']
             numero_cartao = form.cleaned_data['numero_cartao']
             mes_validade = form.cleaned_data['mes_validade']
@@ -98,17 +105,14 @@ def pagar(request, id):
             cep = form.cleaned_data['cep']
             telefone = form.cleaned_data['telefone']
 
-            # Create an instance of the Asaas library
+            # Resto do seu código permanece o mesmo
             asaas = Asaas(access_token='$aact_YTU5YTE0M2M2N2I4MTliNzk0YTI5N2U5MzdjNWZmNDQ6OjAwMDAwMDAwMDAwMDAwNTY3MzI6OiRhYWNoXzMzMzAzZDY2LTA3YTUtNDJhNi1iYzRjLTAwYzNkYjEwOWI0MA==', production=False)
 
-            # Verify if the customer already exists based on CPF/CNPJ
             existing_customers = asaas.customers.list(cpfCnpj=cpf_cnpj)
 
             if len(existing_customers) > 0:
-                # Customer already exists, use the existing customer ID
                 customer_id = existing_customers[0].id
             else:
-                # Create a new customer
                 customer_id = None
 
             now = date.today()
@@ -116,7 +120,7 @@ def pagar(request, id):
 
             if customer_id is None:
                 new_customer = asaas.customers.new(
-                    name=nome_cliente,
+                    name=nome_completo,
                     email=email,
                     cpfCnpj=cpf_cnpj,
                     postalCode=cep,
@@ -125,8 +129,9 @@ def pagar(request, id):
                 )
                 customer_id = new_customer.id
 
+            # Resto do seu código permanece o mesmo
             credit_card = CreditCard(
-                holderName=nome_cliente,
+                holderName=nome_completo,
                 number=numero_cartao,
                 expiryYear=ano_validade,
                 expiryMonth=mes_validade,
@@ -134,7 +139,7 @@ def pagar(request, id):
             )
 
             credit_card_holder_info = CreditCardHolderInfo(
-                name=nome_cliente,
+                name=nome_completo,
                 email=email,
                 cpfCnpj=cpf_cnpj,
                 postalCode=cep,
@@ -146,7 +151,7 @@ def pagar(request, id):
             customer = Customer(
                 id=customer_id,
                 dateCreated=date_created,
-                name=nome_cliente,
+                name=nome_completo,
                 cpfCnpj=cpf_cnpj
             )
             valor_plano = float(pedido.total)

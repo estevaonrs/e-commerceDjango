@@ -92,7 +92,8 @@ def pagar(request, id):
             nome_cliente = form.cleaned_data['nome_cliente']
 
             # Combine o nome do cliente com o nome do usuário
-            nome_completo = f"{nome_cliente} ({user.username})"
+            # Aqui você usa o ID do Pedido
+            nome_completo = f"Nome:{nome_cliente}, Pedido N:{pedido.id}, (Usuário:{user.username})"
 
             # Resto do seu código permanece o mesmo
             cpf_cnpj = form.cleaned_data['cpf_cnpj']

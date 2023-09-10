@@ -107,7 +107,7 @@ def pagar(request, id):
             telefone = form.cleaned_data['telefone']
 
             # Resto do seu código permanece o mesmo
-            asaas = Asaas(access_token='$aact_YTU5YTE0M2M2N2I4MTliNzk0YTI5N2U5MzdjNWZmNDQ6OjAwMDAwMDAwMDAwMDAwNTY3MzI6OiRhYWNoXzMzMzAzZDY2LTA3YTUtNDJhNi1iYzRjLTAwYzNkYjEwOWI0MA==', production=False)
+            asaas = Asaas(access_token='$aact_YTU5YTE0M2M2N2I4MTliNzk0YTI5N2U5MzdjNWZmNDQ6OjAwMDAwMDAwMDAwMDAzNDYwOTk6OiRhYWNoX2M4ZTI2MjdhLTRkYzktNGRkYS1hYzA2LTlmMzRiZTAwYjI1NA==', production=False)
 
             existing_customers = asaas.customers.list(cpfCnpj=cpf_cnpj)
 
